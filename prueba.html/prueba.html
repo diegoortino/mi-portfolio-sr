@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    body {
+      font-family: "Times New Roman", serif;
+      background: linear-gradient(to bottom, #c0c0c0, #e0e0e0);
+      color: black;
+      margin: 0;
+      padding: 0;
+    }
+    #tituloPrincipal {
+      background-color: #000080;
+      color: white;
+      padding: 10px;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      border-bottom: 3px solid #808080;
+    }
+    .barraHeader {
+      background-color: #d4d0c8;
+      padding: 5px;
+      border-bottom: 2px solid #808080;
+      display: flex;
+      gap: 5px;
+    }
+    .btn {
+      font-family: "Times New Roman", serif;
+      background-color: #d4d0c8;
+      border: 2px solid #808080;
+      border-top-color: #ffffff;
+      border-left-color: #ffffff;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .btn:active {
+      border-top-color: #808080;
+      border-left-color: #808080;
+      border-bottom-color: #ffffff;
+      border-right-color: #ffffff;
+    }
+    .contenedor, .contenedorInicio {
+      margin: 15px;
+      padding: 10px;
+      background-color: #ffffff;
+      border: 2px solid #808080;
+      box-shadow: 2px 2px 0px #808080;
+    }
+    h2 {
+      margin-top: 0;
+      font-size: 20px;
+      border-bottom: 2px solid #808080;
+      padding-bottom: 5px;
+    }
+    label {
+      display: block;
+      margin-top: 8px;
+      font-weight: bold;
+    }
+    input, select {
+      font-family: "Times New Roman", serif;
+      font-size: 14px;
+      margin-top: 2px;
+      margin-bottom: 8px;
+      padding: 2px;
+      border: 2px solid #808080;
+      background-color: #ffffff;
+    }
+    input[type="submit"], button {
+      font-family: "Times New Roman", serif;
+      background-color: #d4d0c8;
+      border: 2px solid #808080;
+      border-top-color: #ffffff;
+      border-left-color: #ffffff;
+      padding: 4px 8px;
+      cursor: pointer;
+    }
+    input[type="submit"]:active, button:active {
+      border-top-color: #808080;
+      border-left-color: #808080;
+      border-bottom-color: #ffffff;
+      border-right-color: #ffffff;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 10px;
+      background-color: #f8f8f8;
+      padding: 5px;
+      border: 1px solid #c0c0c0;
+    }
+    .loading {
+      font-style: italic;
+      color: #555;
+    }
+  </style>
+  <title>Proyecto Matcheador</title>
+</head>
+
+<body>
+  <div id="tituloPrincipal">Gestion Supervisores</div>
+
+  <div id="main"></div>
+<script>
+
+// ==========================
+// Variables globales
+// ==========================
+let main = document.getElementById("main");
+
+// ==========================
+// Funciones utilitarias
+// ==========================
+function borrarMain() {
+  main.innerHTML = "";
+}
+
+function mostrarLoading(mensaje = "Cargando...") {
+  let loading = document.createElement("div");
+  loading.classList.add("loading");
+  loading.innerText = mensaje;
+  return loading;
+}
+
+// ==========================
+// Inicialización principal
+// ==========================
+function iniciar() {
+  cargarBarraHeader();
+
+  let contenedor = document.createElement("div");
+  contenedor.classList.add("contenedorInicio");
+
+  let titulo = document.createElement("h2");
+  titulo.classList.add("titulo");
+  titulo.innerText = "Proyecto matcheador";
+  contenedor.appendChild(titulo);
+
+  main.appendChild(contenedor);
+}
+
+// ==========================
+// Barra de navegación superior
+// ==========================
+function cargarBarraHeader() {
+  let barraHeader = document.createElement("div");
+  barraHeader.classList.add("barraHeader");
+
+  // Botón Usuarios
+  let btnUsarios = document.createElement("button");
+  btnUsarios.classList.add("btn", "btn-primary");
+  btnUsarios.innerHTML = '<i class="bi bi-person-plus"></i> Usuarios';
+  btnUsarios.onclick = function() {
+    borrarMain();
+    cargarGestionUsuarios();
+  };
+
+  // Botón Licencias
+  let btnLicencias = document.createElement("button");
+  btnLicencias.classList.add("btn", "btn-primary");
+  btnLicencias.innerHTML = '<i class="bi bi-person-plus"></i> Licencias';
+  btnLicencias.onclick = function() {
+    borrarMain();
+    cargarGestionLicencias();
+  };
+  
+  // Botón Vacaciones
+  let btnVacaciones = document.createElement("button");
+  btnVacaciones.classList.add("btn", "btn-primary");
+  btnVacaciones.innerHTML = '<i class="bi bi-person-plus"></i> Vacaciones';
+  btnVacaciones.onclick = function() {
+    borrarMain();
+    cargarGestionVacaciones();
+  };
+
+  // Agregar botones a la barra
+  barraHeader.appendChild(btnUsarios);
+  barraHeader.appendChild(btnLicencias);
+  barraHeader.appendChild(btnVacaciones);
+
+  main.appendChild(barraHeader);
+}
+
+// ==========================
+// Gestión de Usuarios
+// ==========================
+function cargarGestionUsuarios() {
+  borrarMain();
+  cargarBarraHeader();
+
+  let contenedor = document.createElement("div");
+  contenedor.classList.add("contenedor");
+
+  let titulo = document.createElement("h2");
+  titulo.innerText = "Gestion de Usuarios";
+  contenedor.appendChild(titulo);
+
+  // Botón volver
+  let btnMenuPrincipal = document.createElement("button");
+  btnMenuPrincipal.classList.add("btn", "btn-success");
+  btnMenuPrincipal.innerHTML = '<i class="bi bi-person-plus"></i> Volver al menu principal';
+  btnMenuPrincipal.onclick = function() {
+    borrarMain();
+    iniciar();
+  };
+  contenedor.appendChild(btnMenuPrincipal);
+
+  // Botón Ver Usuarios
+  let btnVerUsuarios = document.createElement("button");
+  btnVerUsuarios.classList.add("btn", "btn-success");
+  btnVerUsuarios.innerHTML = '<i class="bi bi-person-plus"></i> Ver Usuarios';
+  btnVerUsuarios.onclick = function() {
+    cargarVistaUsuarios();
+  };
+  contenedor.appendChild(btnVerUsuarios);
+
+  // Botón Agregar Usuario
+  let btnCrearUsuario = document.createElement("button");
+  btnCrearUsuario.classList.add("btn", "btn-success");
+  btnCrearUsuario.innerHTML = '<i class="bi bi-person-plus"></i> Agregar Usuario';
+  btnCrearUsuario.onclick = function() {
+    cargarCrearUsuario();
+  };
+  contenedor.appendChild(btnCrearUsuario);
+
+  // Botón Modificar Usuario
+  let btnModificarUsuario = document.createElement("button");
+  btnModificarUsuario.classList.add("btn", "btn-success");
+  btnModificarUsuario.innerHTML = '<i class="bi bi-person-plus"></i> Modificar Usuario';
+  btnModificarUsuario.onclick = function() {
+    cargarModificarUsuario();
+  };
+  contenedor.appendChild(btnModificarUsuario);
+  
+  // Botón Eliminar Usuario
+  let btnEliminarUsuario = document.createElement("button");
+  btnEliminarUsuario.classList.add("btn", "btn-success");
+  btnEliminarUsuario.innerHTML = '<i class="bi bi-person-plus"></i> Eliminar Usuario';
+  btnEliminarUsuario.onclick = function() {
+    cargarEliminarUsuario();
+  };
+  contenedor.appendChild(btnEliminarUsuario);
+
+  main.appendChild(contenedor);
+}
+
+// ==========================
+// Vista de Usuarios
+// ==========================
+function cargarVistaUsuarios() {
+  borrarMain();
+  cargarBarraHeader();
+  
+  let contenedor = document.createElement("div");
+  contenedor.classList.add("contenedor");
+
+  let titulo = document.createElement("h2");
+  titulo.innerText = "Ver Usuarios";
+  contenedor.appendChild(titulo);
+
+  // Contenedor del filtro
+  let filtroContainer = document.createElement("div");
+  filtroContainer.style.marginBottom = "20px";
+  
+  let filtroLabel = document.createElement("label");
+  filtroLabel.innerText = "Filtrar por equipo: ";
+  filtroLabel.style.marginRight = "10px";
+  
+  let filtroSelect = document.createElement("select");
+  filtroSelect.id = "filtro_equipo";
+  filtroSelect.style.marginRight = "10px";
+  
+  let contadorDiv = document.createElement("div");
+  contadorDiv.id = "contador_usuarios";
+  contadorDiv.style.marginTop = "10px";
+  contadorDiv.style.fontWeight = "bold";
+  contadorDiv.style.color = "#666";
+  
+  filtroContainer.appendChild(filtroLabel);
+  filtroContainer.appendChild(filtroSelect);
+  filtroContainer.appendChild(contadorDiv);
+  contenedor.appendChild(filtroContainer);
+
+  let usuariosContainer = document.createElement("div");
+  usuariosContainer.id = "usuarios_container";
+  contenedor.appendChild(usuariosContainer);
+
+  let loading = mostrarLoading("Cargando usuarios...");
+  usuariosContainer.appendChild(loading);
+
+  // Llamada asíncrona
+  google.script.run
+    .withSuccessHandler(function(usuariosList) {
+      usuariosContainer.removeChild(loading);
+      
+      if (!usuariosList || usuariosList.length === 0) {
+        let mensaje = document.createElement("p");
+        mensaje.innerText = "No hay usuarios registrados.";
+        usuariosContainer.appendChild(mensaje);
+        return;
+      }
+      
+      // Obtener equipos únicos
+      let equipos = [...new Set(usuariosList.map(user => user.user_team).filter(team => team && team.trim() !== ''))].sort();
+      
+      // Poblar select de filtro
+      let opcionTodos = document.createElement("option");
+      opcionTodos.value = "";
+      opcionTodos.innerText = "Todos los equipos";
+      filtroSelect.appendChild(opcionTodos);
+      
+      equipos.forEach(equipo => {
+        let option = document.createElement("option");
+        option.value = equipo;
+        option.innerText = equipo;
+        filtroSelect.appendChild(option);
+      });
+      
+      function mostrarUsuarios(usuariosFiltrados) {
+        usuariosContainer.innerHTML = "";
+        
+        // Actualizar contador
+        contadorDiv.innerText = `Mostrando ${usuariosFiltrados.length} de ${usuariosList.length} usuarios`;
+        
+        if (usuariosFiltrados.length === 0) {
+          let mensaje = document.createElement("p");
+          mensaje.innerText = "No hay usuarios para el equipo seleccionado.";
+          usuariosContainer.appendChild(mensaje);
+          return;
+        }
+        
+        let ul = document.createElement("ul");
+        usuariosFiltrados.forEach(user => {
+          let li = document.createElement("li");
+          li.innerHTML = `
+            <strong>ID:</strong> ${user.user_id || 'N/A'}<br>
+            <strong>Nombre:</strong> ${user.user_name || 'N/A'}<br>
+            <strong>User Meli:</strong> ${user.user_meli || 'N/A'}<br>
+            <strong>Equipo:</strong> ${user.user_team || 'N/A'}<br>
+            <strong>Supervisor:</strong> ${user.user_leader || 'N/A'}<br>
+            <strong>Email:</strong> ${user.user_mail || 'N/A'}
+          `;
+          ul.appendChild(li);
+        });
+        usuariosContainer.appendChild(ul);
+      }
+      
+      // Mostrar todos los usuarios inicialmente
+      mostrarUsuarios(usuariosList);
+      
+      // Event listener para el filtro
+      filtroSelect.addEventListener('change', function() {
+        let equipoSeleccionado = this.value;
+        let usuariosFiltrados = equipoSeleccionado ? 
+          usuariosList.filter(user => user.user_team === equipoSeleccionado) : 
+          usuariosList;
+        mostrarUsuarios(usuariosFiltrados);
+      });
+      
+    })
+    .withFailureHandler(function(error) {
+      usuariosContainer.removeChild(loading);
+      let mensaje = document.createElement("p");
+      mensaje.innerText = "Error al cargar usuarios: " + error;
+      mensaje.style.color = "red";
+      usuariosContainer.appendChild(mensaje);
+    })
+    .getAllUsers();
+
+  main.appendChild(contenedor);
+}
+
+// ==========================
+// Crear Usuario
+// ==========================
+function cargarCrearUsuario() {
+  borrarMain();
+  cargarBarraHeader();
+  
+  let contenedor = document.createElement("div");
+  contenedor.classList.add("contenedor");
+
+  let titulo = document.createElement("h2");
+  titulo.innerText = "Crear Usuario";
+  contenedor.appendChild(titulo);
+
+  let formUsuario = document.createElement("form");
+  formUsuario.innerHTML = `
+    <label for="user_name">Nombre Completo:</label>
+    <input type="text" id="user_name" name="user_name" required>
+
+    <label for="user_meli">User Meli:</label>
+    <input type="text" id="user_meli" name="user_meli" required>
+
+    <label for="user_team">Equipo:</label>
+    <input type="text" id="user_team" name="user_team" required>
+
+    <label for="user_leader">Supervisor:</label>
+    <input type="text" id="user_leader" name="user_leader" required>
+
+    <label for="user_cuil">CUIL:</label>
+    <input type="text" id="user_cuil" name="user_cuil" required>
+
+    <label for="user_position">Posición:</label>
+    <input type="text" id="user_position" name="user_position" required>
+
+    <label for="user_mail">Correo de Meli:</label>
+    <input type="email" id="user_mail" name="user_mail" required>
+
+    <label for="user_serial">Serial Equipo:</label>
+    <input type="text" id="user_serial" name="user_serial">
+
+    <label for="user_entry_date">Fecha de Ingreso:</label>
+    <input type="date" id="user_entry_date" name="user_entry_date" required>
+
+    <label for="user_expiration_date">Fecha de Expiración cuenta Meli:</label>
+    <input type="date" id="user_expiration_date" name="user_expiration_date">
+
+    <input type="submit" value="Crear Usuario">
+  `;
+
+  formUsuario.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    let usuario = {
+      user_name: formUsuario.user_name.value,
+      user_meli: formUsuario.user_meli.value,
+      user_status: "Activo",
+      user_status_detail: "",
+      user_task: "",
+      task_detail: "",
+      user_team: formUsuario.user_team.value,
+      user_leader: formUsuario.user_leader.value,
+      user_cuil: formUsuario.user_cuil.value,
+      user_position: formUsuario.user_position.value,
+      user_mail: formUsuario.user_mail.value,
+      user_serial: formUsuario.user_serial.value,
+      user_entry_date: formUsuario.user_entry_date.value,
+      user_expiration_date: formUsuario.user_expiration_date.value,
+      user_retirement_date: ""
+    };
+
+    // Desactivar el botón de submit
+    let submitBtn = formUsuario.querySelector('input[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.value = "Creando...";
+
+    google.script.run
+      .withSuccessHandler(function(result) {
+        alert("Usuario creado exitosamente.");
+        cargarGestionUsuarios();
+      })
+      .withFailureHandler(function(error) {
+        alert("Error al crear usuario: " + error);
+        submitBtn.disabled = false;
+        submitBtn.value = "Crear Usuario";
+      })
+      .createUser(usuario);
+  });
+
+  contenedor.appendChild(formUsuario);
+  main.appendChild(contenedor);
+}
+
+// ==========================
+// Eliminar Usuario
+// ==========================
+function cargarEliminarUsuario() {
+  borrarMain();
+  cargarBarraHeader();
+  
+  let contenedor = document.createElement("div");
+  contenedor.classList.add("contenedor");
+
+  let titulo = document.createElement("h2");
+  titulo.innerText = "Eliminar Usuario";
+  contenedor.appendChild(titulo);
+
+  let loading = mostrarLoading("Cargando usuarios...");
+  contenedor.appendChild(loading);
+
+  google.script.run
+    .withSuccessHandler(function(usuarios) {
+      contenedor.removeChild(loading);
+      
+      if (!usuarios || usuarios.length === 0) {
+        let mensaje = document.createElement("p");
+        mensaje.innerText = "No hay usuarios para eliminar.";
+        contenedor.appendChild(mensaje);
+        return;
+      }
+      
+      crearFormularioEliminar(contenedor, usuarios);
+    })
+    .withFailureHandler(function(error) {
+      contenedor.removeChild(loading);
+      let mensaje = document.createElement("p");
+      mensaje.innerText = "Error al cargar usuarios: " + error;
+      mensaje.style.color = "red";
+      contenedor.appendChild(mensaje);
+    })
+    .getAllUsers();
+
+  main.appendChild(contenedor);
+}
+
+function crearFormularioEliminar(contenedor, usuarios) {
+  // Filtro por equipo
+  let filtroContainer = document.createElement("div");
+  filtroContainer.style.marginBottom = "20px";
+  
+  let filtroLabel = document.createElement("label");
+  filtroLabel.innerText = "Filtrar por equipo: ";
+  filtroLabel.style.marginRight = "10px";
+  
+  let filtroSelect = document.createElement("select");
+  filtroSelect.id = "filtro_equipo_eliminar";
+  filtroSelect.style.marginRight = "10px";
+  
+  // Obtener equipos únicos
+  let equipos = [...new Set(usuarios.map(user => user.user_team).filter(team => team && team.trim() !== ''))].sort();
+  
+  let opcionTodos = document.createElement("option");
+  opcionTodos.value = "";
+  opcionTodos.innerText = "Todos los equipos";
+  filtroSelect.appendChild(opcionTodos);
+  
+  equipos.forEach(equipo => {
+    let option = document.createElement("option");
+    option.value = equipo;
+    option.innerText = equipo;
+    filtroSelect.appendChild(option);
+  });
+  
+  filtroContainer.appendChild(filtroLabel);
+  filtroContainer.appendChild(filtroSelect);
+  contenedor.appendChild(filtroContainer);
+
+  let formEliminar = document.createElement("form");
+
+  let label = document.createElement("label");
+  label.setAttribute("for", "select_user");
+  label.innerText = "Selecciona un usuario para eliminar:";
+
+  let select = document.createElement("select");
+  select.setAttribute("id", "select_user");
+  select.setAttribute("name", "select_user");
+  select.required = true;
+
+  let submitBtn = document.createElement("input");
+  submitBtn.type = "submit";
+  submitBtn.value = "Eliminar Usuario";
+
+  formEliminar.appendChild(label);
+  formEliminar.appendChild(document.createElement("br"));
+  formEliminar.appendChild(select);
+  formEliminar.appendChild(document.createElement("br"));
+  formEliminar.appendChild(document.createElement("br"));
+  formEliminar.appendChild(submitBtn);
+
+  function actualizarSelectUsuarios(usuariosFiltrados) {
+    select.innerHTML = "";
+    
+    let defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.innerText = "-- Selecciona un usuario --";
+    select.appendChild(defaultOption);
+
+    usuariosFiltrados.forEach(user => {
+      let option = document.createElement("option");
+      option.value = user.user_id;
+      option.innerText = `${user.user_name} (${user.user_meli}) - ${user.user_team}`;
+      select.appendChild(option);
+    });
+  }
+
+  // Mostrar todos los usuarios inicialmente
+  actualizarSelectUsuarios(usuarios);
+
+  // Event listener para el filtro
+  filtroSelect.addEventListener('change', function() {
+    let equipoSeleccionado = this.value;
+    let usuariosFiltrados = equipoSeleccionado ? 
+      usuarios.filter(user => user.user_team === equipoSeleccionado) : 
+      usuarios;
+    actualizarSelectUsuarios(usuariosFiltrados);
+  });
+
+  formEliminar.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    let selectedUserId = select.value;
+    if (!selectedUserId) {
+      alert("Por favor selecciona un usuario.");
+      return;
+    }
+
+    let usuarioAEliminar = usuarios.find(u => u.user_id == selectedUserId);
+    if (!usuarioAEliminar) {
+      alert("Usuario no encontrado.");
+      return;
+    }
+
+    let confirmar = confirm(`¿Estás seguro de que deseas eliminar a ${usuarioAEliminar.user_name}?`);
+    if (!confirmar) return;
+
+    submitBtn.disabled = true;
+    submitBtn.value = "Eliminando...";
+
+    google.script.run
+      .withSuccessHandler(function(result) {
+        alert("Usuario eliminado exitosamente.");
+        cargarEliminarUsuario();
+      })
+      .withFailureHandler(function(error) {
+        alert("Error al eliminar usuario: " + error);
+        submitBtn.disabled = false;
+        submitBtn.value = "Eliminar Usuario";
+      })
+      .deleteUser(selectedUserId);
+  });
+
+  contenedor.appendChild(formEliminar);
+}
+
+// ==========================
+// Modificar Usuario
+// ==========================
+function cargarModificarUsuario() {
+  borrarMain();
+  cargarBarraHeader();
+  
+  let contenedor = document.createElement("div");
+  contenedor.classList.add("contenedor");
+
+  let titulo = document.createElement("h2");
+  titulo.innerText = "Modificar Usuario";
+  contenedor.appendChild(titulo);
+
+  let loading = mostrarLoading("Cargando usuarios...");
+  contenedor.appendChild(loading);
+
+  google.script.run
+    .withSuccessHandler(function(usuarios) {
+      contenedor.removeChild(loading);
+      
+      if (!usuarios || usuarios.length === 0) {
+        let mensaje = document.createElement("p");
+        mensaje.innerText = "No hay usuarios para modificar.";
+        contenedor.appendChild(mensaje);
+        return;
+      }
+      
+      crearFormularioModificar(contenedor, usuarios);
+    })
+    .withFailureHandler(function(error) {
+      contenedor.removeChild(loading);
+      let mensaje = document.createElement("p");
+      mensaje.innerText = "Error al cargar usuarios: " + error;
+      mensaje.style.color = "red";
+      contenedor.appendChild(mensaje);
+    })
+    .getAllUsers();
+
+  main.appendChild(contenedor);
+}
+
+function crearFormularioModificar(contenedor, usuarios) {
+  // Filtro por equipo
+  let filtroContainer = document.createElement("div");
+  filtroContainer.style.marginBottom = "20px";
+  
+  let filtroLabel = document.createElement("label");
+  filtroLabel.innerText = "Filtrar por equipo: ";
+  filtroLabel.style.marginRight = "10px";
+  
+  let filtroSelect = document.createElement("select");
+  filtroSelect.id = "filtro_equipo_modificar";
+  filtroSelect.style.marginRight = "10px";
+  
+  // Obtener equipos únicos
+  let equipos = [...new Set(usuarios.map(user => user.user_team).filter(team => team && team.trim() !== ''))].sort();
+  
+  let opcionTodos = document.createElement("option");
+  opcionTodos.value = "";
+  opcionTodos.innerText = "Todos los equipos";
+  filtroSelect.appendChild(opcionTodos);
+  
+  equipos.forEach(equipo => {
+    let option = document.createElement("option");
+    option.value = equipo;
+    option.innerText = equipo;
+    filtroSelect.appendChild(option);
+  });
+  
+  filtroContainer.appendChild(filtroLabel);
+  filtroContainer.appendChild(filtroSelect);
+  contenedor.appendChild(filtroContainer);
+
+  let formSeleccion = document.createElement("form");
+
+  let label = document.createElement("label");
+  label.innerText = "Selecciona un usuario:";
+  formSeleccion.appendChild(label);
+
+  let select = document.createElement("select");
+  select.name = "select_user";
+  select.id = "select_user";
+
+  formSeleccion.appendChild(select);
+  contenedor.appendChild(formSeleccion);
+
+  let contenedorFormulario = document.createElement("div");
+  contenedor.appendChild(contenedorFormulario);
+
+  function actualizarSelectUsuarios(usuariosFiltrados) {
+    select.innerHTML = "";
+    
+    let defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.innerText = "-- Selecciona un usuario --";
+    select.appendChild(defaultOption);
+
+    usuariosFiltrados.forEach(user => {
+      let option = document.createElement("option");
+      option.value = user.user_id;
+      option.innerText = `${user.user_name} (${user.user_meli}) - ${user.user_team}`;
+      select.appendChild(option);
+    });
+    
+    // Limpiar formulario cuando cambia la lista
+    contenedorFormulario.innerHTML = "";
+  }
+
+  // Mostrar todos los usuarios inicialmente
+  actualizarSelectUsuarios(usuarios);
+
+  // Event listener para el filtro
+  filtroSelect.addEventListener('change', function() {
+    let equipoSeleccionado = this.value;
+    let usuariosFiltrados = equipoSeleccionado ? 
+      usuarios.filter(user => user.user_team === equipoSeleccionado) : 
+      usuarios;
+    actualizarSelectUsuarios(usuariosFiltrados);
+  });
+
+  select.addEventListener("change", function () {
+    contenedorFormulario.innerHTML = "";
+
+    let selectedUser = usuarios.find(u => u.user_id == select.value);
+    if (!selectedUser) return;
+
+    let formModificar = document.createElement("form");
+
+    // Campos editables
+    const camposEditables = [
+      'user_name', 'user_team', 'user_leader', 'user_cuil', 
+      'user_position', 'user_mail', 'user_serial', 
+      'user_entry_date', 'user_expiration_date', 'user_status'
+    ];
+
+    camposEditables.forEach(key => {
+      if (selectedUser.hasOwnProperty(key)) {
+        let label = document.createElement("label");
+        label.setAttribute("for", key);
+        label.innerText = key.replace('user_', '').replace('_', ' ') + ":";
+
+        let input = document.createElement("input");
+        input.type = key.includes('date') ? 'date' : 
+                     key.includes('mail') ? 'email' : 'text';
+        input.name = key;
+        input.id = key;
+        input.value = selectedUser[key] || '';
+
+        formModificar.appendChild(label);
+        formModificar.appendChild(input);
+        formModificar.appendChild(document.createElement("br"));
+      }
+    });
+
+    let btnConfirmar = document.createElement("button");
+    btnConfirmar.type = "submit";
+    btnConfirmar.innerText = "Confirmar Modificación";
+
+    formModificar.appendChild(document.createElement("br"));
+    formModificar.appendChild(btnConfirmar);
+
+    formModificar.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      let updates = {};
+      camposEditables.forEach(key => {
+        let input = formModificar.querySelector(`#${key}`);
+        if (input) {
+          updates[key] = input.value;
+        }
+      });
+
+      btnConfirmar.disabled = true;
+      btnConfirmar.innerText = "Actualizando...";
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          alert("Usuario modificado exitosamente.");
+          cargarModificarUsuario();
+        })
+        .withFailureHandler(function(error) {
+          alert("Error al modificar usuario: " + error);
+          btnConfirmar.disabled = false;
+          btnConfirmar.innerText = "Confirmar Modificación";
+        })
+        .updateUser(selectedUser.user_id, updates);
+    });
+
+    contenedorFormulario.appendChild(formModificar);
+  });
+}
+
+// ==========================
+// Gestión de Licencias/Ausencias
+// ==========================
+function cargarGestionLicencias() {
+  borrarMain();
+  cargarBarraHeader();
+  
+  let contenedor = document.createElement("div");
+  contenedor.classList.add("contenedor");
+
+  let titulo = document.createElement("h2");
+  titulo.innerText = "Gestion de licencias/ausencias";
+  contenedor.appendChild(titulo);
+
+  // Botón volver al menú
+  let btnMenuPrincipal = document.createElement("button");
+  btnMenuPrincipal.classList.add("btn", "btn-success");
+  btnMenuPrincipal.innerHTML = '<i class="bi bi-person-plus"></i> Volver al menu principal';
+  btnMenuPrincipal.onclick = function() {
+    borrarMain();
+    iniciar();
+  };
+  contenedor.appendChild(btnMenuPrincipal);
+
+  // Botón ver Ausencias
+  let btnVerAusencias = document.createElement("button");
+  btnVerAusencias.classList.add("btn", "btn-success");
+  btnVerAusencias.innerHTML = '<i class="bi bi-person-plus"></i> Ver Ausencias';
+  btnVerAusencias.onclick = function() {
+    cargarVistaAusencias();
+  };
+  contenedor.appendChild(btnVerAusencias);
+
+  // Botón crear Ausencia
+  let btnCrearAusencia = document.createElement("button");
+  btnCrearAusencia.classList.add("btn", "btn-success");
+  btnCrearAusencia.innerHTML = '<i class="bi bi-person-plus"></i> Agregar Ausencia';
+  btnCrearAusencia.onclick = function() {
+    cargarCrearAusencia();
+  };
+  contenedor.appendChild(btnCrearAusencia);
+
+  // Botón modificar Ausencia
+  let btnModificarAusencia = document.createElement("button");
+  btnModificarAusencia.classList.add("btn", "btn-success");
+  btnModificarAusencia.innerHTML = '<i class="bi bi-person-plus"></i> Modificar Ausencia';
+  btnModificarAusencia.onclick = function() {
+    cargarModificarAusencia();
+  };
+  contenedor.appendChild(btnModificarAusencia);
+  
+  // Botón eliminar Ausencia
+  let btnEliminarAusencia = document.createElement("button");
+  btnEliminarAusencia.classList.add("btn", "btn-success");
+  btnEliminarAusencia.innerHTML = '<i class="bi bi-person-plus"></i> Eliminar Ausencia';
+  btnEliminarAusencia.onclick = function() {
+    cargarEliminarAusencia();
+  };
+  contenedor.appendChild(btnEliminarAusencia);
+
+  main.appendChild(contenedor);
+}
+
+// ==========================
+// Ver Ausencias
+// ==========================
+function cargarVistaAusencias() {
+  borrarMain();
+  cargarBarraHeader();
+
+  let contenedor = document.createElement("div");
+  contenedor.classList.add("contenedor");
+
+  let titulo = document.createElement("h2");
+  titulo.innerText = "Ver Ausencias";
+  contenedor.appendChild(titulo);
+
+  let filtroContainer = document.createElement("div");
+  filtroContainer.style.marginBottom = "20px";
+
+  let filtroLabel = document.createElement("label");
+  filtroLabel.innerText = "Filtrar por equipo: ";
+  filtroLabel.style.marginRight = "10px";
+
+  let filtroSelect = document.createElement("select");
+  filtroSelect.id = "filtro_equipo_ausencia";
+  filtroSelect.style.marginRight = "10px";
+
+  filtroContainer.appendChild(filtroLabel);
+  filtroContainer.appendChild(filtroSelect);
+  contenedor.appendChild(filtroContainer);
+
+  let ausenciasContainer = document.createElement("div");
+  ausenciasContainer.id = "ausencias_container";
+  contenedor.appendChild(ausenciasContainer);
+
+  let loading = mostrarLoading("Cargando ausencias...");
+  ausenciasContainer.appendChild(loading);
+
+  google.script.run
+    .withSuccessHandler(function(ausencias) {
+      ausenciasContainer.removeChild(loading);
+
+      if (!ausencias || ausencias.length === 0) {
+        let mensaje = document.createElement("p");
+        mensaje.innerText = "No hay ausencias registradas.";
+        ausenciasContainer.appendChild(mensaje);
+        return;
+      }
+
+      // Obtener equipos únicos
+      let equipos = [...new Set(ausencias.map(a => a.user_team).filter(e => e && e.trim() !== ''))].sort();
+
+      // Opciones del select
+      let opcionTodos = document.createElement("option");
+      opcionTodos.value = "";
+      opcionTodos.innerText = "Todos los equipos";
+      filtroSelect.appendChild(opcionTodos);
+
+      equipos.forEach(equipo => {
+        let option = document.createElement("option");
+        option.value = equipo;
+        option.innerText = equipo;
+        filtroSelect.appendChild(option);
+      });
+
+      function mostrarAusencias(lista) {
+        ausenciasContainer.innerHTML = "";
+
+        let ul = document.createElement("ul");
+        lista.forEach(a => {
+          let li = document.createElement("li");
+          li.innerHTML = `
+            <strong>ID:</strong> ${a.absence_id}<br>
+            <strong>Nombre:</strong> ${a.user_name}<br>
+            <strong>Equipo:</strong> ${a.user_team}<br>
+            <strong>Supervisor:</strong> ${a.user_leader}<br>
+            <strong>Detalle:</strong> ${a.absence_detail}<br>
+            <strong>Desde:</strong> ${a.absence_init_date}<br>
+            <strong>Hasta:</strong> ${a.absence_end_date}<br><br>
+          `;
+          ul.appendChild(li);
+        });
+
+        ausenciasContainer.appendChild(ul);
+      }
+
+      mostrarAusencias(ausencias);
+
+      filtroSelect.addEventListener("change", () => {
+        const equipoSeleccionado = filtroSelect.value;
+        const filtradas = equipoSeleccionado
+          ? ausencias.filter(a => a.user_team === equipoSeleccionado)
+          : ausencias;
+        mostrarAusencias(filtradas);
+      });
+    })
+    .withFailureHandler(function(error) {
+      ausenciasContainer.removeChild(loading);
+      let mensaje = document.createElement("p");
+      mensaje.innerText = "Error al cargar ausencias: " + error;
+      mensaje.style.color = "red";
+      ausenciasContainer.appendChild(mensaje);
+    })
+    .getAllAbsences();
+
+  main.appendChild(contenedor);
+}
+
+// ==========================
+// Crear Ausencia
+// ==========================
+function cargarCrearAusencia() {
+  borrarMain();
+  cargarBarraHeader();
+
+  let contenedor = document.createElement("div");
+  contenedor.classList.add("contenedor");
+
+  let titulo = document.createElement("h2");
+  titulo.innerText = "Agregar Nueva Ausencia";
+  contenedor.appendChild(titulo);
+
+  let loading = mostrarLoading("Cargando usuarios...");
+  contenedor.appendChild(loading);
+
+  google.script.run
+    .withSuccessHandler(function(usuarios) {
+      contenedor.removeChild(loading);
+
+      if (!usuarios || usuarios.length === 0) {
+        let mensaje = document.createElement("p");
+        mensaje.innerText = "No hay usuarios disponibles.";
+        contenedor.appendChild(mensaje);
+        return;
+      }
+
+      // Crear formulario
+      let form = document.createElement("form");
+
+      let labelUser = document.createElement("label");
+      labelUser.innerText = "Selecciona un usuario:";
+      form.appendChild(labelUser);
+
+      let selectUser = document.createElement("select");
+      selectUser.name = "user_id";
+      selectUser.required = true;
+
+      let defaultOption = document.createElement("option");
+      defaultOption.value = "";
+      defaultOption.innerText = "-- Selecciona --";
+      selectUser.appendChild(defaultOption);
+
+      usuarios.forEach(user => {
+        let option = document.createElement("option");
+        option.value = user.user_id;
+        option.innerText = `${user.user_name} (${user.user_meli})`;
+        option.dataset.name = user.user_name;
+        option.dataset.team = user.user_team;
+        option.dataset.leader = user.user_leader;
+        selectUser.appendChild(option);
+      });
+
+      form.appendChild(selectUser);
+      form.appendChild(document.createElement("br"));
+
+      // Campo de detalle
+      let labelDetalle = document.createElement("label");
+      labelDetalle.innerText = "Detalle de ausencia:";
+      form.appendChild(labelDetalle);
+
+      let inputDetalle = document.createElement("input");
+      inputDetalle.type = "text";
+      inputDetalle.name = "absence_detail";
+      inputDetalle.required = true;
+      form.appendChild(inputDetalle);
+
+      form.appendChild(document.createElement("br"));
+
+      // Fecha inicio
+      let labelInicio = document.createElement("label");
+      labelInicio.innerText = "Fecha inicio:";
+      form.appendChild(labelInicio);
+
+      let inputInicio = document.createElement("input");
+      inputInicio.type = "date";
+      inputInicio.name = "absence_init_date";
+      inputInicio.required = true;
+      form.appendChild(inputInicio);
+
+      form.appendChild(document.createElement("br"));
+
+      // Fecha fin
+      let labelFin = document.createElement("label");
+      labelFin.innerText = "Fecha fin:";
+      form.appendChild(labelFin);
+
+      let inputFin = document.createElement("input");
+      inputFin.type = "date";
+      inputFin.name = "absence_end_date";
+      inputFin.required = true;
+      form.appendChild(inputFin);
+
+      form.appendChild(document.createElement("br"));
+
+      let submit = document.createElement("input");
+      submit.type = "submit";
+      submit.value = "Crear Ausencia";
+      form.appendChild(document.createElement("br"));
+      form.appendChild(submit);
+
+      form.addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        let selectedOption = selectUser.options[selectUser.selectedIndex];
+        if (!selectedOption || !selectedOption.value) {
+          alert("Debes seleccionar un usuario.");
+          return;
+        }
+
+        // Construir el objeto ausencia
+        let nuevaAusencia = {
+          absence_id: "",
+          user_id: selectedOption.value,
+          user_name: selectedOption.dataset.name,
+          user_team: selectedOption.dataset.team,
+          user_leader: selectedOption.dataset.leader,
+          absence_detail: inputDetalle.value,
+          absence_init_date: inputInicio.value,
+          absence_end_date: inputFin.value
+        };
+
+        submit.disabled = true;
+        submit.value = "Creando...";
+
+        google.script.run
+          .withSuccessHandler(function() {
+            alert("Ausencia registrada correctamente.");
+            cargarGestionLicencias();
+          })
+          .withFailureHandler(function(error) {
+            alert("Error al registrar ausencia: " + error);
+            submit.disabled = false;
+            submit.value = "Crear Ausencia";
+          })
+          .createAbsence(nuevaAusencia);
+      });
+
+      contenedor.appendChild(form);
+    })
+    .withFailureHandler(function(error) {
+      contenedor.removeChild(loading);
+      let mensaje = document.createElement("p");
+      mensaje.innerText = "Error al cargar usuarios: " + error;
+      mensaje.style.color = "red";
+      contenedor.appendChild(mensaje);
+    })
+    .getAllUsers();
+
+  main.appendChild(contenedor);
+}
+
+// ==========================
+// Modificar Ausencia
+// ==========================
+function cargarModificarAusencia() {
+  borrarMain();
+  cargarBarraHeader();
+
+  let contenedor = document.createElement("div");
+  contenedor.classList.add("contenedor");
+
+  let titulo = document.createElement("h2");
+  titulo.innerText = "Modificar Ausencia";
+  contenedor.appendChild(titulo);
+
+  let loading = mostrarLoading("Cargando ausencias...");
+  contenedor.appendChild(loading);
+
+  google.script.run
+    .withSuccessHandler(function(ausencias) {
+      contenedor.removeChild(loading);
+
+      if (!ausencias || ausencias.length === 0) {
+        let mensaje = document.createElement("p");
+        mensaje.innerText = "No hay ausencias registradas.";
+        contenedor.appendChild(mensaje);
+        return;
+      }
+
+      // Filtro por equipo
+      let filtroEquipoLabel = document.createElement("label");
+      filtroEquipoLabel.innerText = "Filtrar por equipo:";
+      let filtroEquipo = document.createElement("select");
+      filtroEquipo.style.margin = "0 10px";
+
+      let equipos = [...new Set(ausencias.map(a => a.user_team).filter(e => e && e.trim() !== ''))].sort();
+      let opcionTodos = document.createElement("option");
+      opcionTodos.value = "";
+      opcionTodos.innerText = "-- Seleccionar equipo --";
+      filtroEquipo.appendChild(opcionTodos);
+      equipos.forEach(equipo => {
+        let option = document.createElement("option");
+        option.value = equipo;
+        option.innerText = equipo;
+        filtroEquipo.appendChild(option);
+      });
+
+      contenedor.appendChild(filtroEquipoLabel);
+      contenedor.appendChild(filtroEquipo);
+
+      // Filtro por usuario
+      let filtroUsuarioLabel = document.createElement("label");
+      filtroUsuarioLabel.innerText = "Usuario:";
+      filtroUsuarioLabel.style.marginLeft = "20px";
+      let filtroUsuario = document.createElement("select");
+
+      contenedor.appendChild(filtroUsuarioLabel);
+      contenedor.appendChild(filtroUsuario);
+
+      // Contenedor para selector de ausencia y formulario
+      let contenedorFormulario = document.createElement("div");
+      contenedorFormulario.style.marginTop = "20px";
+      contenedor.appendChild(contenedorFormulario);
+
+      filtroEquipo.addEventListener("change", function () {
+        let equipo = filtroEquipo.value;
+        let usuarios = [...new Set(ausencias.filter(a => a.user_team === equipo).map(a => ({
+          id: a.user_id,
+          name: a.user_name
+        })))];
+
+        filtroUsuario.innerHTML = "";
+        let defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.innerText = "-- Seleccionar usuario --";
+        filtroUsuario.appendChild(defaultOption);
+
+        usuarios.forEach(u => {
+          let option = document.createElement("option");
+          option.value = u.id;
+          option.innerText = u.name;
+          filtroUsuario.appendChild(option);
+        });
+
+        contenedorFormulario.innerHTML = "";
+      });
+
+      filtroUsuario.addEventListener("change", function () {
+        contenedorFormulario.innerHTML = "";
+
+        let usuarioId = filtroUsuario.value;
+        if (!usuarioId) return;
+
+        let ausenciasUsuario = ausencias.filter(a => a.user_id === usuarioId);
+
+        if (ausenciasUsuario.length === 0) {
+          contenedorFormulario.innerText = "Este usuario no tiene ausencias.";
+          return;
+        }
+
+        let selectAusencia = document.createElement("select");
+        selectAusencia.style.marginBottom = "10px";
+        let defaultOpt = document.createElement("option");
+        defaultOpt.value = "";
+        defaultOpt.innerText = "-- Selecciona una ausencia --";
+        selectAusencia.appendChild(defaultOpt);
+
+        ausenciasUsuario.forEach(a => {
+          let option = document.createElement("option");
+          option.value = a.absence_id;
+          option.innerText = `${a.absence_detail} (${a.absence_init_date} a ${a.absence_end_date})`;
+          selectAusencia.appendChild(option);
+        });
+
+        contenedorFormulario.appendChild(selectAusencia);
+
+        let form = document.createElement("form");
+        contenedorFormulario.appendChild(form);
+
+        selectAusencia.addEventListener("change", function () {
+          form.innerHTML = "";
+
+          let ausencia = ausenciasUsuario.find(a => a.absence_id === selectAusencia.value);
+          if (!ausencia) return;
+
+          const campos = [
+            { label: "Detalle", name: "absence_detail", type: "text", value: ausencia.absence_detail },
+            { label: "Fecha inicio", name: "absence_init_date", type: "date", value: ausencia.absence_init_date },
+            { label: "Fecha fin", name: "absence_end_date", type: "date", value: ausencia.absence_end_date }
+          ];
+
+          campos.forEach(campo => {
+            let label = document.createElement("label");
+            label.innerText = campo.label;
+            let input = document.createElement("input");
+            input.name = campo.name;
+            input.type = campo.type;
+            input.value = campo.value;
+            input.required = true;
+            form.appendChild(label);
+            form.appendChild(input);
+            form.appendChild(document.createElement("br"));
+          });
+
+          let submit = document.createElement("button");
+          submit.type = "submit";
+          submit.innerText = "Guardar Cambios";
+          form.appendChild(document.createElement("br"));
+          form.appendChild(submit);
+
+          form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            let updates = {};
+            campos.forEach(c => {
+              updates[c.name] = form[c.name].value;
+            });
+
+            submit.disabled = true;
+            submit.innerText = "Guardando...";
+
+            google.script.run
+              .withSuccessHandler(function () {
+                alert("Ausencia modificada correctamente.");
+                cargarModificarAusencia();
+              })
+              .withFailureHandler(function (error) {
+                alert("Error al modificar ausencia: " + error);
+                submit.disabled = false;
+                submit.innerText = "Guardar Cambios";
+              })
+              .updateAbsence(ausencia.absence_id, updates);
+          });
+        });
+      });
+    })
+    .withFailureHandler(function (error) {
+      contenedor.removeChild(loading);
+      let mensaje = document.createElement("p");
+      mensaje.innerText = "Error al cargar ausencias: " + error;
+      mensaje.style.color = "red";
+      contenedor.appendChild(mensaje);
+    })
+    .getAllAbsences();
+
+  main.appendChild(contenedor);
+}
+
+// ==========================
+// Eliminar Ausencia
+// ==========================
+function cargarEliminarAusencia() {
+  borrarMain();
+  cargarBarraHeader();
+
+  let contenedor = document.createElement("div");
+  contenedor.classList.add("contenedor");
+
+  let titulo = document.createElement("h2");
+  titulo.innerText = "Eliminar Ausencia";
+  contenedor.appendChild(titulo);
+
+  let loading = mostrarLoading("Cargando ausencias...");
+  contenedor.appendChild(loading);
+
+  google.script.run
+    .withSuccessHandler(function (ausencias) {
+      contenedor.removeChild(loading);
+
+      if (!ausencias || ausencias.length === 0) {
+        let mensaje = document.createElement("p");
+        mensaje.innerText = "No hay ausencias registradas.";
+        contenedor.appendChild(mensaje);
+        return;
+      }
+
+      // Filtro por equipo
+      let filtroEquipoLabel = document.createElement("label");
+      filtroEquipoLabel.innerText = "Filtrar por equipo:";
+      let filtroEquipo = document.createElement("select");
+      filtroEquipo.style.margin = "0 10px";
+
+      let equipos = [...new Set(ausencias.map(a => a.user_team).filter(e => e && e.trim() !== ''))].sort();
+      let opcionTodos = document.createElement("option");
+      opcionTodos.value = "";
+      opcionTodos.innerText = "-- Seleccionar equipo --";
+      filtroEquipo.appendChild(opcionTodos);
+      equipos.forEach(equipo => {
+        let option = document.createElement("option");
+        option.value = equipo;
+        option.innerText = equipo;
+        filtroEquipo.appendChild(option);
+      });
+
+      contenedor.appendChild(filtroEquipoLabel);
+      contenedor.appendChild(filtroEquipo);
+
+      // Filtro por usuario
+      let filtroUsuarioLabel = document.createElement("label");
+      filtroUsuarioLabel.innerText = "Usuario:";
+      filtroUsuarioLabel.style.marginLeft = "20px";
+      let filtroUsuario = document.createElement("select");
+
+      contenedor.appendChild(filtroUsuarioLabel);
+      contenedor.appendChild(filtroUsuario);
+
+      // Contenedor para selector de ausencia y botón
+      let contenedorAccion = document.createElement("div");
+      contenedorAccion.style.marginTop = "20px";
+      contenedor.appendChild(contenedorAccion);
+
+      filtroEquipo.addEventListener("change", function () {
+        let equipo = filtroEquipo.value;
+        let usuarios = [...new Set(ausencias.filter(a => a.user_team === equipo).map(a => ({
+          id: a.user_id,
+          name: a.user_name
+        })))];
+
+        filtroUsuario.innerHTML = "";
+        let defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.innerText = "-- Seleccionar usuario --";
+        filtroUsuario.appendChild(defaultOption);
+
+        usuarios.forEach(u => {
+          let option = document.createElement("option");
+          option.value = u.id;
+          option.innerText = u.name;
+          filtroUsuario.appendChild(option);
+        });
+
+        contenedorAccion.innerHTML = "";
+      });
+
+      filtroUsuario.addEventListener("change", function () {
+        contenedorAccion.innerHTML = "";
+
+        let usuarioId = filtroUsuario.value;
+        if (!usuarioId) return;
+
+        let ausenciasUsuario = ausencias.filter(a => a.user_id === usuarioId);
+
+        if (ausenciasUsuario.length === 0) {
+          contenedorAccion.innerText = "Este usuario no tiene ausencias.";
+          return;
+        }
+
+        let selectAusencia = document.createElement("select");
+        selectAusencia.style.marginBottom = "10px";
+        let defaultOpt = document.createElement("option");
+        defaultOpt.value = "";
+        defaultOpt.innerText = "-- Selecciona una ausencia --";
+        selectAusencia.appendChild(defaultOpt);
+
+        ausenciasUsuario.forEach(a => {
+          let option = document.createElement("option");
+          option.value = a.absence_id;
+          option.innerText = `${a.absence_detail} (${a.absence_init_date} a ${a.absence_end_date})`;
+          selectAusencia.appendChild(option);
+        });
+
+        contenedorAccion.appendChild(selectAusencia);
+
+        let btnEliminar = document.createElement("button");
+        btnEliminar.innerText = "Eliminar Ausencia";
+        btnEliminar.style.marginLeft = "10px";
+        contenedorAccion.appendChild(btnEliminar);
+
+        btnEliminar.addEventListener("click", function () {
+          let ausenciaId = selectAusencia.value;
+          if (!ausenciaId) {
+            alert("Debes seleccionar una ausencia.");
+            return;
+          }
+
+          let ausencia = ausenciasUsuario.find(a => a.absence_id === ausenciaId);
+          let confirmar = confirm(`¿Eliminar la ausencia de ${ausencia.user_name} (${ausencia.absence_detail}) del ${ausencia.absence_init_date} al ${ausencia.absence_end_date}?`);
+          if (!confirmar) return;
+
+          btnEliminar.disabled = true;
+          btnEliminar.innerText = "Eliminando...";
+
+          google.script.run
+            .withSuccessHandler(function () {
+              alert("Ausencia eliminada correctamente.");
+              cargarEliminarAusencia();
+            })
+            .withFailureHandler(function (error) {
+              alert("Error al eliminar ausencia: " + error);
+              btnEliminar.disabled = false;
+              btnEliminar.innerText = "Eliminar Ausencia";
+            })
+            .deleteAbsence(ausenciaId);
+        });
+      });
+    })
+    .withFailureHandler(function (error) {
+      contenedor.removeChild(loading);
+      let mensaje = document.createElement("p");
+      mensaje.innerText = "Error al cargar ausencias: " + error;
+      mensaje.style.color = "red";
+      contenedor.appendChild(mensaje);
+    })
+    .getAllAbsences();
+
+  main.appendChild(contenedor);
+}
+
+// ==========================
+// Gestión de Vacaciones
+// ==========================
+function cargarGestionVacaciones() {
+  borrarMain();
+  cargarBarraHeader();
+  
+  let contenedor = document.createElement("div");
+  contenedor.classList.add("contenedor");
+  
+  let titulo = document.createElement("h2");
+  titulo.innerText = "Gestión de Vacaciones";
+  contenedor.appendChild(titulo);
+  
+  let mensaje = document.createElement("p");
+  mensaje.innerText = "Funcionalidad en desarrollo...";
+  contenedor.appendChild(mensaje);
+  
+  main.appendChild(contenedor);
+}
+
+// ==========================
+// Inicializar aplicación
+// ==========================
+iniciar();
+
+
+</script>
+</body>
+</html>
