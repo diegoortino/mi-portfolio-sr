@@ -49,8 +49,8 @@ function loadAboutMe() {
     
     // Hero Text
     const containerTextHero = createElement('div', 'containerTextHero');
-    const titleHero = createElement('h1', 'titleHero', 'Bienvenido a mi Portfolio');
-    const textHero = createElement('p', 'textHero', 'Soy Diego Ortino, un apasionado desarrollador web con experiencia en JavaScript, HTML y CSS. Me encanta crear aplicaciones web interactivas y funcionales.');
+    const titleHero = createElement('h1', 'titleHero', 'Bienvenidx a mi Portfolio');
+    const textHero = createElement('p', 'textHero', 'Soy Diego, desarrollador web con experiencia en Front End y Backend. Me encanta crear aplicaciones web interactivas y funcionales.');
 
     containerTextHero.appendChild(titleHero);
     containerTextHero.appendChild(textHero);
@@ -149,7 +149,83 @@ function loadSkills() {
     main.appendChild(containerSkills);
 }
 
-function loadContact() {}   
+function loadContact() {
+    clearMain();
+    const main = document.getElementById('main');
+
+    // Main container Contact
+    const containerContact = createElement('div', 'containerContact');
+
+    // Title Skills
+    const divTitleContact = createElement('div', 'divTitleContact');
+    const titleContact = createElement('h1', 'titleContact', 'Contacto');  
+    divTitleContact.appendChild(titleContact);
+    containerContact.appendChild(divTitleContact);
+
+// Contact List
+    const containerContactList = createElement('div', 'containerContactList');
+    let contactData = [
+        { 
+            title: 'Número de teléfono', 
+            text: '2494585392', 
+            srcIcon: 'images/whatsapp.png', 
+            linkTo: 'https://wa.me/5492494585392?text=%C2%A1Hola%20Diego!%20Vengo%20desde%20tu%20portfolio%2C%20quiero%20hacer%20una%20consulta' 
+        },
+        { 
+            title: 'Email', 
+            text: 'diegoortino@gmail.com', 
+            srcIcon: 'images/gmail.png', 
+            linkTo: 'mailto:diegoortino@gmail.com?subject=Consulta%20desde%20tu%20portfolio&body=Hola%20Diego%2C%20quisiera%20hacerte%20una%20consulta' 
+        },
+        { 
+            title: 'LinkedIn', 
+            text: 'Mi LinkedIn', 
+            srcIcon: 'images/linkedin.png', 
+            linkTo: 'https://www.linkedin.com/in/diego-ortino/' 
+        },
+        { 
+            title: 'GitHub', 
+            text: 'Mis proyectos', 
+            srcIcon: 'images/github.png', 
+            linkTo: 'https://github.com/diegoortino' 
+        }
+    ];
+
+    contactData.forEach(contact => {
+        const contactItem = createElement('div', 'contactItem');
+
+        const contactItemTitle = createElement('h3', 'contactItemTitle', contact.title);
+
+        // Icon with link
+        const contactItemDivIcon = createElement('div', 'contactItemDivIcon');
+        const contactLink = document.createElement('a');
+        contactLink.href = contact.linkTo;
+        contactLink.target = '_blank';
+        const contactItemImg = createElement('img', 'contactItemImg');
+        contactItemImg.src = contact.srcIcon;
+        contactLink.appendChild(contactItemImg);
+        contactItemDivIcon.appendChild(contactLink);
+
+        // Text with link
+        const contactItemText = document.createElement('a');
+        contactItemText.href = contact.linkTo;
+        contactItemText.target = '_blank';
+        contactItemText.className = 'contactItemText';
+        contactItemText.textContent = contact.text;
+
+        // Append
+        contactItem.appendChild(contactItemTitle);
+        contactItem.appendChild(contactItemDivIcon);
+        contactItem.appendChild(contactItemText);
+
+        containerContactList.appendChild(contactItem);
+    });
+
+    containerContact.appendChild(containerContactList);
+
+    // Append elements
+    main.appendChild(containerContact);
+}
 
 function loadFooter() {
 }

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    /* body */
+    body {
+      background-color: #F5F7F9;
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+      justify-content: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 5%;
+    }
+
+    /* header */
+    .header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .tituloHeader {
+      color: #468FFE;
+      font-family: lato, sans-serif;
+      cursor: pointer;
+      font-size: clamp(1.8rem, 3.8vw, 2.8rem);
+      position: relative;
+      z-index: 2; /* Asegurar que el texto esté por encima */
+      margin-bottom: 2rem;
+      display: inline-block; /* Importante para que el ancho se ajuste al contenido */
+    }
+
+    .tituloHeader::after {
+      content: "";
+      position: absolute;
+      left: -5px; /* Pequeño offset hacia la izquierda */
+      bottom: -5px; /* Posicionar por debajo del texto */
+      width: calc(100% + 10px); /* Un poco más ancho que el texto */
+      height: 12px;
+      background: linear-gradient(45deg, #7af08a 0%, #5de06d 100%);
+      border-radius: 20px 50px 20px 50px;
+      z-index: -1; /* Detrás del texto */
+      transform: perspective(200px) rotateX(8deg) skewX(-2deg);
+      box-shadow: 0 2px 8px rgba(122, 240, 138, 0.3);
+    }
+
+    /* navs header */
+    .containerNavsHeader {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .navsLinks {
+        width: 80%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        list-style: none;
+    }
+
+    .navLink {
+        font-family: lato, sans-serif;
+        font-size: clamp(1.2rem, 2vw, 1.5rem);
+        line-height: 1.5;
+        font-weight: 900;
+        color: #070707;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        padding: 8px 0;
+    }
+
+    .navLink::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #468FFE, #070707);
+        transition: width 0.3s ease;
+    }
+
+    .navLink:hover {
+        color: #468FFE;
+    }
+
+    .navLink:hover::after {
+        width: 100%;
+    }
+
+    .navLink:focus {
+        outline: 2px solid #468FFE;
+        outline-offset: 2px;
+        border-radius: 4px;
+    }
+    /* main */
+    .containerMain {
+      background-color: #468FFE;
+      padding: 2rem;
+      border-radius: 20px;
+      margin-bottom: 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: left;
+      box-shadow: 0 4px 20px rgba(70, 143, 254, 0.3);
+    }
+
+    .divTituloSeccion {
+      display: flex;
+      flex-direction: column;
+      align-items:  baseline;
+      justify-content: left;
+      margin-left: 5px;
+    }
+
+    .tituloSeccion {
+      font-family: lato, sans-serif;
+      font-size: clamp(1.67rem, 3.33vw, 2.33rem);
+      color: #FFFFFF;
+      position: relative;
+      z-index: 2; /* Asegurar que el texto esté por encima */
+      margin-right: 15px;
+      font-weight: 700;
+      display: inline-block; /* Importante para que el ancho se ajuste al contenido */
+    }
+
+    .tituloSeccion::after {
+      content: "";
+      position: absolute;
+      left: -5px; /* Pequeño offset hacia la izquierda */
+      bottom: -5px; /* Posicionar por debajo del texto */
+      width: calc(100% + 10px); /* Un poco más ancho que el texto */
+      height: 12px;
+      background: linear-gradient(45deg, #7af08a 0%, #5de06d 100%);
+      border-radius: 20px 50px 20px 50px;
+      z-index: -1; /* Detrás del texto */
+      transform: perspective(200px) rotateX(8deg) skewX(-2deg);
+      box-shadow: 0 2px 8px rgba(122, 240, 138, 0.4);
+    }
+
+    .subtituloSeccion{
+      font-family: lato, sans-serif;
+      font-size: clamp(1rem, 1.8vw, 1.5rem);
+      color: #070707;
+      margin-left: 10px;
+      font-weight: 700;
+    }
+
+    .containerHeaderSeccion {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .containerNavHeaderSeccion{
+      display: flex;
+      flex-direction: row;
+      justify-items: end;
+      width: 100%;
+    }
+
+    .btnNavHeaderSeccion{
+      background-color: #7af08a;
+      border: none;
+      color: #070707;
+      padding: 10px 20px;
+      margin-left: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: lato, sans-serif;
+      font-size: clamp(0.83rem, 1.5vw, 1rem);
+      transition: background-color 0.3s ease;
+    }
+  </style>
+  <title>Gestion Supers</title>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header">
+    <div class="containerTituloHeader">
+      <h1 class="tituloHeader">Proyecto Matcheador - Gestion supers</h1>
+    </div>
+      <nav class="containerNavsHeader">
+        <ul class="navsLinks">
+          <li class="navLink" id="btnUsuariosHeader">Usuarios</li>      
+          <li class="navLink" id="btnLicenciasHeader">Licencias</li>
+          <li class="navLink" id="btnVacacionesHeader">Vacaciones</li>
+        </ul>
+      </nav>    
+  </header>
+  <main id="main">
+    <div class="containerMain">
+
+      <section class="seccionUsuarios">
+        <div class="containerHeaderSeccion">
+          <div class="divTituloSeccion">
+            <h2 class="tituloSeccion">Usuarios</h2>
+            <p class="subtituloSeccion">Gestiona los usuarios del proyecto.</p>
+          </div>
+          <div class="containerNavHeaderSeccion">
+            <button class="btnNavHeaderSeccion">Ver Usuarios</button>
+            <button class="btnNavHeaderSeccion">Agregar Usuario</button>
+            <button class="btnNavHeaderSeccion">Modificar Usuario</button>
+            <button class="btnNavHeaderSeccion">Eliminar Usuario</button>
+          </div>
+        </div>
+        <div class="containerMainSeccion">
+
+          <section class="seccionVistaUsuarios" id="seccionVistaUsuarios">
+            <div class="containerHeaderInternoSeccion">
+              <h2 class="tituloInternoSeccion">Ver Usuarios</h2>
+              <label for="opciones" id="labelDesplegablePorEquipo">Filtra por equipo:</label>
+                <select id="desplegablePorEquipo" name="opciones">
+                  <!-- opciones traidas de la db -->
+                </select>
+              <label for="opciones" id="labelDesplegablePorUsuario">Filtra por usuario:</label>
+                <select id="desplegablePorEquipo" name="opciones">
+                  <!-- opciones traidas traido de la db -->
+                </select>
+            </div>
+            <div class="containerTarjetasUsuarios" id="containerTarjetasUsuarios">
+              <!-- Contenido dinámico de vista de usuario -->
+            </div>
+          </section>
+
+          <section class="seccionAgregarUsuario" id="seccionAgregarUsuario">
+            <!-- Contenido dinámico de agregar usuario -->
+          </section>
+
+          <section class="seccionModificarUsuario" id="seccionModificarUsuario">
+            <!-- Contenido dinámico de usuarios -->
+          </section>
+
+          <section class="seccionEliminarUsuario" id="seccionEliminarUsuario">
+            <!-- Contenido dinámico de usuarios -->
+          </section>
+
+        </div>
+      </section>
+      
+      <section class="seccionLicencias">
+        <div class="containerHeaderSeccion">
+          <div class="divTituloSeccion">
+            <h2 class="tituloSeccion">Licencias/Ausencias</h2>
+            <p class="subtituloSeccion">Gestiona las licencias y ausencias de los usuarios.</p>
+          </div>
+          <div class="containerNavHeaderSeccion">
+            <button class="btnNavHeaderSeccion">Ver Ausencias</button>
+            <button class="btnNavHeaderSeccion">Agregar Ausencia</button>
+            <button class="btnNavHeaderSeccion">Modificar Ausencia</button>
+            <button class="btnNavHeaderSeccion">Eliminar Ausencia</button>
+          </div>
+        </div>
+        <div class="containerMainSeccion">
+          <!-- Contenido dinámico de licencias/ausencias -->
+        </div>
+      </section>
+
+      <section class="seccionVacaciones">
+        <div class="containerHeaderSeccion">
+          <div class="divTituloSeccion">
+            <h2 class="tituloSeccion">Vacaciones</h2>
+            <p class="subtituloSeccion">Gestiona las vacaciones de los usuarios.</p>
+          </div>
+          <div class="containerNavHeaderSeccion">
+            <button class="btnNavHeaderSeccion">Ver Vacaciones</button>
+            <button class="btnNavHeaderSeccion">Agregar Vacación</button>
+            <button class="btnNavHeaderSeccion">Modificar Vacación</button>
+            <button class="btnNavHeaderSeccion">Eliminar Vacación</button>
+          </div>
+        </div>
+        <div class="containerMainSeccion">
+          <!-- Contenido dinámico de vacaciones -->
+        </div>
+      </section>
+      
+    </div>
+  </main>
+  <footer>
+  </footer>
+<script>
+// Captura de elementos del DOM
+const btnUsuariosHeader = document.getElementById('btnUsuariosHeader');
+const btnLicenciasHeader = document.getElementById('btnLicenciasHeader');
+const btnVacacionesHeader = document.getElementById('btnVacacionesHeader');
+const seccionUsuarios = document.querySelector('.seccionUsuarios');
+const seccionLicencias = document.querySelector('.seccionLicencias');
+const seccionVacaciones = document.querySelector('.seccionVacaciones');
+
+// Funciones utilitaria
+function mostrarLoading(mensaje = "Cargando...") {
+  let loading = document.createElement("div");
+  loading.classList.add("loading");
+  loading.innerText = mensaje;
+  return loading;
+}
+
+function createElement(tag, className = '', textContent = '') {
+    const elemento = document.createElement(tag);
+    if (className) elemento.className = className;
+    if (textContent) elemento.textContent = textContent;
+    return elemento;
+}
+
+// Función mejorada para mostrar sección activa
+function mostrarSeccionActiva(seccionActiva) {
+    // Array con todas las secciones
+    const secciones = [seccionUsuarios, seccionLicencias, seccionVacaciones];
+    
+    // Ocultar todas las secciones
+    secciones.forEach(seccion => {
+        seccion.style.display = 'none';
+    });
+    
+    // Mostrar solo la sección activa
+    seccionActiva.style.display = 'block';
+}
+
+// Event listeners con la nueva función
+btnUsuariosHeader.addEventListener('click', () => {
+    mostrarSeccionActiva(seccionUsuarios);
+});
+
+btnLicenciasHeader.addEventListener('click', () => {
+    mostrarSeccionActiva(seccionLicencias);
+});
+
+btnVacacionesHeader.addEventListener('click', () => {
+    mostrarSeccionActiva(seccionVacaciones);
+});
+
+// Inicializar mostrando solo la primera sección
+document.addEventListener('DOMContentLoaded', () => {
+    mostrarSeccionActiva(seccionUsuarios);
+});
+</script>
+</body>
+</html>
