@@ -178,6 +178,13 @@
       font-size: clamp(0.83rem, 1.5vw, 1rem);
       transition: background-color 0.3s ease;
     }
+
+    .formularioAgregarUsuairio, .formularioModificarUsuairio{
+      display: flex;
+      flex-direction: column;
+      max-width: 60%;
+      padding: 5px;
+    }
   </style>
   <title>Gestion Supers</title>
   <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700&display=swap" rel="stylesheet">
@@ -214,33 +221,174 @@
         </div>
         <div class="containerMainSeccion">
 
-          <section class="seccionVistaUsuarios" id="seccionVistaUsuarios">
+          <section class="seccionVista" id="seccionVistaUsuarios">
             <div class="containerHeaderInternoSeccion">
               <h2 class="tituloInternoSeccion">Ver Usuarios</h2>
               <label for="opciones" id="labelDesplegablePorEquipo">Filtra por equipo:</label>
                 <select id="desplegablePorEquipo" name="opciones">
+                  <option value="">-- Selecciona un equipo --</option>
                   <!-- opciones traidas de la db -->
                 </select>
               <label for="opciones" id="labelDesplegablePorUsuario">Filtra por usuario:</label>
-                <select id="desplegablePorEquipo" name="opciones">
+                <select id="desplegablePorUsuario" name="opciones">
+                  <option value="">-- Selecciona un usuario --</option>
                   <!-- opciones traidas traido de la db -->
                 </select>
             </div>
-            <div class="containerTarjetasUsuarios" id="containerTarjetasUsuarios">
+            <div class="containerTarjetasSeccionVista" id="containerTarjetasUsuarios">
               <!-- Contenido dinámico de vista de usuario -->
             </div>
           </section>
 
           <section class="seccionAgregarUsuario" id="seccionAgregarUsuario">
-            <!-- Contenido dinámico de agregar usuario -->
+            <div class="containerHeaderInternoSeccion">
+              <h2 class="tituloInternoSeccion">Agregar Usuario</h2>
+                <form action="/submit" method="POST" class="formularioAgregarUsuairio">
+                  <!-- Campo Nombre -->
+                  <label for="user_name">Nombre completo:</label>
+                  <input type="text" id="user_name" name="user_name" required>
+
+                  <!-- Campo User Meli -->
+                  <label for="user_meli">User Meli:</label>
+                  <input type="text" id="user_meli" name="user_meli" required>
+
+                  <!-- Campo Equipo -->
+                  <label for="user_team">Equipo:</label>
+                  <select id="user_team" name="user_team" required>
+                    <option value="">-- Selecciona un equipo --</option>
+                    <!-- opciones traidas de la db -->
+                  </select>
+
+                  <!-- Campo Supervisor -->
+                  <label for="user_leader">Supervisor:</label>
+                  <input type="text" id="user_leader" name="user_leader" required>
+
+                  <!-- Campo CUIL -->
+                  <label for="user_cuil">CUIL:</label>
+                  <input type="text" id="user_cuil" name="user_cuil">
+
+                  <!-- Campo Posicion -->
+                  <label for="user_position">Posicion:</label>
+                  <input type="text" id="user_position" name="user_position" required>
+
+                  <!-- Campo Email -->
+                  <label for="user_mail">Correo de MeLi:</label>
+                  <input type="email" id="user_mail" name="user_mail">
+
+                  <!-- Campo Serial Equipo -->
+                  <label for="user_serial">Correo de MeLi:</label>
+                  <input type="text" id="user_serial" name="user_serial">
+
+                  <!-- Campo Fecha Ingreso -->
+                  <label for="user_entry_date">Fecha de ingreso:</label>
+                  <input type="date" id="user_entry_date" name="user_entry_date" required>
+
+                  <!-- Campo Fecha Egreso -->
+                  <label for="user_retirement_date">Fecha de egreso:</label>
+                  <input type="date" id="user_retirement_date" name="user_retirement_date">
+
+                  <!-- Campo Fecha expiracion cuenta de MeLi -->
+                  <label for="user_expiration_date">Fecha de expiracion cuenta MeLi:</label>
+                  <input type="date" id="user_expiration_date" name="user_expiration_date">
+
+                  <!-- Botón Enviar -->
+                  <button type="submit">Enviar</button>
+                </form>
+            </div>
+            </form>
           </section>
 
           <section class="seccionModificarUsuario" id="seccionModificarUsuario">
-            <!-- Contenido dinámico de usuarios -->
+            <div class="containerHeaderInternoSeccion">
+              <h2 class="tituloInternoSeccion">Modificar Usuario</h2>
+              <label for="opciones" id="labelDesplegablePorEquipo">Filtra por equipo:</label>
+                <select id="desplegablePorEquipo" name="opciones">
+                  <option value="">-- Selecciona un equipo --</option>
+                  <!-- opciones traidas de la db -->
+                </select>
+              <label for="opciones" id="labelDesplegablePorUsuario">Filtra por usuario:</label>
+                <select id="desplegablePorUsuario" name="opciones">
+                  <option value="">-- Selecciona un usuario --</option>
+                  <!-- opciones traidas traido de la db -->
+                </select>
+            </div>
+            <div class="containerMainInternoSeccion">
+               <form action="/submit" method="PATH" class="formularioModificarUsuairio">
+                  <!-- Campo Nombre -->
+                  <label for="user_name">Nombre completo:</label>
+                  <input type="text" id="user_name" name="user_name" required>
+
+                  <!-- Campo User Meli -->
+                  <label for="user_meli">User Meli:</label>
+                  <input type="text" id="user_meli" name="user_meli" required>
+
+                  <!-- Campo Equipo -->
+                  <label for="user_team">Equipo:</label>
+                  <select id="user_team" name="user_team" required>
+                    <option value="">-- Selecciona un equipo --</option>
+                    <!-- opciones traidas de la db -->
+                  </select>
+
+                  <!-- Campo Supervisor -->
+                  <label for="user_leader">Supervisor:</label>
+                  <input type="text" id="user_leader" name="user_leader" required>
+
+                  <!-- Campo CUIL -->
+                  <label for="user_cuil">CUIL:</label>
+                  <input type="text" id="user_cuil" name="user_cuil">
+
+                  <!-- Campo Posicion -->
+                  <label for="user_position">Posicion:</label>
+                  <input type="text" id="user_position" name="user_position" required>
+
+                  <!-- Campo Email -->
+                  <label for="user_mail">Correo de MeLi:</label>
+                  <input type="email" id="user_mail" name="user_mail">
+
+                  <!-- Campo Serial Equipo -->
+                  <label for="user_serial">Correo de MeLi:</label>
+                  <input type="text" id="user_serial" name="user_serial">
+
+                  <!-- Campo Fecha Ingreso -->
+                  <label for="user_entry_date">Fecha de ingreso:</label>
+                  <input type="date" id="user_entry_date" name="user_entry_date" required>
+
+                  <!-- Campo Fecha Egreso -->
+                  <label for="user_retirement_date">Fecha de egreso:</label>
+                  <input type="date" id="user_retirement_date" name="user_retirement_date">
+
+                  <!-- Campo Fecha expiracion cuenta de MeLi -->
+                  <label for="user_expiration_date">Fecha de expiracion cuenta MeLi:</label>
+                  <input type="date" id="user_expiration_date" name="user_expiration_date">
+
+                  <!-- Botón Enviar -->
+                  <button type="submit">Enviar</button>
+                </form>
+            </div>
           </section>
 
           <section class="seccionEliminarUsuario" id="seccionEliminarUsuario">
-            <!-- Contenido dinámico de usuarios -->
+            <div class="containerHeaderInternoSeccion">
+              <h2 class="tituloInternoSeccion">Eliminar Usuario</h2>
+              <label for="opciones" id="labelDesplegablePorEquipo">Filtra por equipo:</label>
+                <select id="desplegablePorEquipo" name="opciones">
+                  <option value="">-- Selecciona un equipo --</option>
+                  <!-- opciones traidas de la db -->
+                </select>
+              <label for="opciones" id="labelDesplegablePorUsuario">Filtra por usuario:</label>
+                <select id="desplegablePorUsuario" name="opciones">
+                  <option value="">-- Selecciona un usuario --</option>
+                  <!-- opciones traidas traido de la db -->
+                </select>
+            </div>
+            <div class="containerMainInternoSeccion">
+              <div class="containerTarjetaUsuario">
+                <div class="nombreUsuario"><!-- Esta informacion, segun sea el usuario elegido, será traida de la db --></div>
+                <div class="equipoUsuario"><!-- Esta informacion, segun sea el usuario elegido, será traida de la db --></div>
+                <div class="supervisorUsuario"><!-- Esta informacion, segun sea el usuario elegido, será traida de la db --></div>
+              </div>
+              <button class="botonEliminarUsuario">Eliminar Usuario</button>
+            </div>
           </section>
 
         </div>
@@ -260,9 +408,63 @@
           </div>
         </div>
         <div class="containerMainSeccion">
-          <!-- Contenido dinámico de licencias/ausencias -->
-        </div>
-      </section>
+
+          <section class="seccionVista" id="seccionVistaAusencia">
+            <div class="containerHeaderInternoSeccion">
+              <h2 class="tituloInternoSeccion">Ver licencias/ausencias de los usuarios</h2>
+              <label for="opciones" id="labelDesplegablePorEquipo">Filtra por equipo:</label>
+                <select id="desplegablePorEquipo" name="opciones">
+                  <option value="">-- Selecciona un equipo --</option>
+                  <!-- opciones traidas de la db -->
+                </select>
+              <label for="opciones" id="labelDesplegablePorUsuario">Filtra por usuario:</label>
+                <select id="desplegablePorUsuario" name="opciones">
+                  <option value="">-- Selecciona un usuario --</option>
+                  <!-- opciones traidas traido de la db -->
+                </select>
+            </div>
+            <div class="containerTarjetasSeccionVista" id="containerTarjetasAusencias">
+              <!-- Contenido dinámico de vista de Licencias -->
+            </div>
+          </section>
+
+          <section class="seccionAgregar" id="seccionAgregarAusencia">
+            <div class="containerHeaderInternoSeccion">
+              <h2 class="tituloInternoSeccion">Agregar Ausencia</h2>
+              <label for="opciones" id="labelDesplegablePorEquipo">Filtra por equipo:</label>
+                <select id="desplegablePorEquipo" name="opciones">
+                  <option value="">-- Selecciona un equipo --</option>
+                  <!-- opciones traidas de la db -->
+                </select>
+              <label for="opciones" id="labelDesplegablePorUsuario">Filtra por usuario:</label>
+                <select id="desplegablePorUsuario" name="opciones">
+                  <option value="">-- Selecciona un usuario --</option>
+                  <!-- opciones traidas traido de la db -->
+                </select>
+            </div>
+                <form action="/submit" method="POST" class="formularioAgregarAusencia">
+                  <!-- Campo Motivo Ausencia -->
+                  <label for="absence_detail">Motivo de ausencia:</label>
+                  <select id="absence_detail" name="absence_detail" required>
+                    <option value="">-- Selecciona una opción --</option>
+                    <option value="consulta">Dia de estudio</option>
+                    <option value="soporte">Dia no remunerativo</option>
+                    <option value="presupuesto">Se está duchando</option>
+                    <option value="otro">Otro</option>
+                  </select>
+
+                  <!-- Campo Fecha Inicio Ausencia -->
+                  <label for="absence_init_date">Fecha de inicio:</label>
+                  <input type="date" id="absence_init_date" name="absence_init_date" required>
+
+                  <!-- Campo Fecha Fin Ausencia -->
+                  <label for="absence_end_date">Fecha de finalizacion:</label>
+                  <input type="date" id="absence_end_date" name="absence_end_date" required>
+
+                  <!-- Botón Enviar -->
+                  <button type="submit">Enviar</button>
+                </form>
+          </section>
 
       <section class="seccionVacaciones">
         <div class="containerHeaderSeccion">
@@ -278,7 +480,24 @@
           </div>
         </div>
         <div class="containerMainSeccion">
-          <!-- Contenido dinámico de vacaciones -->
+          <section class="seccionVista" id="seccionVistaVacaciones">
+            <div class="containerHeaderInternoSeccion">
+              <h2 class="tituloInternoSeccion">Ver vacaciones de los usuarios</h2>
+              <label for="opciones" id="labelDesplegablePorEquipo">Filtra por equipo:</label>
+                <select id="desplegablePorEquipo" name="opciones">
+                  <option value="">-- Selecciona un equipo --</option>
+                  <!-- opciones traidas de la db -->
+                </select>
+              <label for="opciones" id="labelDesplegablePorUsuario">Filtra por usuario:</label>
+                <select id="desplegablePorUsuario" name="opciones">
+                  <option value="">-- Selecciona un usuario --</option>
+                  <!-- opciones traidas traido de la db -->
+                </select>
+            </div>
+            <div class="containerTarjetasSeccionVista" id="containerTarjetasVacaiones">
+              <!-- Contenido dinámico de vista de vacaciones -->
+            </div>
+          </section>
         </div>
       </section>
       
