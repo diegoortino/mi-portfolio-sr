@@ -3,188 +3,545 @@
 <head>
   <base target="_top">
   <style>
-    /* body */
-    body {
-      background-color: #F5F7F9;
-      display: flex;
-      flex-direction: column;
-      align-content: center;
-      justify-content: center;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 5%;
-    }
+    /* Reset y configuración base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-    /* header */
-    .header {
-      display: flex;
+  /* Body */
+  body {
+    background-color: #F5F7F9;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5%;
+    font-family: 'Lato', sans-serif;
+    line-height: 1.6;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 1rem;
+  }
+
+  .containerTituloHeader {
+    width: 100%;
+    text-align: center;
+  }
+
+  .tituloHeader {
+    color: #468FFE;
+    font-family: 'Lato', sans-serif;
+    cursor: pointer;
+    font-size: clamp(1.8rem, 3.8vw, 2.8rem);
+    position: relative;
+    z-index: 2;
+    margin-bottom: 2rem;
+    display: inline-block;
+    font-weight: 700;
+  }
+
+  .tituloHeader::after {
+    content: "";
+    position: absolute;
+    left: -5px;
+    bottom: -5px;
+    width: calc(100% + 10px);
+    height: 12px;
+    background: linear-gradient(45deg, #7af08a 0%, #5de06d 100%);
+    border-radius: 20px 50px 20px 50px;
+    z-index: -1;
+    transform: perspective(200px) rotateX(8deg) skewX(-2deg);
+    box-shadow: 0 2px 8px rgba(122, 240, 138, 0.3);
+  }
+
+  /* Navigation Header */
+  .containerNavsHeader {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .navsLinks {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+  }
+
+  .navLink {
+    font-family: 'Lato', sans-serif;
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+    line-height: 1.5;
+    font-weight: 900;
+    color: #070707;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 8px 0;
+  }
+
+  .navLink::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #468FFE, #070707);
+    transition: width 0.3s ease;
+  }
+
+  .navLink:hover {
+    color: #468FFE;
+  }
+
+  .navLink:hover::after {
+    width: 100%;
+  }
+
+  .navLink:focus {
+    outline: 2px solid #468FFE;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Main Container */
+  .containerMain {
+    background-color: #468FFE;
+    padding: 2rem;
+    border-radius: 20px;
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    box-shadow: 0 4px 20px rgba(70, 143, 254, 0.3);
+  }
+
+  /* Secciones principales - ocultas por defecto */
+  .seccionUsuarios,
+  .seccionLicencias,
+  .seccionVacaciones {
+    display: none;
+    width: 100%;
+  }
+
+  /* Header de secciones */
+  .containerHeaderSeccion {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+  }
+
+  .divTituloSeccion {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    justify-content: left;
+    margin-left: 5px;
+    margin-bottom: 1rem;
+  }
+
+  .tituloSeccion {
+    font-family: 'Lato', sans-serif;
+    font-size: clamp(1.67rem, 3.33vw, 2.33rem);
+    color: #FFFFFF;
+    position: relative;
+    z-index: 2;
+    margin-right: 15px;
+    font-weight: 700;
+    display: inline-block;
+  }
+
+  .tituloSeccion::after {
+    content: "";
+    position: absolute;
+    left: -5px;
+    bottom: -5px;
+    width: calc(100% + 10px);
+    height: 12px;
+    background: linear-gradient(45deg, #7af08a 0%, #5de06d 100%);
+    border-radius: 20px 50px 20px 50px;
+    z-index: -1;
+    transform: perspective(200px) rotateX(8deg) skewX(-2deg);
+    box-shadow: 0 2px 8px rgba(122, 240, 138, 0.4);
+  }
+
+  .subtituloSeccion {
+    font-family: 'Lato', sans-serif;
+    font-size: clamp(1rem, 1.8vw, 1.5rem);
+    color: #070707;
+    margin-left: 10px;
+    font-weight: 700;
+  }
+
+  /* Navegación de secciones */
+  .containerNavHeaderSeccion {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    width: 100%;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .btnNavHeaderSeccion {
+    background-color: #7af08a;
+    border: none;
+    color: #070707;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Lato', sans-serif;
+    font-size: clamp(0.83rem, 1.5vw, 1rem);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .btnNavHeaderSeccion:hover {
+    background-color: #5de06d;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .btnNavHeaderSeccion:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Container principal de secciones */
+  .containerMainSeccion {
+    width: 100%;
+  }
+
+  /* Subsecciones - ocultas por defecto */
+  .seccionVista,
+  .seccionAgregar,
+  .seccionModificar,
+  .seccionEliminar {
+    display: none;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Header interno de subsecciones */
+  .containerHeaderInternoSeccion {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #F5F7F9;
+  }
+
+  .tituloInternoSeccion {
+    font-family: 'Lato', sans-serif;
+    font-size: clamp(1.2rem, 2.2vw, 1.8rem);
+    color: #070707;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+
+  /* Container principal interno */
+  .containerMainInternoSeccion {
+    width: 100%;
+  }
+
+  /* Labels y selects */
+  label {
+    font-family: 'Lato', sans-serif;
+    font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+    color: #070707;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+    display: block;
+  }
+
+  label:first-of-type {
+    margin-top: 0;
+  }
+
+  select,
+  input[type="text"],
+  input[type="email"],
+  input[type="date"],
+  input[type="number"],
+  textarea {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px 12px;
+    border: 2px solid #E1E8ED;
+    border-radius: 8px;
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    background-color: #FFFFFF;
+    transition: all 0.3s ease;
+    margin-bottom: 0.5rem;
+  }
+
+  select:focus,
+  input:focus,
+  textarea:focus {
+    outline: none;
+    border-color: #468FFE;
+    box-shadow: 0 0 0 3px rgba(70, 143, 254, 0.1);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  /* Formularios */
+  .formularioAgregarUsuario,
+  .formularioModificarUsuario,
+  .formularioAgregarAusencia,
+  .formularioModificarAusencia,
+  .formularioAgregarVacacion,
+  .formularioModificarVacacion {
+    display: flex;
+    flex-direction: column;
+    max-width: 60%;
+    padding: 5px;
+  }
+
+  /* Botones de formularios */
+  button[type="submit"] {
+    background-color: #468FFE;
+    color: #FFFFFF;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    transition: all 0.3s ease;
+    max-width: 200px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  button[type="submit"]:hover {
+    background-color: #3a7ae0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  button[type="submit"]:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Containers de tarjetas */
+  .containerTarjetasSeccionVista {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .containerTarjetaUsuario,
+  .containerTarjetaAusencia,
+  .containerTarjetaVacacion {
+    background-color: #F8FAFC;
+    border: 2px solid #E1E8ED;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .nombreUsuario,
+  .equipoUsuario,
+  .supervisorUsuario,
+  .motivoAusencia,
+  .fechaInicioAusencia,
+  .fechaFinAusencia,
+  .usuarioAusencia,
+  .fechaInicioVacacion,
+  .fechaFinVacacion,
+  .diasVacacion,
+  .usuarioVacacion,
+  .observacionesVacacion {
+    font-family: 'Lato', sans-serif;
+    color: #070707;
+    margin-bottom: 0.8rem;
+    padding: 8px 12px;
+    background-color: #FFFFFF;
+    border-radius: 6px;
+    font-weight: 500;
+  }
+
+  /* Botones de eliminar */
+  .botonEliminarUsuario,
+  .botonEliminarAusencia,
+  .botonEliminarVacacion {
+    background-color: #E53E3E;
+    color: #FFFFFF;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .botonEliminarUsuario:hover,
+  .botonEliminarAusencia:hover,
+  .botonEliminarVacacion:hover {
+    background-color: #C53030;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .botonEliminarUsuario:active,
+  .botonEliminarAusencia:active,
+  .botonEliminarVacacion:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Loading */
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    font-family: 'Lato', sans-serif;
+    font-size: 1.1rem;
+    color: #468FFE;
+    background-color: #F8FAFC;
+    border-radius: 8px;
+    margin: 1rem 0;
+  }
+
+  /* Footer */
+  footer {
+    margin-top: 2rem;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    body {
+      padding: 0 3%;
+    }
+    
+    .containerMain {
+      padding: 1rem;
+    }
+    
+    .navsLinks {
+      width: 100%;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .navLink {
+      text-align: center;
+      padding: 10px;
+    }
+    
+    .containerNavHeaderSeccion {
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .btnNavHeaderSeccion {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+    }
+    
+    .formularioAgregarUsuario,
+    .formularioModificarUsuario,
+    .formularioAgregarAusencia,
+    .formularioModificarAusencia,
+    .formularioAgregarVacacion,
+    .formularioModificarVacacion {
+      max-width: 100%;
+    }
+    
+    .containerTarjetasSeccionVista {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .containerNavHeaderSeccion {
       flex-direction: column;
       align-items: center;
-      padding: 10px;
-      margin-bottom: 1rem;
     }
-
-    .tituloHeader {
-      color: #468FFE;
-      font-family: lato, sans-serif;
-      cursor: pointer;
-      font-size: clamp(1.8rem, 3.8vw, 2.8rem);
-      position: relative;
-      z-index: 2; /* Asegurar que el texto esté por encima */
-      margin-bottom: 2rem;
-      display: inline-block; /* Importante para que el ancho se ajuste al contenido */
-    }
-
-    .tituloHeader::after {
-      content: "";
-      position: absolute;
-      left: -5px; /* Pequeño offset hacia la izquierda */
-      bottom: -5px; /* Posicionar por debajo del texto */
-      width: calc(100% + 10px); /* Un poco más ancho que el texto */
-      height: 12px;
-      background: linear-gradient(45deg, #7af08a 0%, #5de06d 100%);
-      border-radius: 20px 50px 20px 50px;
-      z-index: -1; /* Detrás del texto */
-      transform: perspective(200px) rotateX(8deg) skewX(-2deg);
-      box-shadow: 0 2px 8px rgba(122, 240, 138, 0.3);
-    }
-
-    /* navs header */
-    .containerNavsHeader {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-    }
-
-    .navsLinks {
-        width: 80%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        list-style: none;
-    }
-
-    .navLink {
-        font-family: lato, sans-serif;
-        font-size: clamp(1.2rem, 2vw, 1.5rem);
-        line-height: 1.5;
-        font-weight: 900;
-        color: #070707;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        position: relative;
-        padding: 8px 0;
-    }
-
-    .navLink::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background: linear-gradient(90deg, #468FFE, #070707);
-        transition: width 0.3s ease;
-    }
-
-    .navLink:hover {
-        color: #468FFE;
-    }
-
-    .navLink:hover::after {
-        width: 100%;
-    }
-
-    .navLink:focus {
-        outline: 2px solid #468FFE;
-        outline-offset: 2px;
-        border-radius: 4px;
-    }
-    /* main */
-    .containerMain {
-      background-color: #468FFE;
-      padding: 2rem;
-      border-radius: 20px;
-      margin-bottom: 3rem;
-      display: flex;
-      flex-direction: column;
-      align-items: left;
-      box-shadow: 0 4px 20px rgba(70, 143, 254, 0.3);
-    }
-
-    .divTituloSeccion {
-      display: flex;
-      flex-direction: column;
-      align-items:  baseline;
-      justify-content: left;
-      margin-left: 5px;
-    }
-
-    .tituloSeccion {
-      font-family: lato, sans-serif;
-      font-size: clamp(1.67rem, 3.33vw, 2.33rem);
-      color: #FFFFFF;
-      position: relative;
-      z-index: 2; /* Asegurar que el texto esté por encima */
-      margin-right: 15px;
-      font-weight: 700;
-      display: inline-block; /* Importante para que el ancho se ajuste al contenido */
-    }
-
-    .tituloSeccion::after {
-      content: "";
-      position: absolute;
-      left: -5px; /* Pequeño offset hacia la izquierda */
-      bottom: -5px; /* Posicionar por debajo del texto */
-      width: calc(100% + 10px); /* Un poco más ancho que el texto */
-      height: 12px;
-      background: linear-gradient(45deg, #7af08a 0%, #5de06d 100%);
-      border-radius: 20px 50px 20px 50px;
-      z-index: -1; /* Detrás del texto */
-      transform: perspective(200px) rotateX(8deg) skewX(-2deg);
-      box-shadow: 0 2px 8px rgba(122, 240, 138, 0.4);
-    }
-
-    .subtituloSeccion{
-      font-family: lato, sans-serif;
-      font-size: clamp(1rem, 1.8vw, 1.5rem);
-      color: #070707;
-      margin-left: 10px;
-      font-weight: 700;
-    }
-
-    .containerHeaderSeccion {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .containerNavHeaderSeccion{
-      display: flex;
-      flex-direction: row;
-      justify-items: end;
+    
+    .btnNavHeaderSeccion {
       width: 100%;
+      max-width: 250px;
     }
+    
+    select,
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    input[type="number"],
+    textarea {
+      max-width: 100%;
+    }
+  }
 
-    .btnNavHeaderSeccion{
-      background-color: #7af08a;
-      border: none;
-      color: #070707;
-      padding: 10px 20px;
-      margin-left: 5px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-family: lato, sans-serif;
-      font-size: clamp(0.83rem, 1.5vw, 1rem);
-      transition: background-color 0.3s ease;
-    }
+  /* Estados activos para navegación */
+  .navLink.active {
+    color: #468FFE;
+  }
 
-    .formularioAgregarUsuairio, .formularioModificarUsuairio{
-      display: flex;
-      flex-direction: column;
-      max-width: 60%;
-      padding: 5px;
-    }
+  .navLink.active::after {
+    width: 100%;
+  }
+
+  .btnNavHeaderSeccion.active {
+    background-color: #5de06d;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Animaciones suaves */
+  .seccionUsuarios,
+  .seccionLicencias,
+  .seccionVacaciones {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .seccionUsuarios[style*="block"],
+  .seccionLicencias[style*="block"],
+  .seccionVacaciones[style*="block"] {
+    opacity: 1;
+  }
+
+  /* Efectos de hover mejorados */
+  .containerTarjetaUsuario:hover,
+  .containerTarjetaAusencia:hover,
+  .containerTarjetaVacacion:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
   </style>
   <title>Gestion Supers</title>
   <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700&display=swap" rel="stylesheet">
@@ -193,19 +550,21 @@
 <body>
   <header class="header">
     <div class="containerTituloHeader">
-      <h1 class="tituloHeader">Proyecto Matcheador - Gestion supers</h1>
+      <h1 class="tituloHeader">Proyecto Matcheador - Gestión Supers</h1>
     </div>
-      <nav class="containerNavsHeader">
-        <ul class="navsLinks">
-          <li class="navLink" id="btnUsuariosHeader">Usuarios</li>      
-          <li class="navLink" id="btnLicenciasHeader">Licencias</li>
-          <li class="navLink" id="btnVacacionesHeader">Vacaciones</li>
-        </ul>
-      </nav>    
+    <nav class="containerNavsHeader">
+      <ul class="navsLinks">
+        <li class="navLink" id="btnUsuariosHeader">Usuarios</li>      
+        <li class="navLink" id="btnLicenciasHeader">Licencias</li>
+        <li class="navLink" id="btnVacacionesHeader">Vacaciones</li>
+      </ul>
+    </nav>    
   </header>
+
   <main id="main">
     <div class="containerMain">
 
+      <!-- SECCIÓN USUARIOS -->
       <section class="seccionUsuarios">
         <div class="containerHeaderSeccion">
           <div class="divTituloSeccion">
@@ -213,179 +572,162 @@
             <p class="subtituloSeccion">Gestiona los usuarios del proyecto.</p>
           </div>
           <div class="containerNavHeaderSeccion">
-            <button class="btnNavHeaderSeccion">Ver Usuarios</button>
-            <button class="btnNavHeaderSeccion">Agregar Usuario</button>
-            <button class="btnNavHeaderSeccion">Modificar Usuario</button>
-            <button class="btnNavHeaderSeccion">Eliminar Usuario</button>
+            <button class="btnNavHeaderSeccion" id="btnVerUsuarios">Ver Usuarios</button>
+            <button class="btnNavHeaderSeccion" id="btnAgregarUsuario">Agregar Usuario</button>
+            <button class="btnNavHeaderSeccion" id="btnModificarUsuario">Modificar Usuario</button>
+            <button class="btnNavHeaderSeccion" id="btnEliminarUsuario">Eliminar Usuario</button>
           </div>
         </div>
         <div class="containerMainSeccion">
 
+          <!-- Ver Usuarios -->
           <section class="seccionVista" id="seccionVistaUsuarios">
             <div class="containerHeaderInternoSeccion">
               <h2 class="tituloInternoSeccion">Ver Usuarios</h2>
-              <label for="opciones" id="labelDesplegablePorEquipo">Filtra por equipo:</label>
-                <select id="desplegablePorEquipo" name="opciones">
-                  <option value="">-- Selecciona un equipo --</option>
-                  <!-- opciones traidas de la db -->
-                </select>
-              <label for="opciones" id="labelDesplegablePorUsuario">Filtra por usuario:</label>
-                <select id="desplegablePorUsuario" name="opciones">
-                  <option value="">-- Selecciona un usuario --</option>
-                  <!-- opciones traidas traido de la db -->
-                </select>
-            </div>
-            <div class="containerTarjetasSeccionVista" id="containerTarjetasUsuarios">
-              <!-- Contenido dinámico de vista de usuario -->
-            </div>
-          </section>
-
-          <section class="seccionAgregarUsuario" id="seccionAgregarUsuario">
-            <div class="containerHeaderInternoSeccion">
-              <h2 class="tituloInternoSeccion">Agregar Usuario</h2>
-                <form action="/submit" method="POST" class="formularioAgregarUsuairio">
-                  <!-- Campo Nombre -->
-                  <label for="user_name">Nombre completo:</label>
-                  <input type="text" id="user_name" name="user_name" required>
-
-                  <!-- Campo User Meli -->
-                  <label for="user_meli">User Meli:</label>
-                  <input type="text" id="user_meli" name="user_meli" required>
-
-                  <!-- Campo Equipo -->
-                  <label for="user_team">Equipo:</label>
-                  <select id="user_team" name="user_team" required>
-                    <option value="">-- Selecciona un equipo --</option>
-                    <!-- opciones traidas de la db -->
-                  </select>
-
-                  <!-- Campo Supervisor -->
-                  <label for="user_leader">Supervisor:</label>
-                  <input type="text" id="user_leader" name="user_leader" required>
-
-                  <!-- Campo CUIL -->
-                  <label for="user_cuil">CUIL:</label>
-                  <input type="text" id="user_cuil" name="user_cuil">
-
-                  <!-- Campo Posicion -->
-                  <label for="user_position">Posicion:</label>
-                  <input type="text" id="user_position" name="user_position" required>
-
-                  <!-- Campo Email -->
-                  <label for="user_mail">Correo de MeLi:</label>
-                  <input type="email" id="user_mail" name="user_mail">
-
-                  <!-- Campo Serial Equipo -->
-                  <label for="user_serial">Correo de MeLi:</label>
-                  <input type="text" id="user_serial" name="user_serial">
-
-                  <!-- Campo Fecha Ingreso -->
-                  <label for="user_entry_date">Fecha de ingreso:</label>
-                  <input type="date" id="user_entry_date" name="user_entry_date" required>
-
-                  <!-- Campo Fecha Egreso -->
-                  <label for="user_retirement_date">Fecha de egreso:</label>
-                  <input type="date" id="user_retirement_date" name="user_retirement_date">
-
-                  <!-- Campo Fecha expiracion cuenta de MeLi -->
-                  <label for="user_expiration_date">Fecha de expiracion cuenta MeLi:</label>
-                  <input type="date" id="user_expiration_date" name="user_expiration_date">
-
-                  <!-- Botón Enviar -->
-                  <button type="submit">Enviar</button>
-                </form>
-            </div>
-            </form>
-          </section>
-
-          <section class="seccionModificarUsuario" id="seccionModificarUsuario">
-            <div class="containerHeaderInternoSeccion">
-              <h2 class="tituloInternoSeccion">Modificar Usuario</h2>
-              <label for="opciones" id="labelDesplegablePorEquipo">Filtra por equipo:</label>
-                <select id="desplegablePorEquipo" name="opciones">
-                  <option value="">-- Selecciona un equipo --</option>
-                  <!-- opciones traidas de la db -->
-                </select>
-              <label for="opciones" id="labelDesplegablePorUsuario">Filtra por usuario:</label>
-                <select id="desplegablePorUsuario" name="opciones">
-                  <option value="">-- Selecciona un usuario --</option>
-                  <!-- opciones traidas traido de la db -->
-                </select>
+              <label for="desplegablePorEquipoUsuarios" id="labelDesplegablePorEquipoUsuarios">Filtra por equipo:</label>
+              <select id="desplegablePorEquipoUsuarios" name="desplegablePorEquipoUsuarios">
+                <option value="">-- Selecciona un equipo --</option>
+                <!-- opciones traídas de la db -->
+              </select>
+              <label for="desplegablePorUsuarioUsuarios" id="labelDesplegablePorUsuarioUsuarios">Filtra por usuario:</label>
+              <select id="desplegablePorUsuarioUsuarios" name="desplegablePorUsuarioUsuarios">
+                <option value="">-- Selecciona un usuario --</option>
+                <!-- opciones traídas de la db -->
+              </select>
             </div>
             <div class="containerMainInternoSeccion">
-               <form action="/submit" method="PATH" class="formularioModificarUsuairio">
-                  <!-- Campo Nombre -->
-                  <label for="user_name">Nombre completo:</label>
-                  <input type="text" id="user_name" name="user_name" required>
-
-                  <!-- Campo User Meli -->
-                  <label for="user_meli">User Meli:</label>
-                  <input type="text" id="user_meli" name="user_meli" required>
-
-                  <!-- Campo Equipo -->
-                  <label for="user_team">Equipo:</label>
-                  <select id="user_team" name="user_team" required>
-                    <option value="">-- Selecciona un equipo --</option>
-                    <!-- opciones traidas de la db -->
-                  </select>
-
-                  <!-- Campo Supervisor -->
-                  <label for="user_leader">Supervisor:</label>
-                  <input type="text" id="user_leader" name="user_leader" required>
-
-                  <!-- Campo CUIL -->
-                  <label for="user_cuil">CUIL:</label>
-                  <input type="text" id="user_cuil" name="user_cuil">
-
-                  <!-- Campo Posicion -->
-                  <label for="user_position">Posicion:</label>
-                  <input type="text" id="user_position" name="user_position" required>
-
-                  <!-- Campo Email -->
-                  <label for="user_mail">Correo de MeLi:</label>
-                  <input type="email" id="user_mail" name="user_mail">
-
-                  <!-- Campo Serial Equipo -->
-                  <label for="user_serial">Correo de MeLi:</label>
-                  <input type="text" id="user_serial" name="user_serial">
-
-                  <!-- Campo Fecha Ingreso -->
-                  <label for="user_entry_date">Fecha de ingreso:</label>
-                  <input type="date" id="user_entry_date" name="user_entry_date" required>
-
-                  <!-- Campo Fecha Egreso -->
-                  <label for="user_retirement_date">Fecha de egreso:</label>
-                  <input type="date" id="user_retirement_date" name="user_retirement_date">
-
-                  <!-- Campo Fecha expiracion cuenta de MeLi -->
-                  <label for="user_expiration_date">Fecha de expiracion cuenta MeLi:</label>
-                  <input type="date" id="user_expiration_date" name="user_expiration_date">
-
-                  <!-- Botón Enviar -->
-                  <button type="submit">Enviar</button>
-                </form>
+              <div class="containerTarjetasSeccionVista" id="containerTarjetasUsuarios">
+                <!-- Contenido dinámico de vista de usuario -->
+              </div>
             </div>
           </section>
 
-          <section class="seccionEliminarUsuario" id="seccionEliminarUsuario">
+          <!-- Agregar Usuario -->
+          <section class="seccionAgregar" id="seccionAgregarUsuario">
+            <div class="containerHeaderInternoSeccion">
+              <h2 class="tituloInternoSeccion">Agregar Usuario</h2>
+            </div>
+            <div class="containerMainInternoSeccion">
+              <form action="/submit" method="POST" class="formularioAgregarUsuario">
+                <label for="user_name">Nombre completo:</label>
+                <input type="text" id="user_name" name="user_name" required>
+
+                <label for="user_meli">User Meli:</label>
+                <input type="text" id="user_meli" name="user_meli" required>
+
+                <label for="user_team">Equipo:</label>
+                <select id="user_team" name="user_team" required>
+                  <option value="">-- Selecciona un equipo --</option>
+                  <!-- opciones traídas de la db -->
+                </select>
+
+                <label for="user_leader">Supervisor:</label>
+                <input type="text" id="user_leader" name="user_leader" required>
+
+                <label for="user_cuil">CUIL:</label>
+                <input type="text" id="user_cuil" name="user_cuil">
+
+                <label for="user_position">Posición:</label>
+                <input type="text" id="user_position" name="user_position" required>
+
+                <label for="user_mail">Correo de MeLi:</label>
+                <input type="email" id="user_mail" name="user_mail">
+
+                <label for="user_serial">Serial Equipo:</label>
+                <input type="text" id="user_serial" name="user_serial">
+
+                <label for="user_entry_date">Fecha de ingreso:</label>
+                <input type="date" id="user_entry_date" name="user_entry_date" required>
+
+                <label for="user_retirement_date">Fecha de egreso:</label>
+                <input type="date" id="user_retirement_date" name="user_retirement_date">
+
+                <label for="user_expiration_date">Fecha de expiración cuenta MeLi:</label>
+                <input type="date" id="user_expiration_date" name="user_expiration_date">
+
+                <button type="submit">Enviar</button>
+              </form>
+            </div>
+          </section>
+
+          <!-- Modificar Usuario -->
+          <section class="seccionModificar" id="seccionModificarUsuario">
+            <div class="containerHeaderInternoSeccion">
+              <h2 class="tituloInternoSeccion">Modificar Usuario</h2>
+              <label for="desplegablePorEquipoModificarUsuario" id="labelDesplegablePorEquipoModificarUsuario">Filtra por equipo:</label>
+              <select id="desplegablePorEquipoModificarUsuario" name="desplegablePorEquipoModificarUsuario">
+                <option value="">-- Selecciona un equipo --</option>
+                <!-- opciones traídas de la db -->
+              </select>
+              <label for="desplegablePorUsuarioModificarUsuario" id="labelDesplegablePorUsuarioModificarUsuario">Filtra por usuario:</label>
+              <select id="desplegablePorUsuarioModificarUsuario" name="desplegablePorUsuarioModificarUsuario">
+                <option value="">-- Selecciona un usuario --</option>
+                <!-- opciones traídas de la db -->
+              </select>
+            </div>
+            <div class="containerMainInternoSeccion">
+              <form action="/submit" method="PUT" class="formularioModificarUsuario">
+                <label for="modify_user_name">Nombre completo:</label>
+                <input type="text" id="modify_user_name" name="modify_user_name" required>
+
+                <label for="modify_user_meli">User Meli:</label>
+                <input type="text" id="modify_user_meli" name="modify_user_meli" required>
+
+                <label for="modify_user_team">Equipo:</label>
+                <select id="modify_user_team" name="modify_user_team" required>
+                  <option value="">-- Selecciona un equipo --</option>
+                  <!-- opciones traídas de la db -->
+                </select>
+
+                <label for="modify_user_leader">Supervisor:</label>
+                <input type="text" id="modify_user_leader" name="modify_user_leader" required>
+
+                <label for="modify_user_cuil">CUIL:</label>
+                <input type="text" id="modify_user_cuil" name="modify_user_cuil">
+
+                <label for="modify_user_position">Posición:</label>
+                <input type="text" id="modify_user_position" name="modify_user_position" required>
+
+                <label for="modify_user_mail">Correo de MeLi:</label>
+                <input type="email" id="modify_user_mail" name="modify_user_mail">
+
+                <label for="modify_user_serial">Serial Equipo:</label>
+                <input type="text" id="modify_user_serial" name="modify_user_serial">
+
+                <label for="modify_user_entry_date">Fecha de ingreso:</label>
+                <input type="date" id="modify_user_entry_date" name="modify_user_entry_date" required>
+
+                <label for="modify_user_retirement_date">Fecha de egreso:</label>
+                <input type="date" id="modify_user_retirement_date" name="modify_user_retirement_date">
+
+                <label for="modify_user_expiration_date">Fecha de expiración cuenta MeLi:</label>
+                <input type="date" id="modify_user_expiration_date" name="modify_user_expiration_date">
+
+                <button type="submit">Actualizar</button>
+              </form>
+            </div>
+          </section>
+
+          <!-- Eliminar Usuario -->
+          <section class="seccionEliminar" id="seccionEliminarUsuario">
             <div class="containerHeaderInternoSeccion">
               <h2 class="tituloInternoSeccion">Eliminar Usuario</h2>
-              <label for="opciones" id="labelDesplegablePorEquipo">Filtra por equipo:</label>
-                <select id="desplegablePorEquipo" name="opciones">
-                  <option value="">-- Selecciona un equipo --</option>
-                  <!-- opciones traidas de la db -->
-                </select>
-              <label for="opciones" id="labelDesplegablePorUsuario">Filtra por usuario:</label>
-                <select id="desplegablePorUsuario" name="opciones">
-                  <option value="">-- Selecciona un usuario --</option>
-                  <!-- opciones traidas traido de la db -->
-                </select>
+              <label for="desplegablePorEquipoEliminarUsuario" id="labelDesplegablePorEquipoEliminarUsuario">Filtra por equipo:</label>
+              <select id="desplegablePorEquipoEliminarUsuario" name="desplegablePorEquipoEliminarUsuario">
+                <option value="">-- Selecciona un equipo --</option>
+                <!-- opciones traídas de la db -->
+              </select>
+              <label for="desplegablePorUsuarioEliminarUsuario" id="labelDesplegablePorUsuarioEliminarUsuario">Filtra por usuario:</label>
+              <select id="desplegablePorUsuarioEliminarUsuario" name="desplegablePorUsuarioEliminarUsuario">
+                <option value="">-- Selecciona un usuario --</option>
+                <!-- opciones traídas de la db -->
+              </select>
             </div>
             <div class="containerMainInternoSeccion">
               <div class="containerTarjetaUsuario">
-                <div class="nombreUsuario"><!-- Esta informacion, segun sea el usuario elegido, será traida de la db --></div>
-                <div class="equipoUsuario"><!-- Esta informacion, segun sea el usuario elegido, será traida de la db --></div>
-                <div class="supervisorUsuario"><!-- Esta informacion, segun sea el usuario elegido, será traida de la db --></div>
+                <div class="nombreUsuario"><!-- Esta información, según sea el usuario elegido, será traída de la db --></div>
+                <div class="equipoUsuario"><!-- Esta información, según sea el usuario elegido, será traída de la db --></div>
+                <div class="supervisorUsuario"><!-- Esta información, según sea el usuario elegido, será traída de la db --></div>
               </div>
               <button class="botonEliminarUsuario">Eliminar Usuario</button>
             </div>
@@ -393,7 +735,8 @@
 
         </div>
       </section>
-      
+
+      <!-- SECCIÓN LICENCIAS/AUSENCIAS -->
       <section class="seccionLicencias">
         <div class="containerHeaderSeccion">
           <div class="divTituloSeccion">
@@ -401,71 +744,140 @@
             <p class="subtituloSeccion">Gestiona las licencias y ausencias de los usuarios.</p>
           </div>
           <div class="containerNavHeaderSeccion">
-            <button class="btnNavHeaderSeccion">Ver Ausencias</button>
-            <button class="btnNavHeaderSeccion">Agregar Ausencia</button>
-            <button class="btnNavHeaderSeccion">Modificar Ausencia</button>
-            <button class="btnNavHeaderSeccion">Eliminar Ausencia</button>
+            <button class="btnNavHeaderSeccion" id="btnVerAusencias">Ver Ausencias</button>
+            <button class="btnNavHeaderSeccion" id="btnAgregarAusencia">Agregar Ausencia</button>
+            <button class="btnNavHeaderSeccion" id="btnModificarAusencia">Modificar Ausencia</button>
+            <button class="btnNavHeaderSeccion" id="btnEliminarAusencia">Eliminar Ausencia</button>
           </div>
         </div>
         <div class="containerMainSeccion">
 
-          <section class="seccionVista" id="seccionVistaAusencia">
+          <!-- Ver Ausencias -->
+          <section class="seccionVista" id="seccionVistaAusencias">
             <div class="containerHeaderInternoSeccion">
-              <h2 class="tituloInternoSeccion">Ver licencias/ausencias de los usuarios</h2>
-              <label for="opciones" id="labelDesplegablePorEquipo">Filtra por equipo:</label>
-                <select id="desplegablePorEquipo" name="opciones">
-                  <option value="">-- Selecciona un equipo --</option>
-                  <!-- opciones traidas de la db -->
-                </select>
-              <label for="opciones" id="labelDesplegablePorUsuario">Filtra por usuario:</label>
-                <select id="desplegablePorUsuario" name="opciones">
-                  <option value="">-- Selecciona un usuario --</option>
-                  <!-- opciones traidas traido de la db -->
-                </select>
+              <h2 class="tituloInternoSeccion">Ver Licencias/Ausencias de los Usuarios</h2>
+              <label for="desplegablePorEquipoAusencias" id="labelDesplegablePorEquipoAusencias">Filtra por equipo:</label>
+              <select id="desplegablePorEquipoAusencias" name="desplegablePorEquipoAusencias">
+                <option value="">-- Selecciona un equipo --</option>
+                <!-- opciones traídas de la db -->
+              </select>
+              <label for="desplegablePorUsuarioAusencias" id="labelDesplegablePorUsuarioAusencias">Filtra por usuario:</label>
+              <select id="desplegablePorUsuarioAusencias" name="desplegablePorUsuarioAusencias">
+                <option value="">-- Selecciona un usuario --</option>
+                <!-- opciones traídas de la db -->
+              </select>
             </div>
-            <div class="containerTarjetasSeccionVista" id="containerTarjetasAusencias">
-              <!-- Contenido dinámico de vista de Licencias -->
+            <div class="containerMainInternoSeccion">
+              <div class="containerTarjetasSeccionVista" id="containerTarjetasAusencias">
+                <!-- Contenido dinámico de vista de Licencias -->
+              </div>
             </div>
           </section>
 
+          <!-- Agregar Ausencia -->
           <section class="seccionAgregar" id="seccionAgregarAusencia">
             <div class="containerHeaderInternoSeccion">
               <h2 class="tituloInternoSeccion">Agregar Ausencia</h2>
-              <label for="opciones" id="labelDesplegablePorEquipo">Filtra por equipo:</label>
-                <select id="desplegablePorEquipo" name="opciones">
-                  <option value="">-- Selecciona un equipo --</option>
-                  <!-- opciones traidas de la db -->
-                </select>
-              <label for="opciones" id="labelDesplegablePorUsuario">Filtra por usuario:</label>
-                <select id="desplegablePorUsuario" name="opciones">
-                  <option value="">-- Selecciona un usuario --</option>
-                  <!-- opciones traidas traido de la db -->
-                </select>
+              <label for="desplegablePorEquipoAgregarAusencia" id="labelDesplegablePorEquipoAgregarAusencia">Filtra por equipo:</label>
+              <select id="desplegablePorEquipoAgregarAusencia" name="desplegablePorEquipoAgregarAusencia">
+                <option value="">-- Selecciona un equipo --</option>
+                <!-- opciones traídas de la db -->
+              </select>
+              <label for="desplegablePorUsuarioAgregarAusencia" id="labelDesplegablePorUsuarioAgregarAusencia">Filtra por usuario:</label>
+              <select id="desplegablePorUsuarioAgregarAusencia" name="desplegablePorUsuarioAgregarAusencia">
+                <option value="">-- Selecciona un usuario --</option>
+                <!-- opciones traídas de la db -->
+              </select>
             </div>
-                <form action="/submit" method="POST" class="formularioAgregarAusencia">
-                  <!-- Campo Motivo Ausencia -->
-                  <label for="absence_detail">Motivo de ausencia:</label>
-                  <select id="absence_detail" name="absence_detail" required>
-                    <option value="">-- Selecciona una opción --</option>
-                    <option value="consulta">Dia de estudio</option>
-                    <option value="soporte">Dia no remunerativo</option>
-                    <option value="presupuesto">Se está duchando</option>
-                    <option value="otro">Otro</option>
-                  </select>
+            <div class="containerMainInternoSeccion">
+              <form action="/submit" method="POST" class="formularioAgregarAusencia">
+                <label for="absence_detail">Motivo de ausencia:</label>
+                <select id="absence_detail" name="absence_detail" required>
+                  <option value="">-- Selecciona una opción --</option>
+                  <option value="estudio">Día de estudio</option>
+                  <option value="no_remunerativo">Día no remunerativo</option>
+                  <option value="duchando">Se está duchando</option>
+                  <option value="otro">Otro</option>
+                </select>
 
-                  <!-- Campo Fecha Inicio Ausencia -->
-                  <label for="absence_init_date">Fecha de inicio:</label>
-                  <input type="date" id="absence_init_date" name="absence_init_date" required>
+                <label for="absence_init_date">Fecha de inicio:</label>
+                <input type="date" id="absence_init_date" name="absence_init_date" required>
 
-                  <!-- Campo Fecha Fin Ausencia -->
-                  <label for="absence_end_date">Fecha de finalizacion:</label>
-                  <input type="date" id="absence_end_date" name="absence_end_date" required>
+                <label for="absence_end_date">Fecha de finalización:</label>
+                <input type="date" id="absence_end_date" name="absence_end_date" required>
 
-                  <!-- Botón Enviar -->
-                  <button type="submit">Enviar</button>
-                </form>
+                <button type="submit">Enviar</button>
+              </form>
+            </div>
           </section>
 
+          <!-- Modificar Ausencia -->
+          <section class="seccionModificar" id="seccionModificarAusencia">
+            <div class="containerHeaderInternoSeccion">
+              <h2 class="tituloInternoSeccion">Modificar Ausencia</h2>
+              <label for="desplegablePorEquipoModificarAusencia" id="labelDesplegablePorEquipoModificarAusencia">Filtra por equipo:</label>
+              <select id="desplegablePorEquipoModificarAusencia" name="desplegablePorEquipoModificarAusencia">
+                <option value="">-- Selecciona un equipo --</option>
+                <!-- opciones traídas de la db -->
+              </select>
+              <label for="desplegablePorUsuarioModificarAusencia" id="labelDesplegablePorUsuarioModificarAusencia">Filtra por usuario:</label>
+              <select id="desplegablePorUsuarioModificarAusencia" name="desplegablePorUsuarioModificarAusencia">
+                <option value="">-- Selecciona un usuario --</option>
+                <!-- opciones traídas de la db -->
+              </select>
+            </div>
+            <div class="containerMainInternoSeccion">
+              <form action="/submit" method="PUT" class="formularioModificarAusencia">
+                <label for="modify_absence_detail">Motivo de ausencia:</label>
+                <select id="modify_absence_detail" name="modify_absence_detail" required>
+                  <option value="">-- Selecciona una opción --</option>
+                  <option value="estudio">Día de estudio</option>
+                  <option value="no_remunerativo">Día no remunerativo</option>
+                  <option value="duchando">Se está duchando</option>
+                  <option value="otro">Otro</option>
+                </select>
+
+                <label for="modify_absence_init_date">Fecha de inicio:</label>
+                <input type="date" id="modify_absence_init_date" name="modify_absence_init_date" required>
+
+                <label for="modify_absence_end_date">Fecha de finalización:</label>
+                <input type="date" id="modify_absence_end_date" name="modify_absence_end_date" required>
+
+                <button type="submit">Actualizar</button>
+              </form>
+            </div>
+          </section>
+
+          <!-- Eliminar Ausencia -->
+          <section class="seccionEliminar" id="seccionEliminarAusencia">
+            <div class="containerHeaderInternoSeccion">
+              <h2 class="tituloInternoSeccion">Eliminar Ausencia</h2>
+              <label for="desplegablePorEquipoEliminarAusencia" id="labelDesplegablePorEquipoEliminarAusencia">Filtra por equipo:</label>
+              <select id="desplegablePorEquipoEliminarAusencia" name="desplegablePorEquipoEliminarAusencia">
+                <option value="">-- Selecciona un equipo --</option>
+                <!-- opciones traídas de la db -->
+              </select>
+              <label for="desplegablePorUsuarioEliminarAusencia" id="labelDesplegablePorUsuarioEliminarAusencia">Filtra por usuario:</label>
+              <select id="desplegablePorUsuarioEliminarAusencia" name="desplegablePorUsuarioEliminarAusencia">
+                <option value="">-- Selecciona un usuario --</option>
+                <!-- opciones traídas de la db -->
+              </select>
+            </div>
+            <div class="containerMainInternoSeccion">
+              <div class="containerTarjetaAusencia">
+                <div class="motivoAusencia"><!-- Esta información, según sea la ausencia elegida, será traída de la db --></div>
+                <div class="fechaInicioAusencia"><!-- Esta información, según sea la ausencia elegida, será traída de la db --></div>
+                <div class="fechaFinAusencia"><!-- Esta información, según sea la ausencia elegida, será traída de la db --></div>
+                <div class="usuarioAusencia"><!-- Esta información, según sea la ausencia elegida, será traída de la db --></div>
+              </div>
+              <button class="botonEliminarAusencia">Eliminar Ausencia</button>
+            </div>
+          </section>
+
+        </div>
+      </section>
+
+      <!-- SECCIÓN VACACIONES -->
       <section class="seccionVacaciones">
         <div class="containerHeaderSeccion">
           <div class="divTituloSeccion">
@@ -473,93 +885,690 @@
             <p class="subtituloSeccion">Gestiona las vacaciones de los usuarios.</p>
           </div>
           <div class="containerNavHeaderSeccion">
-            <button class="btnNavHeaderSeccion">Ver Vacaciones</button>
-            <button class="btnNavHeaderSeccion">Agregar Vacación</button>
-            <button class="btnNavHeaderSeccion">Modificar Vacación</button>
-            <button class="btnNavHeaderSeccion">Eliminar Vacación</button>
+            <button class="btnNavHeaderSeccion" id="btnVerVacaciones">Ver Vacaciones</button>
+            <button class="btnNavHeaderSeccion" id="btnAgregarVacacion">Agregar Vacación</button>
+            <button class="btnNavHeaderSeccion" id="btnModificarVacacion">Modificar Vacación</button>
+            <button class="btnNavHeaderSeccion" id="btnEliminarVacacion">Eliminar Vacación</button>
           </div>
         </div>
         <div class="containerMainSeccion">
+
+          <!-- Ver Vacaciones -->
           <section class="seccionVista" id="seccionVistaVacaciones">
             <div class="containerHeaderInternoSeccion">
-              <h2 class="tituloInternoSeccion">Ver vacaciones de los usuarios</h2>
-              <label for="opciones" id="labelDesplegablePorEquipo">Filtra por equipo:</label>
-                <select id="desplegablePorEquipo" name="opciones">
-                  <option value="">-- Selecciona un equipo --</option>
-                  <!-- opciones traidas de la db -->
-                </select>
-              <label for="opciones" id="labelDesplegablePorUsuario">Filtra por usuario:</label>
-                <select id="desplegablePorUsuario" name="opciones">
-                  <option value="">-- Selecciona un usuario --</option>
-                  <!-- opciones traidas traido de la db -->
-                </select>
+              <h2 class="tituloInternoSeccion">Ver Vacaciones de los Usuarios</h2>
+              <label for="desplegablePorEquipoVacaciones" id="labelDesplegablePorEquipoVacaciones">Filtra por equipo:</label>
+              <select id="desplegablePorEquipoVacaciones" name="desplegablePorEquipoVacaciones">
+                <option value="">-- Selecciona un equipo --</option>
+                <!-- opciones traídas de la db -->
+              </select>
+              <label for="desplegablePorUsuarioVacaciones" id="labelDesplegablePorUsuarioVacaciones">Filtra por usuario:</label>
+              <select id="desplegablePorUsuarioVacaciones" name="desplegablePorUsuarioVacaciones">
+                <option value="">-- Selecciona un usuario --</option>
+                <!-- opciones traídas de la db -->
+              </select>
             </div>
-            <div class="containerTarjetasSeccionVista" id="containerTarjetasVacaiones">
-              <!-- Contenido dinámico de vista de vacaciones -->
+            <div class="containerMainInternoSeccion">
+              <div class="containerTarjetasSeccionVista" id="containerTarjetasVacaciones">
+                <!-- Contenido dinámico de vista de vacaciones -->
+              </div>
             </div>
           </section>
+
+          <!-- Agregar Vacación -->
+          <section class="seccionAgregar" id="seccionAgregarVacacion">
+            <div class="containerHeaderInternoSeccion">
+              <h2 class="tituloInternoSeccion">Agregar Vacación</h2>
+              <label for="desplegablePorEquipoAgregarVacacion" id="labelDesplegablePorEquipoAgregarVacacion">Filtra por equipo:</label>
+              <select id="desplegablePorEquipoAgregarVacacion" name="desplegablePorEquipoAgregarVacacion">
+                <option value="">-- Selecciona un equipo --</option>
+                <!-- opciones traídas de la db -->
+              </select>
+              <label for="desplegablePorUsuarioAgregarVacacion" id="labelDesplegablePorUsuarioAgregarVacacion">Filtra por usuario:</label>
+              <select id="desplegablePorUsuarioAgregarVacacion" name="desplegablePorUsuarioAgregarVacacion">
+                <option value="">-- Selecciona un usuario --</option>
+                <!-- opciones traídas de la db -->
+              </select>
+            </div>
+            <div class="containerMainInternoSeccion">
+              <form action="/submit" method="POST" class="formularioAgregarVacacion">
+                <label for="vacation_init_date">Fecha de inicio:</label>
+                <input type="date" id="vacation_init_date" name="vacation_init_date" required>
+
+                <label for="vacation_end_date">Fecha de finalización:</label>
+                <input type="date" id="vacation_end_date" name="vacation_end_date" required>
+
+                <label for="vacation_days">Días de vacación:</label>
+                <input type="number" id="vacation_days" name="vacation_days" min="1" required>
+
+                <label for="vacation_observations">Observaciones:</label>
+                <textarea id="vacation_observations" name="vacation_observations" rows="3"></textarea>
+
+                <button type="submit">Enviar</button>
+              </form>
+            </div>
+          </section>
+
+          <!-- Modificar Vacación -->
+          <section class="seccionModificar" id="seccionModificarVacacion">
+            <div class="containerHeaderInternoSeccion">
+              <h2 class="tituloInternoSeccion">Modificar Vacación</h2>
+              <label for="desplegablePorEquipoModificarVacacion" id="labelDesplegablePorEquipoModificarVacacion">Filtra por equipo:</label>
+              <select id="desplegablePorEquipoModificarVacacion" name="desplegablePorEquipoModificarVacacion">
+                <option value="">-- Selecciona un equipo --</option>
+                <!-- opciones traídas de la db -->
+              </select>
+              <label for="desplegablePorUsuarioModificarVacacion" id="labelDesplegablePorUsuarioModificarVacacion">Filtra por usuario:</label>
+              <select id="desplegablePorUsuarioModificarVacacion" name="desplegablePorUsuarioModificarVacacion">
+                <option value="">-- Selecciona un usuario --</option>
+                <!-- opciones traídas de la db -->
+              </select>
+            </div>
+            <div class="containerMainInternoSeccion">
+              <form action="/submit" method="PUT" class="formularioModificarVacacion">
+                <label for="modify_vacation_init_date">Fecha de inicio:</label>
+                <input type="date" id="modify_vacation_init_date" name="modify_vacation_init_date" required>
+
+                <label for="modify_vacation_end_date">Fecha de finalización:</label>
+                <input type="date" id="modify_vacation_end_date" name="modify_vacation_end_date" required>
+
+                <label for="modify_vacation_days">Días de vacación:</label>
+                <input type="number" id="modify_vacation_days" name="modify_vacation_days" min="1" required>
+
+                <label for="modify_vacation_observations">Observaciones:</label>
+                <textarea id="modify_vacation_observations" name="modify_vacation_observations" rows="3"></textarea>
+
+                <button type="submit">Actualizar</button>
+              </form>
+            </div>
+          </section>
+
+          <!-- Eliminar Vacación -->
+          <section class="seccionEliminar" id="seccionEliminarVacacion">
+            <div class="containerHeaderInternoSeccion">
+              <h2 class="tituloInternoSeccion">Eliminar Vacación</h2>
+              <label for="desplegablePorEquipoEliminarVacacion" id="labelDesplegablePorEquipoEliminarVacacion">Filtra por equipo:</label>
+              <select id="desplegablePorEquipoEliminarVacacion" name="desplegablePorEquipoEliminarVacacion">
+                <option value="">-- Selecciona un equipo --</option>
+                <!-- opciones traídas de la db -->
+              </select>
+              <label for="desplegablePorUsuarioEliminarVacacion" id="labelDesplegablePorUsuarioEliminarVacacion">Filtra por usuario:</label>
+              <select id="desplegablePorUsuarioEliminarVacacion" name="desplegablePorUsuarioEliminarVacacion">
+                <option value="">-- Selecciona un usuario --</option>
+                <!-- opciones traídas de la db -->
+              </select>
+            </div>
+            <div class="containerMainInternoSeccion">
+              <div class="containerTarjetaVacacion">
+                <div class="fechaInicioVacacion"><!-- Esta información, según sea la vacación elegida, será traída de la db --></div>
+                <div class="fechaFinVacacion"><!-- Esta información, según sea la vacación elegida, será traída de la db --></div>
+                <div class="diasVacacion"><!-- Esta información, según sea la vacación elegida, será traída de la db --></div>
+                <div class="usuarioVacacion"><!-- Esta información, según sea la vacación elegida, será traída de la db --></div>
+                <div class="observacionesVacacion"><!-- Esta información, según sea la vacación elegida, será traída de la db --></div>
+              </div>
+              <button class="botonEliminarVacacion">Eliminar Vacación</button>
+            </div>
+          </section>
+
         </div>
       </section>
-      
+
     </div>
   </main>
+
   <footer>
   </footer>
+
 <script>
-// Captura de elementos del DOM
-const btnUsuariosHeader = document.getElementById('btnUsuariosHeader');
-const btnLicenciasHeader = document.getElementById('btnLicenciasHeader');
-const btnVacacionesHeader = document.getElementById('btnVacacionesHeader');
-const seccionUsuarios = document.querySelector('.seccionUsuarios');
-const seccionLicencias = document.querySelector('.seccionLicencias');
-const seccionVacaciones = document.querySelector('.seccionVacaciones');
+  // ============================================
+  // GESTIÓN DE NAVEGACIÓN PRINCIPAL
+  // ============================================
 
-// Funciones utilitaria
-function mostrarLoading(mensaje = "Cargando...") {
-  let loading = document.createElement("div");
-  loading.classList.add("loading");
-  loading.innerText = mensaje;
-  return loading;
-}
+  document.addEventListener('DOMContentLoaded', () => {
+      initializeApp();
+  });
 
-function createElement(tag, className = '', textContent = '') {
-    const elemento = document.createElement(tag);
-    if (className) elemento.className = className;
-    if (textContent) elemento.textContent = textContent;
-    return elemento;
-}
+  function initializeApp() {
+      setupMainNavigation();
+      setupSectionNavigation();
+      setupFormHandlers();
+      showInitialSection();
+  }
 
-// Función mejorada para mostrar sección activa
-function mostrarSeccionActiva(seccionActiva) {
-    // Array con todas las secciones
-    const secciones = [seccionUsuarios, seccionLicencias, seccionVacaciones];
-    
-    // Ocultar todas las secciones
-    secciones.forEach(seccion => {
-        seccion.style.display = 'none';
-    });
-    
-    // Mostrar solo la sección activa
-    seccionActiva.style.display = 'block';
-}
+  // Navegación principal entre secciones
+  function setupMainNavigation() {
+      const btnUsuariosHeader = document.getElementById('btnUsuariosHeader');
+      const btnLicenciasHeader = document.getElementById('btnLicenciasHeader');
+      const btnVacacionesHeader = document.getElementById('btnVacacionesHeader');
+      
+      const seccionUsuarios = document.querySelector('.seccionUsuarios');
+      const seccionLicencias = document.querySelector('.seccionLicencias');
+      const seccionVacaciones = document.querySelector('.seccionVacaciones');
+      
+      // Event listeners para navegación principal
+      btnUsuariosHeader?.addEventListener('click', () => {
+          showMainSection(seccionUsuarios);
+          setActiveMainNav(btnUsuariosHeader);
+          showSubSection('seccionVistaUsuarios');
+          setActiveSubNav('btnVerUsuarios');
+      });
+      
+      btnLicenciasHeader?.addEventListener('click', () => {
+          showMainSection(seccionLicencias);
+          setActiveMainNav(btnLicenciasHeader);
+          showSubSection('seccionVistaAusencias');
+          setActiveSubNav('btnVerAusencias');
+      });
+      
+      btnVacacionesHeader?.addEventListener('click', () => {
+          showMainSection(seccionVacaciones);
+          setActiveMainNav(btnVacacionesHeader);
+          showSubSection('seccionVistaVacaciones');
+          setActiveSubNav('btnVerVacaciones');
+      });
+  }
 
-// Event listeners con la nueva función
-btnUsuariosHeader.addEventListener('click', () => {
-    mostrarSeccionActiva(seccionUsuarios);
-});
+  function showMainSection(activeSection) {
+      const allMainSections = ['.seccionUsuarios', '.seccionLicencias', '.seccionVacaciones'];
+      
+      allMainSections.forEach(selector => {
+          const section = document.querySelector(selector);
+          if (section) {
+              section.style.display = 'none';
+          }
+      });
+      
+      if (activeSection) {
+          activeSection.style.display = 'block';
+      }
+  }
 
-btnLicenciasHeader.addEventListener('click', () => {
-    mostrarSeccionActiva(seccionLicencias);
-});
+  function setActiveMainNav(activeButton) {
+      const allNavButtons = document.querySelectorAll('.navLink');
+      allNavButtons.forEach(btn => btn.classList.remove('active'));
+      
+      if (activeButton) {
+          activeButton.classList.add('active');
+      }
+  }
 
-btnVacacionesHeader.addEventListener('click', () => {
-    mostrarSeccionActiva(seccionVacaciones);
-});
+  function showInitialSection() {
+      const seccionUsuarios = document.querySelector('.seccionUsuarios');
+      const btnUsuariosHeader = document.getElementById('btnUsuariosHeader');
+      
+      showMainSection(seccionUsuarios);
+      setActiveMainNav(btnUsuariosHeader);
+      showSubSection('seccionVistaUsuarios');
+      setActiveSubNav('btnVerUsuarios');
+  }
 
-// Inicializar mostrando solo la primera sección
-document.addEventListener('DOMContentLoaded', () => {
-    mostrarSeccionActiva(seccionUsuarios);
-});
+  // ============================================
+  // GESTIÓN DE NAVEGACIÓN DE SUBSECCIONES
+  // ============================================
+
+  function setupSectionNavigation() {
+      // Usuarios
+      setupSubNavigation([
+          { btn: 'btnVerUsuarios', section: 'seccionVistaUsuarios' },
+          { btn: 'btnAgregarUsuario', section: 'seccionAgregarUsuario' },
+          { btn: 'btnModificarUsuario', section: 'seccionModificarUsuario' },
+          { btn: 'btnEliminarUsuario', section: 'seccionEliminarUsuario' }
+      ]);
+      
+      // Licencias/Ausencias
+      setupSubNavigation([
+          { btn: 'btnVerAusencias', section: 'seccionVistaAusencias' },
+          { btn: 'btnAgregarAusencia', section: 'seccionAgregarAusencia' },
+          { btn: 'btnModificarAusencia', section: 'seccionModificarAusencia' },
+          { btn: 'btnEliminarAusencia', section: 'seccionEliminarAusencia' }
+      ]);
+      
+      // Vacaciones
+      setupSubNavigation([
+          { btn: 'btnVerVacaciones', section: 'seccionVistaVacaciones' },
+          { btn: 'btnAgregarVacacion', section: 'seccionAgregarVacacion' },
+          { btn: 'btnModificarVacacion', section: 'seccionModificarVacacion' },
+          { btn: 'btnEliminarVacacion', section: 'seccionEliminarVacacion' }
+      ]);
+  }
+
+  function setupSubNavigation(navigationItems) {
+      navigationItems.forEach(item => {
+          const button = document.getElementById(item.btn);
+          if (button) {
+              button.addEventListener('click', () => {
+                  showSubSection(item.section);
+                  setActiveSubNav(item.btn);
+              });
+          }
+      });
+  }
+
+  function showSubSection(activeSectionId) {
+      // Lista de todas las posibles subsecciones
+      const allSubSections = [
+          'seccionVistaUsuarios', 'seccionAgregarUsuario', 'seccionModificarUsuario', 'seccionEliminarUsuario',
+          'seccionVistaAusencias', 'seccionAgregarAusencia', 'seccionModificarAusencia', 'seccionEliminarAusencia',
+          'seccionVistaVacaciones', 'seccionAgregarVacacion', 'seccionModificarVacacion', 'seccionEliminarVacacion'
+      ];
+      
+      // Ocultar todas las subsecciones
+      allSubSections.forEach(sectionId => {
+          const section = document.getElementById(sectionId);
+          if (section) {
+              section.style.display = 'none';
+          }
+      });
+      
+      // Mostrar la subsección activa
+      const activeSection = document.getElementById(activeSectionId);
+      if (activeSection) {
+          activeSection.style.display = 'block';
+      }
+  }
+
+  function setActiveSubNav(activeButtonId) {
+      const allSubNavButtons = document.querySelectorAll('.btnNavHeaderSeccion');
+      allSubNavButtons.forEach(btn => btn.classList.remove('active'));
+      
+      const activeButton = document.getElementById(activeButtonId);
+      if (activeButton) {
+          activeButton.classList.add('active');
+      }
+  }
+
+  // ============================================
+  // GESTIÓN DE FORMULARIOS
+  // ============================================
+
+  function setupFormHandlers() {
+      // Formularios de agregar
+      setupFormSubmission('formularioAgregarUsuario', handleAddUser);
+      setupFormSubmission('formularioAgregarAusencia', handleAddAbsence);
+      setupFormSubmission('formularioAgregarVacacion', handleAddVacation);
+      
+      // Formularios de modificar
+      setupFormSubmission('formularioModificarUsuario', handleModifyUser);
+      setupFormSubmission('formularioModificarAusencia', handleModifyAbsence);
+      setupFormSubmission('formularioModificarVacacion', handleModifyVacation);
+      
+      // Botones de eliminar
+      setupDeleteHandlers();
+      
+      // Filtros de equipos y usuarios
+      setupFilterHandlers();
+  }
+
+  function setupFormSubmission(formClass, handler) {
+      const form = document.querySelector(`.${formClass}`);
+      if (form) {
+          form.addEventListener('submit', (e) => {
+              e.preventDefault();
+              const formData = new FormData(form);
+              const data = Object.fromEntries(formData.entries());
+              handler(data, form);
+          });
+      }
+  }
+
+  // Handlers para diferentes tipos de formularios
+  function handleAddUser(data, form) {
+      console.log('Agregando usuario:', data);
+      showNotification('Usuario agregado correctamente', 'success');
+      
+      // Aquí harías la llamada a tu API
+      // apiCall('/api/users', 'POST', data);
+      
+      form.reset();
+      // Actualizar vista si es necesario
+      // loadUsers();
+  }
+
+  function handleModifyUser(data, form) {
+      console.log('Modificando usuario:', data);
+      showNotification('Usuario modificado correctamente', 'success');
+      
+      // Aquí harías la llamada a tu API
+      // apiCall('/api/users/update', 'PUT', data);
+  }
+
+  function handleAddAbsence(data, form) {
+      console.log('Agregando ausencia:', data);
+      showNotification('Ausencia agregada correctamente', 'success');
+      
+      // Aquí harías la llamada a tu API
+      // apiCall('/api/absences', 'POST', data);
+      
+      form.reset();
+  }
+
+  function handleModifyAbsence(data, form) {
+      console.log('Modificando ausencia:', data);
+      showNotification('Ausencia modificada correctamente', 'success');
+      
+      // Aquí harías la llamada a tu API
+      // apiCall('/api/absences/update', 'PUT', data);
+  }
+
+  function handleAddVacation(data, form) {
+      console.log('Agregando vacación:', data);
+      showNotification('Vacación agregada correctamente', 'success');
+      
+      // Aquí harías la llamada a tu API
+      // apiCall('/api/vacations', 'POST', data);
+      
+      form.reset();
+  }
+
+  function handleModifyVacation(data, form) {
+      console.log('Modificando vacación:', data);
+      showNotification('Vacación modificada correctamente', 'success');
+      
+      // Aquí harías la llamada a tu API
+      // apiCall('/api/vacations/update', 'PUT', data);
+  }
+
+  // ============================================
+  // GESTIÓN DE ELIMINACIÓN
+  // ============================================
+
+  function setupDeleteHandlers() {
+      // Botones de eliminar
+      const deleteButtons = [
+          { btn: 'botonEliminarUsuario', type: 'usuario' },
+          { btn: 'botonEliminarAusencia', type: 'ausencia' },
+          { btn: 'botonEliminarVacacion', type: 'vacación' }
+      ];
+      
+      deleteButtons.forEach(item => {
+          const button = document.querySelector(`.${item.btn}`);
+          if (button) {
+              button.addEventListener('click', () => {
+                  handleDelete(item.type);
+              });
+          }
+      });
+  }
+
+  function handleDelete(type) {
+      if (confirm(`¿Estás seguro de que quieres eliminar este ${type}?`)) {
+          console.log(`Eliminando ${type}`);
+          showNotification(`${type.charAt(0).toUpperCase() + type.slice(1)} eliminado correctamente`, 'success');
+          
+          // Aquí harías la llamada a tu API
+          // apiCall(`/api/${type}s/delete`, 'DELETE', { id: selectedId });
+          
+          // Limpiar formularios y volver a la vista principal
+          clearSelectedItem();
+      }
+  }
+
+  function clearSelectedItem() {
+      // Limpiar las tarjetas de información
+      const containers = ['.containerTarjetaUsuario', '.containerTarjetaAusencia', '.containerTarjetaVacacion'];
+      containers.forEach(container => {
+          const element = document.querySelector(container);
+          if (element) {
+              element.innerHTML = '<p>Selecciona un elemento para ver sus detalles</p>';
+          }
+      });
+  }
+
+  // ============================================
+  // GESTIÓN DE FILTROS
+  // ============================================
+
+  function setupFilterHandlers() {
+      // Obtener todos los selectores de equipo
+      const teamSelects = document.querySelectorAll('select[id*="desplegablePorEquipo"]');
+      const userSelects = document.querySelectorAll('select[id*="desplegablePorUsuario"]');
+      
+      // Configurar event listeners para filtros de equipo
+      teamSelects.forEach(select => {
+          select.addEventListener('change', (e) => {
+              const selectedTeam = e.target.value;
+              const correspondingUserSelect = findCorrespondingUserSelect(e.target.id);
+              
+              if (correspondingUserSelect) {
+                  filterUsersByTeam(selectedTeam, correspondingUserSelect);
+              }
+              
+              // Aplicar filtro de equipo
+              applyTeamFilter(selectedTeam, e.target.id);
+          });
+      });
+      
+      // Configurar event listeners para filtros de usuario
+      userSelects.forEach(select => {
+          select.addEventListener('change', (e) => {
+              const selectedUser = e.target.value;
+              applyUserFilter(selectedUser, e.target.id);
+          });
+      });
+  }
+
+  function findCorrespondingUserSelect(teamSelectId) {
+      // Mapear select de equipo con select de usuario correspondiente
+      const mapping = {
+          'desplegablePorEquipoUsuarios': 'desplegablePorUsuarioUsuarios',
+          'desplegablePorEquipoAusencias': 'desplegablePorUsuarioAusencias',
+          'desplegablePorEquipoVacaciones': 'desplegablePorUsuarioVacaciones',
+          'desplegablePorEquipoAgregarAusencia': 'desplegablePorUsuarioAgregarAusencia',
+          'desplegablePorEquipoModificarUsuario': 'desplegablePorUsuarioModificarUsuario',
+          'desplegablePorEquipoModificarAusencia': 'desplegablePorUsuarioModificarAusencia',
+          'desplegablePorEquipoEliminarUsuario': 'desplegablePorUsuarioEliminarUsuario',
+          'desplegablePorEquipoEliminarAusencia': 'desplegablePorUsuarioEliminarAusencia',
+          'desplegablePorEquipoAgregarVacacion': 'desplegablePorUsuarioAgregarVacacion',
+          'desplegablePorEquipoModificarVacacion': 'desplegablePorUsuarioModificarVacacion',
+          'desplegablePorEquipoEliminarVacacion': 'desplegablePorUsuarioEliminarVacacion'
+      };
+      
+      const userSelectId = mapping[teamSelectId];
+      return userSelectId ? document.getElementById(userSelectId) : null;
+  }
+
+  function filterUsersByTeam(teamId, userSelect) {
+      if (!userSelect) return;
+      
+      // Limpiar opciones actuales (excepto la primera)
+      userSelect.innerHTML = '<option value="">-- Selecciona un usuario --</option>';
+      
+      if (!teamId) return;
+      
+      // Aquí harías una llamada a tu API para obtener usuarios del equipo
+      // const users = await apiCall(`/api/users/by-team/${teamId}`);
+      
+  }
+
+  function applyTeamFilter(teamId, selectId) {
+      console.log(`Aplicando filtro de equipo: ${teamId} desde ${selectId}`);
+      // Aquí aplicarías el filtro en la vista correspondiente
+      // loadFilteredData({ team: teamId });
+  }
+
+  function applyUserFilter(userId, selectId) {
+      console.log(`Aplicando filtro de usuario: ${userId} desde ${selectId}`);
+      
+      // Si es una sección de modificar o eliminar, cargar datos del usuario
+      if (selectId.includes('Modificar') || selectId.includes('Eliminar')) {
+          loadUserData(userId, selectId);
+      }
+      
+      // Aplicar filtro en la vista
+      // loadFilteredData({ user: userId });
+  }
+
+  function loadUserData(userId, selectId) {
+      if (!userId) return;
+      
+      // Determinar qué tipo de datos cargar
+      if (selectId.includes('Usuario')) {
+          loadUserDetails(userId);
+      } else if (selectId.includes('Ausencia')) {
+          loadAbsenceDetails(userId);
+      } else if (selectId.includes('Vacacion')) {
+          loadVacationDetails(userId);
+      }
+  }
+
+  function loadUserDetails(userId) {
+      // Aquí harías la llamada a tu API
+      // const userData = await apiCall(`/api/users/${userId}`);
+  
+  }
+
+  function fillModifyUserForm(userData) {
+      const form = document.querySelector('.formularioModificarUsuario');
+      if (!form) return;
+      
+      const fields = {
+          'modify_user_name': userData.name,
+          'modify_user_meli': userData.email?.split('@')[0] || '',
+          'modify_user_leader': userData.supervisor,
+          'modify_user_position': userData.position,
+          'modify_user_mail': userData.email
+      };
+      
+      Object.keys(fields).forEach(fieldId => {
+          const field = document.getElementById(fieldId);
+          if (field && fields[fieldId]) {
+              field.value = fields[fieldId];
+          }
+      });
+  }
+
+  function displayUserCard(userData) {
+      const container = document.querySelector('.containerTarjetaUsuario');
+      if (!container) return;
+      
+      container.innerHTML = `
+          <div class="nombreUsuario">Nombre: ${userData.name}</div>
+          <div class="equipoUsuario">Equipo: ${userData.team}</div>
+          <div class="supervisorUsuario">Supervisor: ${userData.supervisor}</div>
+      `;
+  }
+
+  function loadAbsenceDetails(userId) {
+      // Ejemplo similar para ausencias
+      console.log(`Cargando detalles de ausencia para usuario: ${userId}`);
+  }
+
+  function loadVacationDetails(userId) {
+      // Ejemplo similar para vacaciones
+      console.log(`Cargando detalles de vacación para usuario: ${userId}`);
+  }
+
+  // ============================================
+  // SISTEMA DE NOTIFICACIONES
+  // ============================================
+
+  function showNotification(message, type = 'info') {
+      // Crear elemento de notificación
+      const notification = document.createElement('div');
+      notification.className = `notification notification-${type}`;
+      notification.innerHTML = `
+          <span>${message}</span>
+          <button class="notification-close" onclick="this.parentElement.remove()">×</button>
+      `;
+      
+      // Agregar estilos inline para que funcione sin CSS adicional
+      Object.assign(notification.style, {
+          position: 'fixed',
+          top: '20px',
+          right: '20px',
+          padding: '15px 20px',
+          borderRadius: '8px',
+          color: 'white',
+          fontFamily: 'Lato, sans-serif',
+          fontSize: '14px',
+          zIndex: '9999',
+          minWidth: '300px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          backgroundColor: type === 'success' ? '#48bb78' : type === 'error' ? '#e53e3e' : '#4299e1'
+      });
+      
+      // Estilo del botón de cerrar
+      const closeBtn = notification.querySelector('.notification-close');
+      Object.assign(closeBtn.style, {
+          background: 'none',
+          border: 'none',
+          color: 'white',
+          fontSize: '18px',
+          cursor: 'pointer',
+          marginLeft: '15px'
+      });
+      
+      // Agregar al DOM
+      document.body.appendChild(notification);
+      
+      // Auto-eliminar después de 5 segundos
+      setTimeout(() => {
+          if (notification.parentElement) {
+              notification.remove();
+          }
+      }, 5000);
+  }
+
+  // ============================================
+  // UTILIDADES PARA API (PREPARADAS PARA TU USO)
+  // ============================================
+
+  // Función genérica para llamadas a API (para que la uses después)
+  async function apiCall(endpoint, method = 'GET', data = null) {
+      try {
+          const config = {
+              method,
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          };
+          
+          if (data && (method === 'POST' || method === 'PUT')) {
+              config.body = JSON.stringify(data);
+          }
+          
+          const response = await fetch(endpoint, config);
+          
+          if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          
+          return await response.json();
+      } catch (error) {
+          console.error('API call error:', error);
+          showNotification(`Error: ${error.message}`, 'error');
+          throw error;
+      }
+  }
+
+  // Funciones de carga de datos (para implementar después)
+  async function loadUsers() {
+      console.log('Cargando usuarios...');
+      // const users = await apiCall('/api/users');
+      // displayUsers(users);
+  }
+
+  async function loadTeams() {
+      console.log('Cargando equipos...');
+      // const teams = await apiCall('/api/teams');
+      // populateTeamSelects(teams);
+  }
+
+  async function loadAbsences() {
+      console.log('Cargando ausencias...');
+      // const absences = await apiCall('/api/absences');
+      // displayAbsences(absences);
+  }
+
+  async function loadVacations() {
+      console.log('Cargando vacaciones...');
+      // const vacations = await apiCall('/api/vacations');
+      // displayVacations(vacations);
+  }
+
 </script>
 </body>
 </html>
