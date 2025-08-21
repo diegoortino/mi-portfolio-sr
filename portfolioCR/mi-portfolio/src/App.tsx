@@ -1,12 +1,18 @@
-import Contador from "./components/contador"
+import Header from './components/Header';
+import Main from './components/Main';
+import Footer from './components/Footer';
+
+import './App.css'
 
 function App() {
 
   return (
     <>
-      <Contador/>
+    <Header></Header>
+    <Main></Main>
+    <Footer></Footer>
     </>
   )
 }
 
-export default App
+export default App;

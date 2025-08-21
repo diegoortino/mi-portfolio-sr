@@ -24,6 +24,19 @@
     line-height: 1.6;
   }
 
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    font-family: 'Lato', sans-serif;
+    font-size: 1.1rem;
+    color: #468FFE;
+    background-color: #F8FAFC;
+    border-radius: 8px;
+    margin: 1rem 0;
+  }
+
   /* Header */
   .header {
     display: flex;
@@ -1020,554 +1033,1304 @@
   </footer>
 
 <script>
-  // ============================================
-  // GESTIÓN DE NAVEGACIÓN PRINCIPAL
-  // ============================================
-
-  document.addEventListener('DOMContentLoaded', () => {
-      initializeApp();
-  });
-
-  function initializeApp() {
-      setupMainNavigation();
-      setupSectionNavigation();
-      setupFormHandlers();
-      showInitialSection();
-  }
-
-  // Navegación principal entre secciones
-  function setupMainNavigation() {
-      const btnUsuariosHeader = document.getElementById('btnUsuariosHeader');
-      const btnLicenciasHeader = document.getElementById('btnLicenciasHeader');
-      const btnVacacionesHeader = document.getElementById('btnVacacionesHeader');
-      
-      const seccionUsuarios = document.querySelector('.seccionUsuarios');
-      const seccionLicencias = document.querySelector('.seccionLicencias');
-      const seccionVacaciones = document.querySelector('.seccionVacaciones');
-      
-      // Event listeners para navegación principal
-      btnUsuariosHeader?.addEventListener('click', () => {
-          showMainSection(seccionUsuarios);
-          setActiveMainNav(btnUsuariosHeader);
-          showSubSection('seccionVistaUsuarios');
-          setActiveSubNav('btnVerUsuarios');
-      });
-      
-      btnLicenciasHeader?.addEventListener('click', () => {
-          showMainSection(seccionLicencias);
-          setActiveMainNav(btnLicenciasHeader);
-          showSubSection('seccionVistaAusencias');
-          setActiveSubNav('btnVerAusencias');
-      });
-      
-      btnVacacionesHeader?.addEventListener('click', () => {
-          showMainSection(seccionVacaciones);
-          setActiveMainNav(btnVacacionesHeader);
-          showSubSection('seccionVistaVacaciones');
-          setActiveSubNav('btnVerVacaciones');
-      });
-  }
-
-  function showMainSection(activeSection) {
-      const allMainSections = ['.seccionUsuarios', '.seccionLicencias', '.seccionVacaciones'];
-      
-      allMainSections.forEach(selector => {
-          const section = document.querySelector(selector);
-          if (section) {
-              section.style.display = 'none';
-          }
-      });
-      
-      if (activeSection) {
-          activeSection.style.display = 'block';
-      }
-  }
-
-  function setActiveMainNav(activeButton) {
-      const allNavButtons = document.querySelectorAll('.navLink');
-      allNavButtons.forEach(btn => btn.classList.remove('active'));
-      
-      if (activeButton) {
-          activeButton.classList.add('active');
-      }
-  }
-
-  function showInitialSection() {
-      const seccionUsuarios = document.querySelector('.seccionUsuarios');
-      const btnUsuariosHeader = document.getElementById('btnUsuariosHeader');
-      
-      showMainSection(seccionUsuarios);
-      setActiveMainNav(btnUsuariosHeader);
-      showSubSection('seccionVistaUsuarios');
-      setActiveSubNav('btnVerUsuarios');
-  }
 
   // ============================================
-  // GESTIÓN DE NAVEGACIÓN DE SUBSECCIONES
-  // ============================================
+// GESTIÓN DE NAVEGACIÓN PRINCIPAL
+// ============================================
 
-  function setupSectionNavigation() {
-      // Usuarios
-      setupSubNavigation([
-          { btn: 'btnVerUsuarios', section: 'seccionVistaUsuarios' },
-          { btn: 'btnAgregarUsuario', section: 'seccionAgregarUsuario' },
-          { btn: 'btnModificarUsuario', section: 'seccionModificarUsuario' },
-          { btn: 'btnEliminarUsuario', section: 'seccionEliminarUsuario' }
-      ]);
-      
-      // Licencias/Ausencias
-      setupSubNavigation([
-          { btn: 'btnVerAusencias', section: 'seccionVistaAusencias' },
-          { btn: 'btnAgregarAusencia', section: 'seccionAgregarAusencia' },
-          { btn: 'btnModificarAusencia', section: 'seccionModificarAusencia' },
-          { btn: 'btnEliminarAusencia', section: 'seccionEliminarAusencia' }
-      ]);
-      
-      // Vacaciones
-      setupSubNavigation([
-          { btn: 'btnVerVacaciones', section: 'seccionVistaVacaciones' },
-          { btn: 'btnAgregarVacacion', section: 'seccionAgregarVacacion' },
-          { btn: 'btnModificarVacacion', section: 'seccionModificarVacacion' },
-          { btn: 'btnEliminarVacacion', section: 'seccionEliminarVacacion' }
-      ]);
-  }
+document.addEventListener('DOMContentLoaded', () => {
+    initializeApp();
+});
 
-  function setupSubNavigation(navigationItems) {
-      navigationItems.forEach(item => {
-          const button = document.getElementById(item.btn);
-          if (button) {
-              button.addEventListener('click', () => {
-                  showSubSection(item.section);
-                  setActiveSubNav(item.btn);
-              });
-          }
-      });
-  }
+// FUNCIÓN PRINCIPAL DE INICIALIZACIÓN - CORREGIDA
+function initializeApp() {
+    setupMainNavigation();
+    setupSectionNavigation();
+    setupFormHandlers();
+    showInitialSection();
+    loadInitialData();
+}
 
-  function showSubSection(activeSectionId) {
-      // Lista de todas las posibles subsecciones
-      const allSubSections = [
-          'seccionVistaUsuarios', 'seccionAgregarUsuario', 'seccionModificarUsuario', 'seccionEliminarUsuario',
-          'seccionVistaAusencias', 'seccionAgregarAusencia', 'seccionModificarAusencia', 'seccionEliminarAusencia',
-          'seccionVistaVacaciones', 'seccionAgregarVacacion', 'seccionModificarVacacion', 'seccionEliminarVacacion'
-      ];
-      
-      // Ocultar todas las subsecciones
-      allSubSections.forEach(sectionId => {
-          const section = document.getElementById(sectionId);
-          if (section) {
-              section.style.display = 'none';
-          }
-      });
-      
-      // Mostrar la subsección activa
-      const activeSection = document.getElementById(activeSectionId);
-      if (activeSection) {
-          activeSection.style.display = 'block';
-      }
-  }
+// FUNCIÓN UNIFICADA PARA CARGAR DATOS INICIALES - CORREGIDA
+function loadInitialData() {
+    loadUsers();
+    loadTeams();
+    loadAbsences();
+    loadVacations();
+}
 
-  function setActiveSubNav(activeButtonId) {
-      const allSubNavButtons = document.querySelectorAll('.btnNavHeaderSeccion');
-      allSubNavButtons.forEach(btn => btn.classList.remove('active'));
-      
-      const activeButton = document.getElementById(activeButtonId);
-      if (activeButton) {
-          activeButton.classList.add('active');
-      }
-  }
+// Navegación principal entre secciones
+function setupMainNavigation() {
+    const btnUsuariosHeader = document.getElementById('btnUsuariosHeader');
+    const btnLicenciasHeader = document.getElementById('btnLicenciasHeader');
+    const btnVacacionesHeader = document.getElementById('btnVacacionesHeader');
+    
+    const seccionUsuarios = document.querySelector('.seccionUsuarios');
+    const seccionLicencias = document.querySelector('.seccionLicencias');
+    const seccionVacaciones = document.querySelector('.seccionVacaciones');
+    
+    // Event listeners para navegación principal
+    btnUsuariosHeader?.addEventListener('click', () => {
+        showMainSection(seccionUsuarios);
+        setActiveMainNav(btnUsuariosHeader);
+        showSubSection('seccionVistaUsuarios');
+        setActiveSubNav('btnVerUsuarios');
+    });
+    
+    btnLicenciasHeader?.addEventListener('click', () => {
+        showMainSection(seccionLicencias);
+        setActiveMainNav(btnLicenciasHeader);
+        showSubSection('seccionVistaAusencias');
+        setActiveSubNav('btnVerAusencias');
+    });
+    
+    btnVacacionesHeader?.addEventListener('click', () => {
+        showMainSection(seccionVacaciones);
+        setActiveMainNav(btnVacacionesHeader);
+        showSubSection('seccionVistaVacaciones');
+        setActiveSubNav('btnVerVacaciones');
+    });
+}
 
-  // ============================================
-  // GESTIÓN DE FORMULARIOS
-  // ============================================
+function showMainSection(activeSection) {
+    const allMainSections = ['.seccionUsuarios', '.seccionLicencias', '.seccionVacaciones'];
+    
+    allMainSections.forEach(selector => {
+        const section = document.querySelector(selector);
+        if (section) {
+            section.style.display = 'none';
+        }
+    });
+    
+    if (activeSection) {
+        activeSection.style.display = 'block';
+    }
+}
 
-  function setupFormHandlers() {
-      // Formularios de agregar
-      setupFormSubmission('formularioAgregarUsuario', handleAddUser);
-      setupFormSubmission('formularioAgregarAusencia', handleAddAbsence);
-      setupFormSubmission('formularioAgregarVacacion', handleAddVacation);
-      
-      // Formularios de modificar
-      setupFormSubmission('formularioModificarUsuario', handleModifyUser);
-      setupFormSubmission('formularioModificarAusencia', handleModifyAbsence);
-      setupFormSubmission('formularioModificarVacacion', handleModifyVacation);
-      
-      // Botones de eliminar
-      setupDeleteHandlers();
-      
-      // Filtros de equipos y usuarios
-      setupFilterHandlers();
-  }
+function setActiveMainNav(activeButton) {
+    const allNavButtons = document.querySelectorAll('.navLink');
+    allNavButtons.forEach(btn => btn.classList.remove('active'));
+    
+    if (activeButton) {
+        activeButton.classList.add('active');
+    }
+}
 
-  function setupFormSubmission(formClass, handler) {
-      const form = document.querySelector(`.${formClass}`);
-      if (form) {
-          form.addEventListener('submit', (e) => {
-              e.preventDefault();
-              const formData = new FormData(form);
-              const data = Object.fromEntries(formData.entries());
-              handler(data, form);
-          });
-      }
-  }
+function showInitialSection() {
+    const seccionUsuarios = document.querySelector('.seccionUsuarios');
+    const btnUsuariosHeader = document.getElementById('btnUsuariosHeader');
+    
+    showMainSection(seccionUsuarios);
+    setActiveMainNav(btnUsuariosHeader);
+    showSubSection('seccionVistaUsuarios');
+    setActiveSubNav('btnVerUsuarios');
+}
 
-  // Handlers para diferentes tipos de formularios
-  function handleAddUser(data, form) {
-      console.log('Agregando usuario:', data);
-      showNotification('Usuario agregado correctamente', 'success');
-      
-      // Aquí harías la llamada a tu API
-      // apiCall('/api/users', 'POST', data);
-      
-      form.reset();
-      // Actualizar vista si es necesario
-      // loadUsers();
-  }
+// ============================================
+// GESTIÓN DE NAVEGACIÓN DE SUBSECCIONES
+// ============================================
 
-  function handleModifyUser(data, form) {
-      console.log('Modificando usuario:', data);
-      showNotification('Usuario modificado correctamente', 'success');
-      
-      // Aquí harías la llamada a tu API
-      // apiCall('/api/users/update', 'PUT', data);
-  }
+function setupSectionNavigation() {
+    // Usuarios
+    setupSubNavigation([
+        { btn: 'btnVerUsuarios', section: 'seccionVistaUsuarios' },
+        { btn: 'btnAgregarUsuario', section: 'seccionAgregarUsuario' },
+        { btn: 'btnModificarUsuario', section: 'seccionModificarUsuario' },
+        { btn: 'btnEliminarUsuario', section: 'seccionEliminarUsuario' }
+    ]);
+    
+    // Licencias/Ausencias
+    setupSubNavigation([
+        { btn: 'btnVerAusencias', section: 'seccionVistaAusencias' },
+        { btn: 'btnAgregarAusencia', section: 'seccionAgregarAusencia' },
+        { btn: 'btnModificarAusencia', section: 'seccionModificarAusencia' },
+        { btn: 'btnEliminarAusencia', section: 'seccionEliminarAusencia' }
+    ]);
+    
+    // Vacaciones
+    setupSubNavigation([
+        { btn: 'btnVerVacaciones', section: 'seccionVistaVacaciones' },
+        { btn: 'btnAgregarVacacion', section: 'seccionAgregarVacacion' },
+        { btn: 'btnModificarVacacion', section: 'seccionModificarVacacion' },
+        { btn: 'btnEliminarVacacion', section: 'seccionEliminarVacacion' }
+    ]);
+}
 
-  function handleAddAbsence(data, form) {
-      console.log('Agregando ausencia:', data);
-      showNotification('Ausencia agregada correctamente', 'success');
-      
-      // Aquí harías la llamada a tu API
-      // apiCall('/api/absences', 'POST', data);
-      
-      form.reset();
-  }
+function setupSubNavigation(navigationItems) {
+    navigationItems.forEach(item => {
+        const button = document.getElementById(item.btn);
+        if (button) {
+            button.addEventListener('click', () => {
+                showSubSection(item.section);
+                setActiveSubNav(item.btn);
+            });
+        }
+    });
+}
 
-  function handleModifyAbsence(data, form) {
-      console.log('Modificando ausencia:', data);
-      showNotification('Ausencia modificada correctamente', 'success');
-      
-      // Aquí harías la llamada a tu API
-      // apiCall('/api/absences/update', 'PUT', data);
-  }
+function showSubSection(activeSectionId) {
+    // Lista de todas las posibles subsecciones
+    const allSubSections = [
+        'seccionVistaUsuarios', 'seccionAgregarUsuario', 'seccionModificarUsuario', 'seccionEliminarUsuario',
+        'seccionVistaAusencias', 'seccionAgregarAusencia', 'seccionModificarAusencia', 'seccionEliminarAusencia',
+        'seccionVistaVacaciones', 'seccionAgregarVacacion', 'seccionModificarVacacion', 'seccionEliminarVacacion'
+    ];
+    
+    // Ocultar todas las subsecciones
+    allSubSections.forEach(sectionId => {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.style.display = 'none';
+        }
+    });
+    
+    // Mostrar la subsección activa
+    const activeSection = document.getElementById(activeSectionId);
+    if (activeSection) {
+        activeSection.style.display = 'block';
+    }
+}
 
-  function handleAddVacation(data, form) {
-      console.log('Agregando vacación:', data);
-      showNotification('Vacación agregada correctamente', 'success');
-      
-      // Aquí harías la llamada a tu API
-      // apiCall('/api/vacations', 'POST', data);
-      
-      form.reset();
-  }
+function setActiveSubNav(activeButtonId) {
+    const allSubNavButtons = document.querySelectorAll('.btnNavHeaderSeccion');
+    allSubNavButtons.forEach(btn => btn.classList.remove('active'));
+    
+    const activeButton = document.getElementById(activeButtonId);
+    if (activeButton) {
+        activeButton.classList.add('active');
+    }
+}
 
-  function handleModifyVacation(data, form) {
-      console.log('Modificando vacación:', data);
-      showNotification('Vacación modificada correctamente', 'success');
-      
-      // Aquí harías la llamada a tu API
-      // apiCall('/api/vacations/update', 'PUT', data);
-  }
+// ============================================
+// VARIABLES GLOBALES UNIFICADAS - CORREGIDA
+// ============================================
 
-  // ============================================
-  // GESTIÓN DE ELIMINACIÓN
-  // ============================================
+var selectedUserIds = {
+    modify: null,
+    delete: null
+};
 
-  function setupDeleteHandlers() {
-      // Botones de eliminar
-      const deleteButtons = [
-          { btn: 'botonEliminarUsuario', type: 'usuario' },
-          { btn: 'botonEliminarAusencia', type: 'ausencia' },
-          { btn: 'botonEliminarVacacion', type: 'vacación' }
-      ];
-      
-      deleteButtons.forEach(item => {
-          const button = document.querySelector(`.${item.btn}`);
-          if (button) {
-              button.addEventListener('click', () => {
-                  handleDelete(item.type);
-              });
-          }
-      });
-  }
+var selectedAbsenceIds = {
+    modify: null,
+    delete: null
+};
 
-  function handleDelete(type) {
-      if (confirm(`¿Estás seguro de que quieres eliminar este ${type}?`)) {
-          console.log(`Eliminando ${type}`);
-          showNotification(`${type.charAt(0).toUpperCase() + type.slice(1)} eliminado correctamente`, 'success');
-          
-          // Aquí harías la llamada a tu API
-          // apiCall(`/api/${type}s/delete`, 'DELETE', { id: selectedId });
-          
-          // Limpiar formularios y volver a la vista principal
-          clearSelectedItem();
-      }
-  }
+var selectedVacationIds = {
+    modify: null,
+    delete: null
+};
 
-  function clearSelectedItem() {
-      // Limpiar las tarjetas de información
-      const containers = ['.containerTarjetaUsuario', '.containerTarjetaAusencia', '.containerTarjetaVacacion'];
-      containers.forEach(container => {
-          const element = document.querySelector(container);
-          if (element) {
-              element.innerHTML = '<p>Selecciona un elemento para ver sus detalles</p>';
-          }
-      });
-  }
+// ============================================
+// FUNCIONES DE VISUALIZACIÓN
+// ============================================
 
-  // ============================================
-  // GESTIÓN DE FILTROS
-  // ============================================
+function displayUsers(users) {
+    const container = document.getElementById('containerTarjetasUsuarios');
+    if (!container) return;
+    
+    if (!users || users.length === 0) {
+        container.innerHTML = '<p>No hay usuarios registrados</p>';
+        return;
+    }
+    
+    container.innerHTML = users.map(user => `
+        <div class="containerTarjetaUsuario" data-user-id="${user.user_id}">
+            <div class="nombreUsuario">Nombre: ${user.user_name || 'N/A'}</div>
+            <div class="equipoUsuario">Equipo: ${user.user_team || 'N/A'}</div>
+            <div class="supervisorUsuario">Supervisor: ${user.user_leader || 'N/A'}</div>
+            <div class="nombreUsuario">User Meli: ${user.user_meli || 'N/A'}</div>
+            <div class="nombreUsuario">Posición: ${user.user_position || 'N/A'}</div>
+            <div class="nombreUsuario">Email: ${user.user_mail || 'N/A'}</div>
+            <div class="nombreUsuario">Fecha Ingreso: ${user.user_entry_date || 'N/A'}</div>
+            <div class="nombreUsuario">Estado: ${user.user_status || 'Activo'}</div>
+        </div>
+    `).join('');
+}
 
-  function setupFilterHandlers() {
-      // Obtener todos los selectores de equipo
-      const teamSelects = document.querySelectorAll('select[id*="desplegablePorEquipo"]');
-      const userSelects = document.querySelectorAll('select[id*="desplegablePorUsuario"]');
-      
-      // Configurar event listeners para filtros de equipo
-      teamSelects.forEach(select => {
-          select.addEventListener('change', (e) => {
-              const selectedTeam = e.target.value;
-              const correspondingUserSelect = findCorrespondingUserSelect(e.target.id);
-              
-              if (correspondingUserSelect) {
-                  filterUsersByTeam(selectedTeam, correspondingUserSelect);
-              }
-              
-              // Aplicar filtro de equipo
-              applyTeamFilter(selectedTeam, e.target.id);
-          });
-      });
-      
-      // Configurar event listeners para filtros de usuario
-      userSelects.forEach(select => {
-          select.addEventListener('change', (e) => {
-              const selectedUser = e.target.value;
-              applyUserFilter(selectedUser, e.target.id);
-          });
-      });
-  }
+function displayAbsences(absences) {
+    const container = document.getElementById('containerTarjetasAusencias');
+    if (!container) return;
+    
+    if (!absences || absences.length === 0) {
+        container.innerHTML = '<p>No hay ausencias registradas</p>';
+        return;
+    }
+    
+    container.innerHTML = absences.map(absence => `
+        <div class="containerTarjetaAusencia" data-absence-id="${absence.absence_id}">
+            <div class="motivoAusencia">Motivo: ${absence.absence_detail || 'N/A'}</div>
+            <div class="fechaInicioAusencia">Fecha Inicio: ${absence.absence_init_date || 'N/A'}</div>
+            <div class="fechaFinAusencia">Fecha Fin: ${absence.absence_end_date || 'N/A'}</div>
+            <div class="usuarioAusencia">Usuario: ${absence.user_name || 'N/A'}</div>
+            <div class="usuarioAusencia">Equipo: ${absence.user_team || 'N/A'}</div>
+            <div class="usuarioAusencia">Supervisor: ${absence.user_leader || 'N/A'}</div>
+        </div>
+    `).join('');
+}
 
-  function findCorrespondingUserSelect(teamSelectId) {
-      // Mapear select de equipo con select de usuario correspondiente
-      const mapping = {
-          'desplegablePorEquipoUsuarios': 'desplegablePorUsuarioUsuarios',
-          'desplegablePorEquipoAusencias': 'desplegablePorUsuarioAusencias',
-          'desplegablePorEquipoVacaciones': 'desplegablePorUsuarioVacaciones',
-          'desplegablePorEquipoAgregarAusencia': 'desplegablePorUsuarioAgregarAusencia',
-          'desplegablePorEquipoModificarUsuario': 'desplegablePorUsuarioModificarUsuario',
-          'desplegablePorEquipoModificarAusencia': 'desplegablePorUsuarioModificarAusencia',
-          'desplegablePorEquipoEliminarUsuario': 'desplegablePorUsuarioEliminarUsuario',
-          'desplegablePorEquipoEliminarAusencia': 'desplegablePorUsuarioEliminarAusencia',
-          'desplegablePorEquipoAgregarVacacion': 'desplegablePorUsuarioAgregarVacacion',
-          'desplegablePorEquipoModificarVacacion': 'desplegablePorUsuarioModificarVacacion',
-          'desplegablePorEquipoEliminarVacacion': 'desplegablePorUsuarioEliminarVacacion'
-      };
-      
-      const userSelectId = mapping[teamSelectId];
-      return userSelectId ? document.getElementById(userSelectId) : null;
-  }
+function displayVacations(vacations) {
+    const container = document.getElementById('containerTarjetasVacaciones');
+    if (!container) return;
+    
+    if (!vacations || vacations.length === 0) {
+        container.innerHTML = '<p>No hay vacaciones registradas</p>';
+        return;
+    }
+    
+    container.innerHTML = vacations.map(vacation => `
+        <div class="containerTarjetaVacacion" data-vacation-id="${vacation.vacation_id}">
+            <div class="fechaInicioVacacion">Fecha Inicio: ${vacation.vacation_init_date || 'N/A'}</div>
+            <div class="fechaFinVacacion">Fecha Fin: ${vacation.vacation_end_date || 'N/A'}</div>
+            <div class="diasVacacion">Días: ${vacation.vacation_days || 'N/A'}</div>
+            <div class="usuarioVacacion">Usuario: ${vacation.user_name || 'N/A'}</div>
+            <div class="usuarioVacacion">Equipo: ${vacation.user_team || 'N/A'}</div>
+            <div class="usuarioVacacion">Supervisor: ${vacation.user_leader || 'N/A'}</div>
+            <div class="observacionesVacacion">Observaciones: ${vacation.vacation_observations || 'N/A'}</div>
+        </div>
+    `).join('');
+}
 
-  function filterUsersByTeam(teamId, userSelect) {
-      if (!userSelect) return;
-      
-      // Limpiar opciones actuales (excepto la primera)
-      userSelect.innerHTML = '<option value="">-- Selecciona un usuario --</option>';
-      
-      if (!teamId) return;
-      
-      // Aquí harías una llamada a tu API para obtener usuarios del equipo
-      // const users = await apiCall(`/api/users/by-team/${teamId}`);
-      
-  }
+function populateTeamSelects(teams) {
+    const teamSelects = document.querySelectorAll('select[id*="desplegablePorEquipo"]');
+    
+    teamSelects.forEach(select => {
+        const currentValue = select.value;
+        select.innerHTML = '<option value="">-- Selecciona un equipo --</option>';
+        
+        teams.forEach(team => {
+            const option = document.createElement('option');
+            option.value = team;
+            option.textContent = team;
+            if (team === currentValue) option.selected = true;
+            select.appendChild(option);
+        });
+    });
+}
 
-  function applyTeamFilter(teamId, selectId) {
-      console.log(`Aplicando filtro de equipo: ${teamId} desde ${selectId}`);
-      // Aquí aplicarías el filtro en la vista correspondiente
-      // loadFilteredData({ team: teamId });
-  }
+function populateUserSelects(users) {
+    const userSelects = document.querySelectorAll('select[id*="desplegablePorUsuario"]');
+    
+    userSelects.forEach(select => {
+        const currentValue = select.value;
+        select.innerHTML = '<option value="">-- Selecciona un usuario --</option>';
+        
+        users.forEach(user => {
+            const option = document.createElement('option');
+            option.value = user.user_id;
+            option.textContent = `${user.user_name} (${user.user_meli})`;
+            if (user.user_id == currentValue) option.selected = true;
+            select.appendChild(option);
+        });
+    });
+}
 
-  function applyUserFilter(userId, selectId) {
-      console.log(`Aplicando filtro de usuario: ${userId} desde ${selectId}`);
-      
-      // Si es una sección de modificar o eliminar, cargar datos del usuario
-      if (selectId.includes('Modificar') || selectId.includes('Eliminar')) {
-          loadUserData(userId, selectId);
-      }
-      
-      // Aplicar filtro en la vista
-      // loadFilteredData({ user: userId });
-  }
+function showLoading(containerId) {
+    const container = document.getElementById(containerId);
+    if (container) {
+        container.innerHTML = '<div class="loading">Cargando...</div>';
+    }
+}
 
-  function loadUserData(userId, selectId) {
-      if (!userId) return;
-      
-      // Determinar qué tipo de datos cargar
-      if (selectId.includes('Usuario')) {
-          loadUserDetails(userId);
-      } else if (selectId.includes('Ausencia')) {
-          loadAbsenceDetails(userId);
-      } else if (selectId.includes('Vacacion')) {
-          loadVacationDetails(userId);
-      }
-  }
+// ============================================
+// GESTIÓN DE FORMULARIOS
+// ============================================
 
-  function loadUserDetails(userId) {
-      // Aquí harías la llamada a tu API
-      // const userData = await apiCall(`/api/users/${userId}`);
-  
-  }
+function setupFormHandlers() {
+    // Formularios de agregar
+    setupFormSubmission('formularioAgregarUsuario', handleAddUser);
+    setupFormSubmission('formularioAgregarAusencia', handleAddAbsence);
+    setupFormSubmission('formularioAgregarVacacion', handleAddVacation);
+    
+    // Formularios de modificar
+    setupFormSubmission('formularioModificarUsuario', handleModifyUser);
+    setupFormSubmission('formularioModificarAusencia', handleModifyAbsence);
+    setupFormSubmission('formularioModificarVacacion', handleModifyVacation);
+    
+    // Botones de eliminar
+    setupDeleteHandlers();
+    
+    // Filtros de equipos y usuarios
+    setupFilterHandlers();
+}
 
-  function fillModifyUserForm(userData) {
-      const form = document.querySelector('.formularioModificarUsuario');
-      if (!form) return;
-      
-      const fields = {
-          'modify_user_name': userData.name,
-          'modify_user_meli': userData.email?.split('@')[0] || '',
-          'modify_user_leader': userData.supervisor,
-          'modify_user_position': userData.position,
-          'modify_user_mail': userData.email
-      };
-      
-      Object.keys(fields).forEach(fieldId => {
-          const field = document.getElementById(fieldId);
-          if (field && fields[fieldId]) {
-              field.value = fields[fieldId];
-          }
-      });
-  }
+function setupFormSubmission(formClass, handler) {
+    const form = document.querySelector(`.${formClass}`);
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            handler(data, form);
+        });
+    }
+}
 
-  function displayUserCard(userData) {
-      const container = document.querySelector('.containerTarjetaUsuario');
-      if (!container) return;
-      
-      container.innerHTML = `
-          <div class="nombreUsuario">Nombre: ${userData.name}</div>
-          <div class="equipoUsuario">Equipo: ${userData.team}</div>
-          <div class="supervisorUsuario">Supervisor: ${userData.supervisor}</div>
-      `;
-  }
+// ============================================
+// HANDLERS DE FORMULARIOS
+// ============================================
 
-  function loadAbsenceDetails(userId) {
-      // Ejemplo similar para ausencias
-      console.log(`Cargando detalles de ausencia para usuario: ${userId}`);
-  }
+function handleAddUser(data, form) {
+    console.log('Agregando usuario:', data);
+    
+    google.script.run
+        .withSuccessHandler(function(newId) {
+            showNotification('Usuario agregado correctamente con ID: ' + newId, 'success');
+            form.reset();
+            loadUsers();
+        })
+        .withFailureHandler(function(error) {
+            console.error('Error creando usuario:', error);
+            showNotification('Error al agregar usuario: ' + error.message, 'error');
+        })
+        .createUser(data);
+}
 
-  function loadVacationDetails(userId) {
-      // Ejemplo similar para vacaciones
-      console.log(`Cargando detalles de vacación para usuario: ${userId}`);
-  }
+function handleModifyUser(data, form) {
+    const userId = getCurrentSelectedUserId('modify');
+    if (!userId) {
+        showNotification('Por favor selecciona un usuario para modificar', 'error');
+        return;
+    }
+    
+    console.log('Modificando usuario:', userId, data);
+    
+    google.script.run
+        .withSuccessHandler(function(success) {
+            if (success) {
+                showNotification('Usuario modificado correctamente', 'success');
+                loadUsers();
+                clearUserDetails();
+            }
+        })
+        .withFailureHandler(function(error) {
+            console.error('Error modificando usuario:', error);
+            showNotification('Error al modificar usuario: ' + error.message, 'error');
+        })
+        .updateUser(userId, data);
+}
 
-  // ============================================
-  // SISTEMA DE NOTIFICACIONES
-  // ============================================
+function handleAddAbsence(data, form) {
+    const userSelect = document.getElementById('desplegablePorUsuarioAgregarAusencia');
+    if (!userSelect || !userSelect.value) {
+        showNotification('Por favor selecciona un usuario para la ausencia', 'error');
+        return;
+    }
+    
+    data.user_id = parseInt(userSelect.value);
+    console.log('Agregando ausencia:', data);
+    
+    google.script.run
+        .withSuccessHandler(function(newId) {
+            showNotification('Ausencia agregada correctamente con ID: ' + newId, 'success');
+            form.reset();
+            loadAbsences();
+            clearAbsenceSelects();
+        })
+        .withFailureHandler(function(error) {
+            console.error('Error creando ausencia:', error);
+            showNotification('Error al agregar ausencia: ' + error.message, 'error');
+        })
+        .createAbsence(data);
+}
 
-  function showNotification(message, type = 'info') {
-      // Crear elemento de notificación
-      const notification = document.createElement('div');
-      notification.className = `notification notification-${type}`;
-      notification.innerHTML = `
-          <span>${message}</span>
-          <button class="notification-close" onclick="this.parentElement.remove()">×</button>
-      `;
-      
-      // Agregar estilos inline para que funcione sin CSS adicional
-      Object.assign(notification.style, {
-          position: 'fixed',
-          top: '20px',
-          right: '20px',
-          padding: '15px 20px',
-          borderRadius: '8px',
-          color: 'white',
-          fontFamily: 'Lato, sans-serif',
-          fontSize: '14px',
-          zIndex: '9999',
-          minWidth: '300px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          backgroundColor: type === 'success' ? '#48bb78' : type === 'error' ? '#e53e3e' : '#4299e1'
-      });
-      
-      // Estilo del botón de cerrar
-      const closeBtn = notification.querySelector('.notification-close');
-      Object.assign(closeBtn.style, {
-          background: 'none',
-          border: 'none',
-          color: 'white',
-          fontSize: '18px',
-          cursor: 'pointer',
-          marginLeft: '15px'
-      });
-      
-      // Agregar al DOM
-      document.body.appendChild(notification);
-      
-      // Auto-eliminar después de 5 segundos
-      setTimeout(() => {
-          if (notification.parentElement) {
-              notification.remove();
-          }
-      }, 5000);
-  }
+function handleModifyAbsence(data, form) {
+    const absenceId = getCurrentSelectedAbsenceId('modify');
+    if (!absenceId) {
+        showNotification('Por favor selecciona una ausencia para modificar', 'error');
+        return;
+    }
+    
+    const userSelect = document.getElementById('desplegablePorUsuarioModificarAusencia');
+    if (userSelect && userSelect.value) {
+        data.user_id = parseInt(userSelect.value);
+    }
+    
+    console.log('Modificando ausencia:', absenceId, data);
+    
+    google.script.run
+        .withSuccessHandler(function(success) {
+            if (success) {
+                showNotification('Ausencia modificada correctamente', 'success');
+                loadAbsences();
+                clearAbsenceDetails();
+            }
+        })
+        .withFailureHandler(function(error) {
+            console.error('Error modificando ausencia:', error);
+            showNotification('Error al modificar ausencia: ' + error.message, 'error');
+        })
+        .updateAbsence(absenceId, data);
+}
 
-  // ============================================
-  // UTILIDADES PARA API (PREPARADAS PARA TU USO)
-  // ============================================
+function handleAddVacation(data, form) {
+    const userSelect = document.getElementById('desplegablePorUsuarioAgregarVacacion');
+    if (!userSelect || !userSelect.value) {
+        showNotification('Por favor selecciona un usuario para las vacaciones', 'error');
+        return;
+    }
+    
+    data.user_id = parseInt(userSelect.value);
+    console.log('Agregando vacación:', data);
+    
+    google.script.run
+        .withSuccessHandler(function(newId) {
+            showNotification('Vacación agregada correctamente con ID: ' + newId, 'success');
+            form.reset();
+            loadVacations();
+            clearVacationSelects();
+        })
+        .withFailureHandler(function(error) {
+            console.error('Error creando vacación:', error);
+            showNotification('Error al agregar vacación: ' + error.message, 'error');
+        })
+        .createVacation(data);
+}
 
-  // Función genérica para llamadas a API (para que la uses después)
-  async function apiCall(endpoint, method = 'GET', data = null) {
-      try {
-          const config = {
-              method,
-              headers: {
-                  'Content-Type': 'application/json'
-              }
-          };
-          
-          if (data && (method === 'POST' || method === 'PUT')) {
-              config.body = JSON.stringify(data);
-          }
-          
-          const response = await fetch(endpoint, config);
-          
-          if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          
-          return await response.json();
-      } catch (error) {
-          console.error('API call error:', error);
-          showNotification(`Error: ${error.message}`, 'error');
-          throw error;
-      }
-  }
+function handleModifyVacation(data, form) {
+    const vacationId = getCurrentSelectedVacationId('modify');
+    if (!vacationId) {
+        showNotification('Por favor selecciona una vacación para modificar', 'error');
+        return;
+    }
+    
+    const userSelect = document.getElementById('desplegablePorUsuarioModificarVacacion');
+    if (userSelect && userSelect.value) {
+        data.user_id = parseInt(userSelect.value);
+    }
+    
+    console.log('Modificando vacación:', vacationId, data);
+    
+    google.script.run
+        .withSuccessHandler(function(success) {
+            if (success) {
+                showNotification('Vacación modificada correctamente', 'success');
+                loadVacations();
+                clearVacationDetails();
+            }
+        })
+        .withFailureHandler(function(error) {
+            console.error('Error modificando vacación:', error);
+            showNotification('Error al modificar vacación: ' + error.message, 'error');
+        })
+        .updateVacation(vacationId, data);
+}
 
-  // Funciones de carga de datos (para implementar después)
-  async function loadUsers() {
-      console.log('Cargando usuarios...');
-      // const users = await apiCall('/api/users');
-      // displayUsers(users);
-  }
+// ============================================
+// GESTIÓN DE ELIMINACIÓN
+// ============================================
 
-  async function loadTeams() {
-      console.log('Cargando equipos...');
-      // const teams = await apiCall('/api/teams');
-      // populateTeamSelects(teams);
-  }
+function setupDeleteHandlers() {
+    const deleteButtons = [
+        { btn: 'botonEliminarUsuario', type: 'usuario' },
+        { btn: 'botonEliminarAusencia', type: 'ausencia' },
+        { btn: 'botonEliminarVacacion', type: 'vacacion' }
+    ];
+    
+    deleteButtons.forEach(item => {
+        const button = document.querySelector(`.${item.btn}`);
+        if (button) {
+            button.addEventListener('click', () => {
+                handleDelete(item.type);
+            });
+        }
+    });
+}
 
-  async function loadAbsences() {
-      console.log('Cargando ausencias...');
-      // const absences = await apiCall('/api/absences');
-      // displayAbsences(absences);
-  }
+function handleDelete(type) {
+    if (type === 'usuario') {
+        const userId = getCurrentSelectedUserId('delete');
+        if (!userId) {
+            showNotification('Por favor selecciona un usuario para eliminar', 'error');
+            return;
+        }
+        
+        if (confirm('¿Estás seguro de que quieres eliminar este usuario? Esta acción no se puede deshacer.')) {
+            google.script.run
+                .withSuccessHandler(function(success) {
+                    if (success) {
+                        showNotification('Usuario eliminado correctamente', 'success');
+                        loadUsers();
+                        clearSelectedItem();
+                    }
+                })
+                .withFailureHandler(function(error) {
+                    console.error('Error eliminando usuario:', error);
+                    showNotification('Error al eliminar usuario: ' + error.message, 'error');
+                })
+                .deleteUser(userId);
+        }
+    } else if (type === 'ausencia') {
+        const absenceId = getCurrentSelectedAbsenceId('delete');
+        if (!absenceId) {
+            showNotification('Por favor selecciona una ausencia para eliminar', 'error');
+            return;
+        }
+        
+        if (confirm('¿Estás seguro de que quieres eliminar esta ausencia? Esta acción no se puede deshacer.')) {
+            google.script.run
+                .withSuccessHandler(function(success) {
+                    if (success) {
+                        showNotification('Ausencia eliminada correctamente', 'success');
+                        loadAbsences();
+                        clearSelectedItem();
+                    }
+                })
+                .withFailureHandler(function(error) {
+                    console.error('Error eliminando ausencia:', error);
+                    showNotification('Error al eliminar ausencia: ' + error.message, 'error');
+                })
+                .deleteAbsence(absenceId);
+        }
+    } else if (type === 'vacacion') {
+        const vacationId = getCurrentSelectedVacationId('delete');
+        if (!vacationId) {
+            showNotification('Por favor selecciona una vacación para eliminar', 'error');
+            return;
+        }
+        
+        if (confirm('¿Estás seguro de que quieres eliminar esta vacación? Esta acción no se puede deshacer.')) {
+            google.script.run
+                .withSuccessHandler(function(success) {
+                    if (success) {
+                        showNotification('Vacación eliminada correctamente', 'success');
+                        loadVacations();
+                        clearSelectedItem();
+                    }
+                })
+                .withFailureHandler(function(error) {
+                    console.error('Error eliminando vacación:', error);
+                    showNotification('Error al eliminar vacación: ' + error.message, 'error');
+                })
+                .deleteVacation(vacationId);
+        }
+    }
+}
 
-  async function loadVacations() {
-      console.log('Cargando vacaciones...');
-      // const vacations = await apiCall('/api/vacations');
-      // displayVacations(vacations);
-  }
+// ============================================
+// GESTIÓN DE FILTROS
+// ============================================
+
+function setupFilterHandlers() {
+    const teamSelects = document.querySelectorAll('select[id*="desplegablePorEquipo"]');
+    const userSelects = document.querySelectorAll('select[id*="desplegablePorUsuario"]');
+    
+    teamSelects.forEach(select => {
+        select.addEventListener('change', (e) => {
+            const selectedTeam = e.target.value;
+            const correspondingUserSelect = findCorrespondingUserSelect(e.target.id);
+            
+            if (correspondingUserSelect) {
+                filterUsersByTeam(selectedTeam, correspondingUserSelect);
+            }
+            
+            applyTeamFilter(selectedTeam, e.target.id);
+        });
+    });
+    
+    userSelects.forEach(select => {
+        select.addEventListener('change', (e) => {
+            const selectedUser = e.target.value;
+            applyUserFilter(selectedUser, e.target.id);
+        });
+    });
+}
+
+function findCorrespondingUserSelect(teamSelectId) {
+    const mapping = {
+        'desplegablePorEquipoUsuarios': 'desplegablePorUsuarioUsuarios',
+        'desplegablePorEquipoAusencias': 'desplegablePorUsuarioAusencias',
+        'desplegablePorEquipoVacaciones': 'desplegablePorUsuarioVacaciones',
+        'desplegablePorEquipoAgregarAusencia': 'desplegablePorUsuarioAgregarAusencia',
+        'desplegablePorEquipoModificarUsuario': 'desplegablePorUsuarioModificarUsuario',
+        'desplegablePorEquipoModificarAusencia': 'desplegablePorUsuarioModificarAusencia',
+        'desplegablePorEquipoEliminarUsuario': 'desplegablePorUsuarioEliminarUsuario',
+        'desplegablePorEquipoEliminarAusencia': 'desplegablePorUsuarioEliminarAusencia',
+        'desplegablePorEquipoAgregarVacacion': 'desplegablePorUsuarioAgregarVacacion',
+        'desplegablePorEquipoModificarVacacion': 'desplegablePorUsuarioModificarVacacion',
+        'desplegablePorEquipoEliminarVacacion': 'desplegablePorUsuarioEliminarVacacion'
+    };
+    
+    const userSelectId = mapping[teamSelectId];
+    return userSelectId ? document.getElementById(userSelectId) : null;
+}
+
+function filterUsersByTeam(teamName, userSelect) {
+    if (!userSelect) return;
+    
+    userSelect.innerHTML = '<option value="">-- Selecciona un usuario --</option>';
+    
+    if (!teamName) return;
+    
+    google.script.run
+        .withSuccessHandler(function(users) {
+            const filteredUsers = users.filter(user => user.user_team === teamName);
+            
+            filteredUsers.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.user_id;
+                option.textContent = `${user.user_name} (${user.user_meli})`;
+                userSelect.appendChild(option);
+            });
+        })
+        .withFailureHandler(function(error) {
+            console.error('Error filtrando usuarios por equipo:', error);
+        })
+        .getAllUsers();
+}
+
+function applyTeamFilter(teamId, selectId) {
+    console.log(`Aplicando filtro de equipo: ${teamId} desde ${selectId}`);
+    
+    if (selectId.includes('Vacaciones') || selectId.includes('Vacacion')) {
+        filterVacationsByTeam(teamId);
+    } else if (selectId.includes('Ausencias') || selectId.includes('Ausencia')) {
+        filterAbsencesByTeam(teamId);
+    } else {
+        filterUsersByTeamDisplay(teamId);
+    }
+}
+
+function applyUserFilter(userId, selectId) {
+    console.log(`Aplicando filtro de usuario: ${userId} desde ${selectId}`);
+    
+    if (selectId.includes('Vacaciones') || selectId.includes('Vacacion')) {
+        if (selectId.includes('Modificar') || selectId.includes('Eliminar')) {
+            loadVacationData(userId, selectId);
+        } else {
+            filterVacationsByUser(userId);
+        }
+    } else if (selectId.includes('Ausencias') || selectId.includes('Ausencia')) {
+        if (selectId.includes('Modificar') || selectId.includes('Eliminar')) {
+            loadAbsenceData(userId, selectId);
+        } else {
+            filterAbsencesByUser(userId);
+        }
+    } else {
+        if (selectId.includes('Modificar') || selectId.includes('Eliminar')) {
+            loadUserData(userId, selectId);
+        }
+    }
+}
+
+function filterUsersByTeamDisplay(teamId) {
+    if (!teamId) {
+        loadUsers();
+        return;
+    }
+    
+    google.script.run
+        .withSuccessHandler(function(users) {
+            const filteredUsers = users.filter(user => user.user_team === teamId);
+            displayUsers(filteredUsers);
+        })
+        .withFailureHandler(function(error) {
+            console.error('Error filtrando usuarios por equipo:', error);
+        })
+        .getAllUsers();
+}
+
+function filterAbsencesByTeam(teamName) {
+    if (!teamName) {
+        loadAbsences();
+        return;
+    }
+    
+    google.script.run
+        .withSuccessHandler(function(absences) {
+            displayAbsences(absences);
+        })
+        .withFailureHandler(function(error) {
+            console.error('Error filtrando ausencias por equipo:', error);
+            showNotification('Error al filtrar ausencias: ' + error.message, 'error');
+        })
+        .getAbsencesByTeam(teamName);
+}
+
+function filterAbsencesByUser(userId) {
+    if (!userId) {
+        loadAbsences();
+        return;
+    }
+    
+    google.script.run
+        .withSuccessHandler(function(absences) {
+            displayAbsences(absences);
+        })
+        .withFailureHandler(function(error) {
+            console.error('Error filtrando ausencias por usuario:', error);
+            showNotification('Error al filtrar ausencias: ' + error.message, 'error');
+        })
+        .getAbsencesByUserId(userId);
+}
+
+function filterVacationsByTeam(teamName) {
+    if (!teamName) {
+        loadVacations();
+        return;
+    }
+    
+    google.script.run
+        .withSuccessHandler(function(vacations) {
+            displayVacations(vacations);
+        })
+        .withFailureHandler(function(error) {
+            console.error('Error filtrando vacaciones por equipo:', error);
+            showNotification('Error al filtrar vacaciones: ' + error.message, 'error');
+        })
+        .getVacationsByTeam(teamName);
+}
+
+function filterVacationsByUser(userId) {
+    if (!userId) {
+        loadVacations();
+        return;
+    }
+    
+    google.script.run
+        .withSuccessHandler(function(vacations) {
+            displayVacations(vacations);
+        })
+        .withFailureHandler(function(error) {
+            console.error('Error filtrando vacaciones por usuario:', error);
+            showNotification('Error al filtrar vacaciones: ' + error.message, 'error');
+        })
+        .getVacationsByUserId(userId);
+}
+
+// ============================================
+// FUNCIONES DE CARGA DE DATOS ESPECÍFICOS
+// ============================================
+
+function loadUserData(userId, selectId) {
+    if (!userId) {
+        clearUserDetails();
+        return;
+    }
+    
+    loadUserDetails(userId);
+}
+
+function loadUserDetails(userId) {
+    if (!userId) {
+        clearUserDetails();
+        return;
+    }
+    
+    google.script.run
+        .withSuccessHandler(function(user) {
+            if (user) {
+                fillModifyUserForm(user);
+                displayUserCard(user);
+                setCurrentSelectedUserId(userId);
+            } else {
+                showNotification('Usuario no encontrado', 'error');
+                clearUserDetails();
+            }
+        })
+        .withFailureHandler(function(error) {
+            console.error('Error cargando detalles del usuario:', error);
+            showNotification('Error al cargar usuario: ' + error.message, 'error');
+            clearUserDetails();
+        })
+        .getUserById(userId);
+}
+
+function loadAbsenceData(userId, selectId) {
+    if (!userId) {
+        clearAbsenceDetails();
+        return;
+    }
+    
+    google.script.run
+        .withSuccessHandler(function(absences) {
+            if (absences && absences.length > 0) {
+                const absence = absences[0];
+                
+                if (selectId.includes('Modificar')) {
+                    fillModifyAbsenceForm(absence);
+                    setCurrentSelectedAbsenceId(absence.absence_id, 'modify');
+                } else if (selectId.includes('Eliminar')) {
+                    displayAbsenceCard(absence);
+                    setCurrentSelectedAbsenceId(absence.absence_id, 'delete');
+                }
+            } else {
+                showNotification('No se encontraron ausencias para este usuario', 'error');
+                clearAbsenceDetails();
+            }
+        })
+        .withFailureHandler(function(error) {
+            console.error('Error cargando ausencias del usuario:', error);
+            showNotification('Error al cargar ausencias: ' + error.message, 'error');
+            clearAbsenceDetails();
+        })
+        .getAbsencesByUserId(userId);
+}
+
+function loadVacationData(userId, selectId) {
+    if (!userId) {
+        clearVacationDetails();
+        return;
+    }
+    
+    google.script.run
+        .withSuccessHandler(function(vacations) {
+            if (vacations && vacations.length > 0) {
+                const vacation = vacations[0];
+                
+                if (selectId.includes('Modificar')) {
+                    fillModifyVacationForm(vacation);
+                    setCurrentSelectedVacationId(vacation.vacation_id, 'modify');
+                } else if (selectId.includes('Eliminar')) {
+                    displayVacationCard(vacation);
+                    setCurrentSelectedVacationId(vacation.vacation_id, 'delete');
+                }
+            } else {
+                showNotification('No se encontraron vacaciones para este usuario', 'error');
+                clearVacationDetails();
+            }
+        })
+        .withFailureHandler(function(error) {
+            console.error('Error cargando vacaciones del usuario:', error);
+            showNotification('Error al cargar vacaciones: ' + error.message, 'error');
+            clearVacationDetails();
+        })
+        .getVacationsByUserId(userId);
+}
+
+// ============================================
+// FUNCIONES AUXILIARES PARA USUARIOS
+// ============================================
+
+function setCurrentSelectedUserId(userId, context = 'modify') {
+    selectedUserIds[context] = userId;
+}
+
+function getCurrentSelectedUserId(context = 'modify') {
+    return selectedUserIds[context];
+}
+
+function clearUserDetails() {
+    clearModifyUserForm();
+    clearSelectedItem();
+    selectedUserIds.modify = null;
+    selectedUserIds.delete = null;
+}
+
+function clearModifyUserForm() {
+    const form = document.querySelector('.formularioModificarUsuario');
+    if (form) {
+        form.reset();
+    }
+}
+
+function fillModifyUserForm(userData) {
+    const form = document.querySelector('.formularioModificarUsuario');
+    if (!form) return;
+    
+    const fields = {
+        'modify_user_name': userData.user_name,
+        'modify_user_meli': userData.user_meli,
+        'modify_user_team': userData.user_team,
+        'modify_user_leader': userData.user_leader,
+        'modify_user_cuil': userData.user_cuil,
+        'modify_user_position': userData.user_position,
+        'modify_user_mail': userData.user_mail,
+        'modify_user_serial': userData.user_serial,
+        'modify_user_entry_date': userData.user_entry_date,
+        'modify_user_retirement_date': userData.user_retirement_date,
+        'modify_user_expiration_date': userData.user_expiration_date
+    };
+    
+    Object.keys(fields).forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field && fields[fieldId]) {
+            field.value = fields[fieldId];
+        }
+    });
+}
+
+function displayUserCard(userData) {
+    const container = document.querySelector('#seccionEliminarUsuario .containerTarjetaUsuario');
+    if (!container) return;
+    
+    container.innerHTML = `
+        <div class="nombreUsuario">Nombre: ${userData.user_name || 'N/A'}</div>
+        <div class="equipoUsuario">Equipo: ${userData.user_team || 'N/A'}</div>
+        <div class="supervisorUsuario">Supervisor: ${userData.user_leader || 'N/A'}</div>
+        <div class="nombreUsuario">User Meli: ${userData.user_meli || 'N/A'}</div>
+        <div class="nombreUsuario">Posición: ${userData.user_position || 'N/A'}</div>
+        <div class="nombreUsuario">Email: ${userData.user_mail || 'N/A'}</div>
+    `;
+    
+    setCurrentSelectedUserId(userData.user_id, 'delete');
+}
+
+// ============================================
+// FUNCIONES AUXILIARES PARA AUSENCIAS
+// ============================================
+
+function setCurrentSelectedAbsenceId(absenceId, context = 'modify') {
+    selectedAbsenceIds[context] = absenceId;
+}
+
+function getCurrentSelectedAbsenceId(context = 'modify') {
+    return selectedAbsenceIds[context];
+}
+
+function clearAbsenceDetails() {
+    clearModifyAbsenceForm();
+    clearAbsenceCard();
+    selectedAbsenceIds.modify = null;
+    selectedAbsenceIds.delete = null;
+}
+
+function clearModifyAbsenceForm() {
+    const form = document.querySelector('.formularioModificarAusencia');
+    if (form) {
+        form.reset();
+    }
+}
+
+function clearAbsenceCard() {
+    const container = document.querySelector('#seccionEliminarAusencia .containerTarjetaAusencia');
+    if (container) {
+        container.innerHTML = '<p>Selecciona una ausencia para ver sus detalles</p>';
+    }
+}
+
+function clearAbsenceSelects() {
+    const selects = [
+        'desplegablePorEquipoAgregarAusencia',
+        'desplegablePorUsuarioAgregarAusencia'
+    ];
+    
+    selects.forEach(selectId => {
+        const select = document.getElementById(selectId);
+        if (select) {
+            select.selectedIndex = 0;
+        }
+    });
+}
+
+function fillModifyAbsenceForm(absenceData) {
+    const form = document.querySelector('.formularioModificarAusencia');
+    if (!form) return;
+    
+    const fields = {
+        'modify_absence_detail': absenceData.absence_detail,
+        'modify_absence_init_date': absenceData.absence_init_date,
+        'modify_absence_end_date': absenceData.absence_end_date
+    };
+    
+    Object.keys(fields).forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field && fields[fieldId]) {
+            field.value = fields[fieldId];
+        }
+    });
+    
+    const userSelect = document.getElementById('desplegablePorUsuarioModificarAusencia');
+    if (userSelect && absenceData.user_id) {
+        userSelect.value = absenceData.user_id;
+    }
+    
+    const teamSelect = document.getElementById('desplegablePorEquipoModificarAusencia');
+    if (teamSelect && absenceData.user_team) {
+        teamSelect.value = absenceData.user_team;
+    }
+}
+
+function displayAbsenceCard(absenceData) {
+    const container = document.querySelector('#seccionEliminarAusencia .containerTarjetaAusencia');
+    if (!container) return;
+    
+    container.innerHTML = `
+        <div class="motivoAusencia">Motivo: ${absenceData.absence_detail || 'N/A'}</div>
+        <div class="fechaInicioAusencia">Fecha Inicio: ${absenceData.absence_init_date || 'N/A'}</div>
+        <div class="fechaFinAusencia">Fecha Fin: ${absenceData.absence_end_date || 'N/A'}</div>
+        <div class="usuarioAusencia">Usuario: ${absenceData.user_name || 'N/A'}</div>
+        <div class="usuarioAusencia">Equipo: ${absenceData.user_team || 'N/A'}</div>
+        <div class="usuarioAusencia">Supervisor: ${absenceData.user_leader || 'N/A'}</div>
+    `;
+    
+    setCurrentSelectedAbsenceId(absenceData.absence_id, 'delete');
+}
+
+// ============================================
+// FUNCIONES AUXILIARES PARA VACACIONES
+// ============================================
+
+function setCurrentSelectedVacationId(vacationId, context = 'modify') {
+    selectedVacationIds[context] = vacationId;
+}
+
+function getCurrentSelectedVacationId(context = 'modify') {
+    return selectedVacationIds[context];
+}
+
+function clearVacationDetails() {
+    clearModifyVacationForm();
+    clearVacationCard();
+    selectedVacationIds.modify = null;
+    selectedVacationIds.delete = null;
+}
+
+function clearModifyVacationForm() {
+    const form = document.querySelector('.formularioModificarVacacion');
+    if (form) {
+        form.reset();
+    }
+}
+
+function clearVacationCard() {
+    const container = document.querySelector('#seccionEliminarVacacion .containerTarjetaVacacion');
+    if (container) {
+        container.innerHTML = '<p>Selecciona una vacación para ver sus detalles</p>';
+    }
+}
+
+function clearVacationSelects() {
+    const selects = [
+        'desplegablePorEquipoAgregarVacacion',
+        'desplegablePorUsuarioAgregarVacacion'
+    ];
+    
+    selects.forEach(selectId => {
+        const select = document.getElementById(selectId);
+        if (select) {
+            select.selectedIndex = 0;
+        }
+    });
+}
+
+function fillModifyVacationForm(vacationData) {
+    const form = document.querySelector('.formularioModificarVacacion');
+    if (!form) return;
+    
+    const fields = {
+        'modify_vacation_init_date': vacationData.vacation_init_date,
+        'modify_vacation_end_date': vacationData.vacation_end_date,
+        'modify_vacation_days': vacationData.vacation_days,
+        'modify_vacation_observations': vacationData.vacation_observations
+    };
+    
+    Object.keys(fields).forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field && fields[fieldId]) {
+            field.value = fields[fieldId];
+        }
+    });
+    
+    const userSelect = document.getElementById('desplegablePorUsuarioModificarVacacion');
+    if (userSelect && vacationData.user_id) {
+        userSelect.value = vacationData.user_id;
+    }
+    
+    const teamSelect = document.getElementById('desplegablePorEquipoModificarVacacion');
+    if (teamSelect && vacationData.user_team) {
+        teamSelect.value = vacationData.user_team;
+    }
+}
+
+function displayVacationCard(vacationData) {
+    const container = document.querySelector('#seccionEliminarVacacion .containerTarjetaVacacion');
+    if (!container) return;
+    
+    container.innerHTML = `
+        <div class="fechaInicioVacacion">Fecha Inicio: ${vacationData.vacation_init_date || 'N/A'}</div>
+        <div class="fechaFinVacacion">Fecha Fin: ${vacationData.vacation_end_date || 'N/A'}</div>
+        <div class="diasVacacion">Días: ${vacationData.vacation_days || 'N/A'}</div>
+        <div class="usuarioVacacion">Usuario: ${vacationData.user_name || 'N/A'}</div>
+        <div class="usuarioVacacion">Equipo: ${vacationData.user_team || 'N/A'}</div>
+        <div class="usuarioVacacion">Supervisor: ${vacationData.user_leader || 'N/A'}</div>
+        <div class="observacionesVacacion">Observaciones: ${vacationData.vacation_observations || 'N/A'}</div>
+    `;
+    
+    setCurrentSelectedVacationId(vacationData.vacation_id, 'delete');
+}
+
+// ============================================
+// FUNCIÓN UNIFICADA PARA LIMPIAR ELEMENTOS SELECCIONADOS
+// ============================================
+
+function clearSelectedItem() {
+    const userContainer = document.querySelector('#seccionEliminarUsuario .containerTarjetaUsuario');
+    if (userContainer) {
+        userContainer.innerHTML = '<p>Selecciona un usuario para ver sus detalles</p>';
+    }
+    
+    const absenceContainer = document.querySelector('#seccionEliminarAusencia .containerTarjetaAusencia');
+    if (absenceContainer) {
+        absenceContainer.innerHTML = '<p>Selecciona una ausencia para ver sus detalles</p>';
+    }
+    
+    const vacationContainer = document.querySelector('#seccionEliminarVacacion .containerTarjetaVacacion');
+    if (vacationContainer) {
+        vacationContainer.innerHTML = '<p>Selecciona una vacación para ver sus detalles</p>';
+    }
+}
+
+// ============================================
+// SISTEMA DE NOTIFICACIONES
+// ============================================
+
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        <span>${message}</span>
+        <button class="notification-close" onclick="this.parentElement.remove()">×</button>
+    `;
+    
+    Object.assign(notification.style, {
+        position: 'fixed',
+        top: '20px',
+        right: '20px',
+        padding: '15px 20px',
+        borderRadius: '8px',
+        color: 'white',
+        fontFamily: 'Lato, sans-serif',
+        fontSize: '14px',
+        zIndex: '9999',
+        minWidth: '300px',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: type === 'success' ? '#48bb78' : type === 'error' ? '#e53e3e' : '#4299e1'
+    });
+    
+    const closeBtn = notification.querySelector('.notification-close');
+    Object.assign(closeBtn.style, {
+        background: 'none',
+        border: 'none',
+        color: 'white',
+        fontSize: '18px',
+        cursor: 'pointer',
+        marginLeft: '15px'
+    });
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.remove();
+        }
+    }, 5000);
+}
+
+// ============================================
+// FUNCIONES DE CARGA DE DATOS PRINCIPALES
+// ============================================
+
+function loadUsers() {
+    try {
+        showLoading('containerTarjetasUsuarios');
+        
+        google.script.run
+            .withSuccessHandler(function(users) {
+                displayUsers(users);
+                populateUserSelects(users);
+            })
+            .withFailureHandler(function(error) {
+                console.error('Error cargando usuarios:', error);
+                showNotification('Error al cargar usuarios: ' + error.message, 'error');
+            })
+            .getAllUsers();
+            
+    } catch (error) {
+        console.error('Error en loadUsers:', error);
+        showNotification('Error al cargar usuarios', 'error');
+    }
+}
+
+function loadTeams() {
+    try {
+        google.script.run
+            .withSuccessHandler(function(users) {
+                const teams = [...new Set(users.map(user => user.user_team).filter(team => team))];
+                populateTeamSelects(teams);
+            })
+            .withFailureHandler(function(error) {
+                console.error('Error cargando equipos:', error);
+            })
+            .getAllUsers();
+            
+    } catch (error) {
+        console.error('Error en loadTeams:', error);
+    }
+}
+
+function loadAbsences() {
+    try {
+        showLoading('containerTarjetasAusencias');
+        
+        google.script.run
+            .withSuccessHandler(function(absences) {
+                displayAbsences(absences);
+            })
+            .withFailureHandler(function(error) {
+                console.error('Error cargando ausencias:', error);
+                showNotification('Error al cargar ausencias: ' + error.message, 'error');
+            })
+            .getAllAbsences();
+            
+    } catch (error) {
+        console.error('Error en loadAbsences:', error);
+        showNotification('Error al cargar ausencias', 'error');
+    }
+}
+
+function loadVacations() {
+    try {
+        showLoading('containerTarjetasVacaciones');
+        
+        google.script.run
+            .withSuccessHandler(function(vacations) {
+                displayVacations(vacations);
+            })
+            .withFailureHandler(function(error) {
+                console.error('Error cargando vacaciones:', error);
+                showNotification('Error al cargar vacaciones: ' + error.message, 'error');
+            })
+            .getAllVacations();
+            
+    } catch (error) {
+        console.error('Error en loadVacations:', error);
+        showNotification('Error al cargar vacaciones', 'error');
+    }
+}
+
+// ============================================
+// FUNCIÓN API GENÉRICA (PARA USO FUTURO)
+// ============================================
+
+async function apiCall(endpoint, method = 'GET', data = null) {
+    try {
+        const config = {
+            method,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        
+        if (data && (method === 'POST' || method === 'PUT')) {
+            config.body = JSON.stringify(data);
+        }
+        
+        const response = await fetch(endpoint, config);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        return await response.json();
+    } catch (error) {
+        console.error('API call error:', error);
+        showNotification(`Error: ${error.message}`, 'error');
+        throw error;
+    }
+}
 
 </script>
 </body>
